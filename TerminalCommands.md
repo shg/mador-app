@@ -492,7 +492,7 @@ defaults write com.knollsoft.Rectangle missionControlDraggingDisallowedDuration 
 
 ## Change the behavior of double-click window title bar
 
-To change the action ([list](https://github.com/rxhanson/Rectangle/blob/master/Rectangle/WindowAction.swift)):
+To change the action ([list](https://github.com/rxhanson/Rectangle/blob/master/Mador/WindowAction.swift)):
 
 ```bash
 defaults write com.knollsoft.Rectangle doubleClickTitleBar -int <ACTION_ID + 1>

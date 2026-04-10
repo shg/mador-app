@@ -5,7 +5,7 @@ on: [push, pull_request]
 permissions: read-all
 
 env:
-  XCODE_PROJECT: "Rectangle.xcodeproj"
+  XCODE_PROJECT: "Mador.xcodeproj"
   XCODE_SCHEME: "Mador"
   CODE_SIGN_IDENTITY: "-"
   BUILD_DIR: "build"
