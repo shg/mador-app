@@ -30,7 +30,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var windowManager: WindowManager!
     private var applicationToggle: ApplicationToggle!
     private var windowCalculationFactory: WindowCalculationFactory!
-    private var snappingManager: SnappingManager!
     private var titleBarManager: TitleBarManager!
     
     private var prefsWindowController: NSWindowController?
@@ -91,7 +90,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.statusItem.refreshVisibility()
             self.applicationToggle.reloadFromDefaults()
             self.shortcutManager.reloadFromDefaults()
-            self.snappingManager.reloadFromDefaults()
             self.initializeTodo(false)
         })
         
@@ -110,9 +108,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
            let intLastVersion = Int(lastVersion) {
             if intLastVersion < 46 {
                 MASShortcutMigration.migrate()
-            }
-            if intLastVersion < 64 {
-                SnapAreaModel.instance.migrate()
             }
             if intLastVersion < 72 {
                 if #available(macOS 13, *) {
@@ -140,13 +135,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.windowManager = WindowManager()
         self.shortcutManager = ShortcutManager(windowManager: windowManager)
         self.applicationToggle = ApplicationToggle(shortcutManager: shortcutManager)
-        self.snappingManager = SnappingManager()
         self.titleBarManager = TitleBarManager()
         self.initializeTodo()
-        checkForProblematicApps()
-        MacTilingDefaults.checkForBuiltInTiling(skipIfAlreadyNotified: true)
     }
-    
+
     func checkForConflictingApps() {
         let conflictingAppsIds: [String: String] = [
             "com.divisiblebyzero.Spectacle": "Spectacle",
@@ -166,56 +158,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
     }
     
-    /// certain applications have issues with the click listening done by the drag to snap feature
-    func checkForProblematicApps() {
-        guard !Defaults.windowSnapping.userDisabled, !Defaults.notifiedOfProblemApps.enabled else { return }
-        
-        let problemBundleIds: [String] = [
-            "com.mathworks.matlab",
-            "com.live2d.cubism.CECubismEditorApp",
-            "com.aquafold.datastudio.DataStudio",
-            "com.adobe.illustrator",
-            "com.adobe.AfterEffects"
-        ]
-        
-        // these apps are java based with dynamic bundleIds
-        let problemJavaAppNames: [String] = [
-            "thinkorswim",
-            "Trader Workstation"
-        ]
-
-        var problemBundles: [Bundle] = problemBundleIds.compactMap { bundleId in
-            if applicationToggle.isDisabled(bundleId: bundleId) { return nil }
-            
-            // Directly instantiating the Bundle from the bundle id didn't work for matlab for some reason
-            if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleId) {
-                return Bundle(url: url)
-            }
-            return nil
-        }
-        
-        for name in problemJavaAppNames {
-            if let path = NSWorkspace.shared.fullPath(forApplication: name) {
-                if let bundle = Bundle(path: path),
-                   let bundleId = bundle.bundleIdentifier {
-                    
-                    if !applicationToggle.isDisabled(bundleId: bundleId),
-                       bundleId.starts(with: "com.install4j") {
-                        problemBundles.append(bundle)
-                    }
-                }
-            }
-        }
-        
-        let displayNames = problemBundles.compactMap { $0.object(forInfoDictionaryKey: kCFBundleNameKey as String) as? String }
-        let displayNameString = displayNames.joined(separator: "\n")
-        
-        if !problemBundles.isEmpty {
-            AlertUtil.oneButtonAlert(question: "Known issues with installed applications", text: "\(displayNameString)\n\nThese applications have issues with the drag to screen edge to snap functionality in Mador.\n\nYou can either ignore the applications using the menu item in Mador, or disable drag to screen edge snapping in Mador preferences.")
-            Defaults.notifiedOfProblemApps.enabled = true
-        }
-    }
-        
     private func showWelcomeWindow() {
         let welcomeWindowController = NSStoryboard(name: "Main", bundle: nil)
             .instantiateController(withIdentifier: "WelcomeWindowController") as? NSWindowController

@@ -885,7 +885,7 @@
     },
     "1ui-PL-TkR.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Snap windows by dragging\"; ObjectID = \"1ui-PL-TkR\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1941,7 +1941,7 @@
     },
     "2ue-Mv-5Wh.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"2ue-Mv-5Wh\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2625,7 +2625,7 @@
     },
     "3hZ-Cs-EZ6.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Disable fast dragging to Mission Control\"; ObjectID = \"3hZ-Cs-EZ6\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -4503,7 +4503,7 @@
     },
     "5WR-Ui-uYB.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"5WR-Ui-uYB\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -10369,9 +10369,6 @@
     "Bottom Center Right Eighth" : {
 
     },
-    "Bottom eighths from corners; thirds" : {
-
-    },
     "Bottom Left Eighth" : {
 
     },
@@ -10379,6 +10376,7 @@
 
     },
     "Bottom sixths from corners; thirds" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -15701,7 +15699,7 @@
     },
     "EBt-5H-0z6.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"EBt-5H-0z6\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -17987,7 +17985,7 @@
     },
     "fL5-gz-pOD.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"fL5-gz-pOD\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -18173,7 +18171,7 @@
     },
     "FLh-CI-WNK.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"FLh-CI-WNK\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -18536,6 +18534,7 @@
       }
     },
     "Fourths columns" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -23370,7 +23369,7 @@
     },
     "I97-ob-ue4.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"I97-ob-ue4\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -25560,7 +25559,7 @@
     },
     "JSl-FY-MF0.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"JSl-FY-MF0\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -26580,7 +26579,7 @@
     },
     "KfQ-dw-3jk.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"KfQ-dw-3jk\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -26904,7 +26903,7 @@
     },
     "kx2-tZ-lk8.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Animate footprint\"; ObjectID = \"kx2-tZ-lk8\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -27760,6 +27759,7 @@
       }
     },
     "Left half, top/bottom half near corners" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -27938,6 +27938,7 @@
       }
     },
     "Left or right half" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -31296,7 +31297,7 @@
     },
     "NMu-W8-Awa.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"NMu-W8-Awa\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -32598,7 +32599,7 @@
     },
     "oEQ-RN-TTJ.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"oEQ-RN-TTJ\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -34840,7 +34841,7 @@
     },
     "Q2j-YZ-1jU.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"Q2j-YZ-1jU\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -35722,7 +35723,7 @@
     },
     "qBm-QP-s63.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"qBm-QP-s63\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -36610,7 +36611,7 @@
     },
     "r2Y-cY-tgn.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Haptic feedback\"; ObjectID = \"r2Y-cY-tgn\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -36802,7 +36803,7 @@
     },
     "r4Q-q9-FLt.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"r4Q-q9-FLt\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -37741,6 +37742,7 @@
       }
     },
     "Right half, top/bottom half near corners" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -40375,6 +40377,7 @@
       }
     },
     "Thirds, drag toward center for two thirds" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -40553,6 +40556,7 @@
       }
     },
     "Thirds, top/bottom half near corners" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -41168,9 +41172,6 @@
     "Top Center Right Eighth" : {
 
     },
-    "Top eighths from corners; maximize" : {
-
-    },
     "Top Left Eighth" : {
 
     },
@@ -41195,6 +41196,7 @@
       }
     },
     "Top sixths from corners; maximize" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -41535,7 +41537,7 @@
     },
     "Tt8-3X-UpT.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"Tt8-3X-UpT\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -43280,7 +43282,7 @@
     },
     "UZP-5q-D5Y.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Restore window size when unsnapped\"; ObjectID = \"UZP-5q-D5Y\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -46576,7 +46578,7 @@
     },
     "xBU-le-7cX.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"xBU-le-7cX\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -47320,7 +47322,7 @@
     },
     "xK0-Bn-yqf.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"-\"; ObjectID = \"xK0-Bn-yqf\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {

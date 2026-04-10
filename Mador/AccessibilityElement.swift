@@ -340,15 +340,6 @@ extension AccessibilityElement {
         }
 
         if let info = getWindowInfo(position) {
-            if !Defaults.dragFromStage.userDisabled {
-                if StageUtil.stageCapable && StageUtil.stageEnabled,
-                   let group = StageUtil.getStageStripWindowGroup(info.id),
-                   let windowId = group.first,
-                   windowId != info.id,
-                   let element = StageWindowAccessibilityElement(windowId) {
-                    return element
-                }
-            }
             if let windowElements = AccessibilityElement(info.pid).windowElements {
                 if let windowElement = (windowElements.first { $0.windowId == info.id }) {
                     return windowElement

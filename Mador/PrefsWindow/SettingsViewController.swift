@@ -219,15 +219,9 @@ class SettingsViewController: NSViewController {
             Defaults.alternateDefaultShortcuts.enabled = madorDefaults
             Notification.Name.changeDefaults.post()
         }
-        
-        // Restore snap areas
-        Defaults.portraitSnapAreas.typedValue = nil
-        Defaults.landscapeSnapAreas.typedValue = nil
-        Notification.Name.defaultSnapAreas.post()
     }
     
     @IBAction func exportConfig(_ sender: NSButton) {
-        Notification.Name.windowSnapping.post(object: false)
         let savePanel = NSSavePanel()
         savePanel.allowedFileTypes = ["json"]
         savePanel.nameFieldStringValue = "MadorConfig"
@@ -242,18 +236,15 @@ class SettingsViewController: NSViewController {
                 Logger.log(error.localizedDescription)
             }
         }
-        Notification.Name.windowSnapping.post(object: true)
     }
     
     @IBAction func importConfig(_ sender: NSButton) {
-        Notification.Name.windowSnapping.post(object: false)
         let openPanel = NSOpenPanel()
         openPanel.allowedFileTypes = ["json"]
         let response = openPanel.runModal()
         if response == .OK, let url = openPanel.url {
             Defaults.load(fileUrl: url)
         }
-        Notification.Name.windowSnapping.post(object: true)
     }
 
     @IBAction func showExtraSettings(_ sender: NSButton) {

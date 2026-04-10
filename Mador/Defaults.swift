@@ -35,24 +35,17 @@ class Defaults {
     static let selectedCycleSizes = CycleSizesDefault()
     static let cycleSizesIsChanged = BoolDefault(key: "cycleSizesIsChanged")
     static let allowAnyShortcut = BoolDefault(key: "allowAnyShortcut")
-    static let windowSnapping = OptionalBoolDefault(key: "windowSnapping")
     static let almostMaximizeHeight = FloatDefault(key: "almostMaximizeHeight")
     static let almostMaximizeWidth = FloatDefault(key: "almostMaximizeWidth")
     static let gapSize = FloatDefault(key: "gapSize")
-    static let snapEdgeMarginTop = FloatDefault(key: "snapEdgeMarginTop", defaultValue: 5)
-    static let snapEdgeMarginBottom = FloatDefault(key: "snapEdgeMarginBottom", defaultValue: 5)
-    static let snapEdgeMarginLeft = FloatDefault(key: "snapEdgeMarginLeft", defaultValue: 5)
-    static let snapEdgeMarginRight = FloatDefault(key: "snapEdgeMarginRight", defaultValue: 5)
     static let centeredDirectionalMove = OptionalBoolDefault(key: "centeredDirectionalMove")
     static let resizeOnDirectionalMove = BoolDefault(key: "resizeOnDirectionalMove")
-    static let ignoredSnapAreas = IntDefault(key: "ignoredSnapAreas")
     static let traverseSingleScreen = OptionalBoolDefault(key: "traverseSingleScreen")
     static let useCursorScreenDetection = BoolDefault(key: "useCursorScreenDetection")
     static let minimumWindowWidth = FloatDefault(key: "minimumWindowWidth")
     static let minimumWindowHeight = FloatDefault(key: "minimumWindowHeight")
     static let sizeOffset = FloatDefault(key: "sizeOffset")
     static let widthStepSize = FloatDefault(key: "widthStepSize", defaultValue: 30)
-    static let unsnapRestore = OptionalBoolDefault(key: "unsnapRestore")
     static let curtainChangeSize = OptionalBoolDefault(key: "curtainChangeSize")
     static let relaunchOpensMenu = BoolDefault(key: "relaunchOpensMenu")
     static let obtainWindowOnClick = OptionalBoolDefault(key: "obtainWindowOnClick")
@@ -67,10 +60,6 @@ class Defaults {
     static let showAllActionsInMenu = OptionalBoolDefault(key: "showAllActionsInMenu")
     static let showAdditionalSizesInMenu = OptionalBoolDefault(key: "showAdditionalSizesInMenu")
     static var SUHasLaunchedBefore: Bool { UserDefaults.standard.bool(forKey: "SUHasLaunchedBefore") }
-    static let footprintAlpha = FloatDefault(key: "footprintAlpha", defaultValue: 0.3)
-    static let footprintBorderWidth = FloatDefault(key: "footprintBorderWidth", defaultValue: 2)
-    static let footprintFade = OptionalBoolDefault(key: "footprintFade")
-    static let footprintColor = JSONDefault<CodableColor>(key: "footprintColor")
     static let SUEnableAutomaticChecks = BoolDefault(key: "SUEnableAutomaticChecks")
     static let todo = OptionalBoolDefault(key: "todo")
     static let todoMode = BoolDefault(key: "todoMode")
@@ -78,12 +67,10 @@ class Defaults {
     static let todoSidebarWidth = FloatDefault(key: "todoSidebarWidth", defaultValue: 400)
     static let todoSidebarWidthUnit = IntEnumDefault<TodoSidebarWidthUnit>(key: "todoSidebarWidthUnit", defaultValue: .pixels)
     static let todoSidebarSide = IntEnumDefault<TodoSidebarSide>(key: "todoSidebarSide", defaultValue: .right)
-    static let snapModifiers = IntDefault(key: "snapModifiers")
     static let attemptMatchOnNextPrevDisplay = OptionalBoolDefault(key: "attemptMatchOnNextPrevDisplay")
     static let altThirdCycle = OptionalBoolDefault(key: "altThirdCycle")
     static let centerHalfCycles = OptionalBoolDefault(key: "centerHalfCycles")
     static let fullIgnoreBundleIds = JSONDefault<[String]>(key: "fullIgnoreBundleIds")
-    static let notifiedOfProblemApps = BoolDefault(key: "notifiedOfProblemApps")
     static let specifiedHeight = FloatDefault(key: "specifiedHeight", defaultValue: 1050)
     static let specifiedWidth = FloatDefault(key: "specifiedWidth", defaultValue: 1680)
     static let horizontalSplitRatio = FloatDefault(key: "horizontalSplitRatio", defaultValue: 50)
@@ -93,26 +80,14 @@ class Defaults {
     static let autoMaximize = OptionalBoolDefault(key: "autoMaximize")
     static let applyGapsToMaximize = OptionalBoolDefault(key: "applyGapsToMaximize")
     static let applyGapsToMaximizeHeight = OptionalBoolDefault(key: "applyGapsToMaximizeHeight")
-    static let cornerSnapAreaSize = FloatDefault(key: "cornerSnapAreaSize", defaultValue: 20)
-    static let shortEdgeSnapAreaSize = FloatDefault(key: "shortEdgeSnapAreaSize", defaultValue: 145)
     static let cascadeAllDeltaSize = FloatDefault(key: "cascadeAllDeltaSize", defaultValue: 30)
-    static let sixthsSnapArea = OptionalBoolDefault(key: "sixthsSnapArea")
     static let stageSize = FloatDefault(key: "stageSize", defaultValue: 190)
-    static let dragFromStage = OptionalBoolDefault(key: "dragFromStage")
     static let alwaysAccountForStage = OptionalBoolDefault(key: "alwaysAccountForStage")
-    static let landscapeSnapAreas = JSONDefault<[Directional:SnapAreaConfig]>(key: "landscapeSnapAreas")
-    static let portraitSnapAreas = JSONDefault<[Directional:SnapAreaConfig]>(key: "portraitSnapAreas")
-    static let missionControlDragging = OptionalBoolDefault(key: "missionControlDragging")
     static let enhancedUI = IntEnumDefault<EnhancedUI>(key: "enhancedUI", defaultValue: .disableEnable)
-    static let footprintAnimationDurationMultiplier = FloatDefault(key: "footprintAnimationDurationMultiplier", defaultValue: 0)
-    static let hapticFeedbackOnSnap = OptionalBoolDefault(key: "hapticFeedbackOnSnap")
-    static let missionControlDraggingAllowedOffscreenDistance = FloatDefault(key: "missionControlDraggingAllowedOffscreenDistance", defaultValue: 25)
-    static let missionControlDraggingDisallowedDuration = IntDefault(key: "missionControlDraggingDisallowedDuration", defaultValue: 250)
     static let doubleClickTitleBar = IntDefault(key: "doubleClickTitleBar")
     static let doubleClickTitleBarRestore = OptionalBoolDefault(key: "doubleClickTitleBarRestore")
     static let doubleClickTitleBarIgnoredApps = JSONDefault<[String]>(key: "doubleClickTitleBarIgnoredApps")
     static let doubleClickToolBarIgnoredApps = JSONDefault<Set<String>>(key: "doubleClickTitleBarIgnoredApps", defaultValue: ["epp.package.java"])
-    static let ignoreDragSnapToo = OptionalBoolDefault(key: "ignoreDragSnapToo")
     static let systemWideMouseDown = OptionalBoolDefault(key: "systemWideMouseDown")
     static let systemWideMouseDownApps = JSONDefault<Set<String>>(key:"systemWideMouseDownApps", defaultValue: Set<String>(["org.languagetool.desktop", "com.microsoft.teams2"]))
     static let internalTilingNotified = BoolDefault(key: "internalTilingNotified")
@@ -126,23 +101,16 @@ class Defaults {
         selectedCycleSizes,
         cycleSizesIsChanged,
         allowAnyShortcut,
-        windowSnapping,
         almostMaximizeHeight,
         almostMaximizeWidth,
         gapSize,
-        snapEdgeMarginTop,
-        snapEdgeMarginBottom,
-        snapEdgeMarginLeft,
-        snapEdgeMarginRight,
         centeredDirectionalMove,
         resizeOnDirectionalMove,
-        ignoredSnapAreas,
         traverseSingleScreen,
         minimumWindowWidth,
         minimumWindowHeight,
         sizeOffset,
         widthStepSize,
-        unsnapRestore,
         curtainChangeSize,
         relaunchOpensMenu,
         obtainWindowOnClick,
@@ -154,22 +122,16 @@ class Defaults {
         screenEdgeGapTopNotch,
         showAllActionsInMenu,
         showAdditionalSizesInMenu,
-        footprintAlpha,
-        footprintBorderWidth,
-        footprintFade,
-        footprintColor,
         SUEnableAutomaticChecks,
         todo,
         todoMode,
         todoApplication,
         todoSidebarWidth,
         todoSidebarSide,
-        snapModifiers,
         attemptMatchOnNextPrevDisplay,
         altThirdCycle,
         centerHalfCycles,
         fullIgnoreBundleIds,
-        notifiedOfProblemApps,
         specifiedHeight,
         specifiedWidth,
         horizontalSplitRatio,
@@ -179,25 +141,13 @@ class Defaults {
         autoMaximize,
         applyGapsToMaximize,
         applyGapsToMaximizeHeight,
-        cornerSnapAreaSize,
-        shortEdgeSnapAreaSize,
         cascadeAllDeltaSize,
-        sixthsSnapArea,
         stageSize,
-        dragFromStage,
         alwaysAccountForStage,
-        landscapeSnapAreas,
-        portraitSnapAreas,
-        missionControlDragging,
         enhancedUI,
-        footprintAnimationDurationMultiplier,
-        hapticFeedbackOnSnap,
-        missionControlDraggingAllowedOffscreenDistance,
-        missionControlDraggingDisallowedDuration,
         doubleClickTitleBar,
         doubleClickTitleBarRestore,
         doubleClickTitleBarIgnoredApps,
-        ignoreDragSnapToo,
         systemWideMouseDown,
         systemWideMouseDownApps,
         screensOrderedByX,
