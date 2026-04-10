@@ -70,10 +70,10 @@
 		9824700D22AF9B7D0037B409 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9824700C22AF9B7D0037B409 /* AppDelegate.swift */; };
 		9824701122AF9B7E0037B409 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9824701022AF9B7E0037B409 /* Assets.xcassets */; };
 		9824701422AF9B7E0037B409 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9824701222AF9B7E0037B409 /* Main.storyboard */; };
-		9824702022AF9B7E0037B409 /* RectangleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9824701F22AF9B7E0037B409 /* RectangleTests.swift */; };
+		9824702022AF9B7E0037B409 /* MadorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9824701F22AF9B7E0037B409 /* MadorTests.swift */; };
 		9824702C22AFA22E0037B409 /* AccessibilityWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9824702A22AFA22E0037B409 /* AccessibilityWindowController.swift */; };
 		9824702F22AFA2E50037B409 /* AccessibilityAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9824702E22AFA2E50037B409 /* AccessibilityAuthorization.swift */; };
-		9824703122AFA8470037B409 /* RectangleStatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9824703022AFA8470037B409 /* RectangleStatusItem.swift */; };
+		9824703122AFA8470037B409 /* MadorStatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9824703022AFA8470037B409 /* MadorStatusItem.swift */; };
 		9824703722B0F3200037B409 /* WindowAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9824703622B0F3200037B409 /* WindowAction.swift */; };
 		9824703922B0F37C0037B409 /* ShortcutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9824703822B0F37C0037B409 /* ShortcutManager.swift */; };
 		9824703B22B139780037B409 /* CUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9824703A22B139780037B409 /* CUtil.swift */; };
@@ -251,8 +251,8 @@
 		94E9B08D2C3B8D97004C7F41 /* MacTilingDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTilingDefaults.swift; sourceTree = "<group>"; };
 		94E9B08F2C3E4578004C7F41 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		9698D1D9EE0180D7C4468304 /* TopCenterLeftTwelfthCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCenterLeftTwelfthCalculation.swift; sourceTree = "<group>"; };
-		9808018523D05C0B0077774A /* RectangleRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RectangleRelease.entitlements; sourceTree = "<group>"; };
-		9808018623D05C1F0077774A /* RectangleLauncherRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RectangleLauncherRelease.entitlements; sourceTree = "<group>"; };
+		9808018523D05C0B0077774A /* MadorRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MadorRelease.entitlements; sourceTree = "<group>"; };
+		9808018623D05C1F0077774A /* MadorLauncherRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MadorLauncherRelease.entitlements; sourceTree = "<group>"; };
 		9818E00C28B59205004AA524 /* CompoundSnapArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundSnapArea.swift; sourceTree = "<group>"; };
 		9818E00F28B59396004AA524 /* HalvesCompoundCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalvesCompoundCalculation.swift; sourceTree = "<group>"; };
 		9818E01128B59B64004AA524 /* ThirdsCompoundCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdsCompoundCalculation.swift; sourceTree = "<group>"; };
@@ -277,22 +277,22 @@
 		9821404222B3EBDA00ABFB3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9821404522B3EBDA00ABFB3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9821404722B3EBDA00ABFB3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9821404822B3EBDA00ABFB3F /* RectangleLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RectangleLauncher.entitlements; sourceTree = "<group>"; };
+		9821404822B3EBDA00ABFB3F /* MadorLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MadorLauncher.entitlements; sourceTree = "<group>"; };
 		9821405D22B3ED3600ABFB3F /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		9821405F22B3EFB200ABFB3F /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
-		9821552627BFFB13002523EC /* Rectangle-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rectangle-Bridging-Header.h"; sourceTree = "<group>"; };
-		9824700922AF9B7D0037B409 /* Rectangle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rectangle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9821552627BFFB13002523EC /* Mador-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mador-Bridging-Header.h"; sourceTree = "<group>"; };
+		9824700922AF9B7D0037B409 /* Mador.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mador.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9824700C22AF9B7D0037B409 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9824701022AF9B7E0037B409 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9824701322AF9B7E0037B409 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9824701522AF9B7E0037B409 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9824701622AF9B7E0037B409 /* Rectangle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Rectangle.entitlements; sourceTree = "<group>"; };
+		9824701622AF9B7E0037B409 /* Mador.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mador.entitlements; sourceTree = "<group>"; };
 		9824701B22AF9B7E0037B409 /* RectangleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RectangleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9824701F22AF9B7E0037B409 /* RectangleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleTests.swift; sourceTree = "<group>"; };
+		9824701F22AF9B7E0037B409 /* MadorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MadorTests.swift; sourceTree = "<group>"; };
 		9824702122AF9B7E0037B409 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9824702A22AFA22E0037B409 /* AccessibilityWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityWindowController.swift; sourceTree = "<group>"; };
 		9824702E22AFA2E50037B409 /* AccessibilityAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityAuthorization.swift; sourceTree = "<group>"; };
-		9824703022AFA8470037B409 /* RectangleStatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleStatusItem.swift; sourceTree = "<group>"; };
+		9824703022AFA8470037B409 /* MadorStatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MadorStatusItem.swift; sourceTree = "<group>"; };
 		9824703622B0F3200037B409 /* WindowAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowAction.swift; sourceTree = "<group>"; };
 		9824703822B0F37C0037B409 /* ShortcutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManager.swift; sourceTree = "<group>"; };
 		9824703A22B139780037B409 /* CUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CUtil.swift; sourceTree = "<group>"; };
@@ -462,12 +462,12 @@
 		9821403D22B3EBD900ABFB3F /* RectangleLauncher */ = {
 			isa = PBXGroup;
 			children = (
-				9808018623D05C1F0077774A /* RectangleLauncherRelease.entitlements */,
+				9808018623D05C1F0077774A /* MadorLauncherRelease.entitlements */,
 				9821403E22B3EBD900ABFB3F /* AppDelegate.swift */,
 				9821404222B3EBDA00ABFB3F /* Assets.xcassets */,
 				9821404422B3EBDA00ABFB3F /* Main.storyboard */,
 				9821404722B3EBDA00ABFB3F /* Info.plist */,
-				9821404822B3EBDA00ABFB3F /* RectangleLauncher.entitlements */,
+				9821404822B3EBDA00ABFB3F /* MadorLauncher.entitlements */,
 			);
 			path = RectangleLauncher;
 			sourceTree = "<group>";
@@ -655,7 +655,7 @@
 		9824700A22AF9B7D0037B409 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9824700922AF9B7D0037B409 /* Rectangle.app */,
+				9824700922AF9B7D0037B409 /* Mador.app */,
 				9824701B22AF9B7E0037B409 /* RectangleTests.xctest */,
 				9821403C22B3EBD900ABFB3F /* RectangleLauncher.app */,
 			);
@@ -671,15 +671,15 @@
 				9824701222AF9B7E0037B409 /* Main.storyboard */,
 				9824701522AF9B7E0037B409 /* Info.plist */,
 				981F27D02340E3E1006CD263 /* InternetAccessPolicy.plist */,
-				9821552627BFFB13002523EC /* Rectangle-Bridging-Header.h */,
-				9808018523D05C0B0077774A /* RectangleRelease.entitlements */,
-				9824701622AF9B7E0037B409 /* Rectangle.entitlements */,
+				9821552627BFFB13002523EC /* Mador-Bridging-Header.h */,
+				9808018523D05C0B0077774A /* MadorRelease.entitlements */,
+				9824701622AF9B7E0037B409 /* Mador.entitlements */,
 				9821405F22B3EFB200ABFB3F /* Defaults.swift */,
 				984EDB0E29A42ED200D119D2 /* LaunchOnLogin.swift */,
 				98C1008B2305F1FA006E5344 /* SubsequentExecutionMode.swift */,
 				7BE578EE2C5BF4ED0083DAE3 /* CycleSize.swift */,
 				985B9BF422B93EEC00A2E8F0 /* ApplicationToggle.swift */,
-				9824703022AFA8470037B409 /* RectangleStatusItem.swift */,
+				9824703022AFA8470037B409 /* MadorStatusItem.swift */,
 				9824703622B0F3200037B409 /* WindowAction.swift */,
 				98A6EDEB2528FFC100F74B10 /* WindowActionCategory.swift */,
 				9824703822B0F37C0037B409 /* ShortcutManager.swift */,
@@ -706,7 +706,7 @@
 		9824701E22AF9B7E0037B409 /* RectangleTests */ = {
 			isa = PBXGroup;
 			children = (
-				9824701F22AF9B7E0037B409 /* RectangleTests.swift */,
+				9824701F22AF9B7E0037B409 /* MadorTests.swift */,
 				9824702122AF9B7E0037B409 /* Info.plist */,
 			);
 			path = RectangleTests;
@@ -807,7 +807,7 @@
 				9877B63C29C8AC3600F02D74 /* Sparkle */,
 			);
 			productName = Rectangle;
-			productReference = 9824700922AF9B7D0037B409 /* Rectangle.app */;
+			productReference = 9824700922AF9B7D0037B409 /* Mador.app */;
 			productType = "com.apple.product-type.application";
 		};
 		9824701A22AF9B7E0037B409 /* RectangleTests */ = {
@@ -1038,7 +1038,7 @@
 				866661F2257D248A00A9CD2D /* RepeatedExecutionsInThirdsCalculation.swift in Sources */,
 				9824704D22B189250037B409 /* WindowCalculation.swift in Sources */,
 				98C1008E230B9EF6006E5344 /* NextPrevDisplayCalculation.swift in Sources */,
-				9824703122AFA8470037B409 /* RectangleStatusItem.swift in Sources */,
+				9824703122AFA8470037B409 /* MadorStatusItem.swift in Sources */,
 				D04CE31027817ABE00BD47B3 /* BottomRightNinthCalculation.swift in Sources */,
 				98A009B92512538D00CFBF0C /* TopRightSixthCalculation.swift in Sources */,
 				98C275672322E2DA009B9292 /* WindowHistory.swift in Sources */,
@@ -1141,7 +1141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9824702022AF9B7E0037B409 /* RectangleTests.swift in Sources */,
+				9824702022AF9B7E0037B409 /* MadorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1181,7 +1181,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = RectangleLauncher/RectangleLauncher.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RectangleLauncher/MadorLauncher.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1209,7 +1209,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = RectangleLauncher/RectangleLauncherRelease.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RectangleLauncher/MadorLauncherRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1367,7 +1367,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Rectangle/Rectangle.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Rectangle/Mador.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1383,10 +1383,10 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.95;
 				PRODUCT_BUNDLE_IDENTIFIER = com.knollsoft.Rectangle;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Mador;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Rectangle/Rectangle-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Rectangle/Mador-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1399,7 +1399,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				ASSETCATALOG_OTHER_FLAGS = "--enable-icon-stack-fallback-generation=disabled";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Rectangle/RectangleRelease.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Rectangle/MadorRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1415,10 +1415,10 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.95;
 				PRODUCT_BUNDLE_IDENTIFIER = com.knollsoft.Rectangle;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Mador;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Rectangle/Rectangle-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Rectangle/Mador-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -1444,7 +1444,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rectangle.app/Contents/MacOS/Rectangle";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mador.app/Contents/MacOS/Mador";
 			};
 			name = Debug;
 		};
@@ -1469,7 +1469,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rectangle.app/Contents/MacOS/Rectangle";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mador.app/Contents/MacOS/Mador";
 			};
 			name = Release;
 		};

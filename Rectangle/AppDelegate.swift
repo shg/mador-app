@@ -158,7 +158,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         for app in runningApps {
             guard let bundleId = app.bundleIdentifier else { continue }
             if let conflictingAppName = conflictingAppsIds[bundleId] {
-                AlertUtil.oneButtonAlert(question: "Potential window manager conflict: \(conflictingAppName)", text: "Since \(conflictingAppName) might have some overlapping behavior with Rectangle, it's recommended that you either disable or quit \(conflictingAppName).")
+                AlertUtil.oneButtonAlert(question: "Potential window manager conflict: \(conflictingAppName)", text: "Since \(conflictingAppName) might have some overlapping behavior with Mador, it's recommended that you either disable or quit \(conflictingAppName).")
                 break
             }
         }
@@ -210,7 +210,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let displayNameString = displayNames.joined(separator: "\n")
         
         if !problemBundles.isEmpty {
-            AlertUtil.oneButtonAlert(question: "Known issues with installed applications", text: "\(displayNameString)\n\nThese applications have issues with the drag to screen edge to snap functionality in Rectangle.\n\nYou can either ignore the applications using the menu item in Rectangle, or disable drag to screen edge snapping in Rectangle preferences.")
+            AlertUtil.oneButtonAlert(question: "Known issues with installed applications", text: "\(displayNameString)\n\nThese applications have issues with the drag to screen edge to snap functionality in Mador.\n\nYou can either ignore the applications using the menu item in Mador, or disable drag to screen edge snapping in Mador preferences.")
             Defaults.notifiedOfProblemApps.enabled = true
         }
     }

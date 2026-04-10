@@ -34,7 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             components.removeLast()
             components.removeLast()
             components.append("MacOS")
-            components.append("Rectangle")
+            components.append("Mador")
             let newPath = NSString.path(withComponents: components)
             NSWorkspace.shared.launchApplication(newPath)
         }
@@ -45,4 +45,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
 }
-

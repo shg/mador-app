@@ -131,7 +131,7 @@ class SettingsViewController: NSViewController {
             let conflictTitleText = NSLocalizedString(
                 "Conflict with system setting", tableName: "Main", value: "", comment: "")
             let conflictDescriptionText = NSLocalizedString(
-                "To let Rectangle manage the title bar double click functionality, you need to disable the corresponding macOS setting.", tableName: "Main", value: "", comment: "")
+                "To let Mador manage the title bar double click functionality, you need to disable the corresponding macOS setting.", tableName: "Main", value: "", comment: "")
 
             
             let closeText = NSLocalizedString("DVo-aG-piG.title", tableName: "Main", value: "Close", comment: "")
@@ -204,19 +204,19 @@ class SettingsViewController: NSViewController {
     }
     
     @IBAction func restoreDefaults(_ sender: Any) {
-        // Ask user if they want to restore to Rectangle or Spectacle defaults
-        let currentDefaults = Defaults.alternateDefaultShortcuts.enabled ? "Rectangle" : "Spectacle"
+        // Ask user if they want to restore to Mador or Spectacle defaults
+        let currentDefaults = Defaults.alternateDefaultShortcuts.enabled ? "Mador" : "Spectacle"
         let defaultShortcutsTitle = NSLocalizedString("Default Shortcuts", tableName: "Main", value: "", comment: "")
         let currentlyUsingText = NSLocalizedString("Currently using: ", tableName: "Main", value: "", comment: "")
         let cancelText = NSLocalizedString("Cancel", tableName: "Main", value: "", comment: "")
-        let response = AlertUtil.threeButtonAlert(question: defaultShortcutsTitle, text: currentlyUsingText + currentDefaults, buttonOneText: "Rectangle", buttonTwoText: "Spectacle", buttonThreeText: cancelText)
+        let response = AlertUtil.threeButtonAlert(question: defaultShortcutsTitle, text: currentlyUsingText + currentDefaults, buttonOneText: "Mador", buttonTwoText: "Spectacle", buttonThreeText: cancelText)
         if response == .alertThirdButtonReturn { return }
 
         //  Restore default shortcuts
         WindowAction.active.forEach { UserDefaults.standard.removeObject(forKey: $0.name) }
-        let rectangleDefaults = response == .alertFirstButtonReturn
-        if rectangleDefaults != Defaults.alternateDefaultShortcuts.enabled {
-            Defaults.alternateDefaultShortcuts.enabled = rectangleDefaults
+        let madorDefaults = response == .alertFirstButtonReturn
+        if madorDefaults != Defaults.alternateDefaultShortcuts.enabled {
+            Defaults.alternateDefaultShortcuts.enabled = madorDefaults
             Notification.Name.changeDefaults.post()
         }
         
@@ -230,7 +230,7 @@ class SettingsViewController: NSViewController {
         Notification.Name.windowSnapping.post(object: false)
         let savePanel = NSSavePanel()
         savePanel.allowedFileTypes = ["json"]
-        savePanel.nameFieldStringValue = "RectangleConfig"
+        savePanel.nameFieldStringValue = "MadorConfig"
         let response = savePanel.runModal()
         if response == .OK, let url = savePanel.url {
             do {

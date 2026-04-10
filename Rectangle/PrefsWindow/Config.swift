@@ -88,24 +88,29 @@ extension Defaults {
     }
     
     static func loadFromSupportDir() {
-        if let rectangleSupportURL = getSupportDir()?
-            .appendingPathComponent("Rectangle", isDirectory: true) {
-            
-            let configURL = rectangleSupportURL.appendingPathComponent("RectangleConfig.json")
-                        
-            let exists = try? configURL.checkResourceIsReachable()
-            if exists == true {
-                load(fileUrl: configURL)
-                do {
-                    let newFilename = "RectangleConfig\(timestamp()).json"
-                    
-                    try FileManager.default.moveItem(atPath: configURL.path, toPath: rectangleSupportURL.appendingPathComponent(newFilename).path)
-                } catch {
+        let supportDirs = ["Mador", "Rectangle"]
+        let configNames = ["MadorConfig.json", "RectangleConfig.json"]
+
+        for supportDir in supportDirs {
+            guard let supportURL = getSupportDir()?.appendingPathComponent(supportDir, isDirectory: true) else { continue }
+
+            for configName in configNames {
+                let configURL = supportURL.appendingPathComponent(configName)
+                let exists = try? configURL.checkResourceIsReachable()
+                if exists == true {
+                    load(fileUrl: configURL)
                     do {
-                        try FileManager.default.removeItem(at: configURL)
+                        let baseName = URL(fileURLWithPath: configName).deletingPathExtension().lastPathComponent
+                        let newFilename = "\(baseName)\(timestamp()).json"
+                        try FileManager.default.moveItem(atPath: configURL.path, toPath: supportURL.appendingPathComponent(newFilename).path)
                     } catch {
-                        AlertUtil.oneButtonAlert(question: "Error after loading from Support Dir", text: "Unable to rename/remove RectangleConfig.json from \(rectangleSupportURL) after loading.")
+                        do {
+                            try FileManager.default.removeItem(at: configURL)
+                        } catch {
+                            AlertUtil.oneButtonAlert(question: "Error after loading from Support Dir", text: "Unable to rename/remove \(configName) from \(supportURL) after loading.")
+                        }
                     }
+                    return
                 }
             }
         }

@@ -1,6 +1,6 @@
-# Rectangle Terminal Commands for Hidden Preferences
+# Mador Terminal Commands for Hidden Preferences
 
-The preferences window is purposefully slim, but there's a lot that can be modified via Terminal. After executing a terminal command, restart the app as these values are loaded on application startup. For Rectangle Pro, please replace `com.knollsoft.Rectangle` with `com.knollsoft.Hookshot` for the following commands. A number of the commands below are for configuring keyboard shortcuts, and you'll need to know the key code and modifier flags integer values. You can use the free [key codes app](https://apps.apple.com/us/app/key-codes/id414568915) to help with this.
+The preferences window is purposefully slim, but there's a lot that can be modified via Terminal. After executing a terminal command, restart the app as these values are loaded on application startup. During the rename to Mador, the app still uses the existing `com.knollsoft.Rectangle` preferences domain for compatibility, so the following commands remain unchanged. For Rectangle Pro, please replace `com.knollsoft.Rectangle` with `com.knollsoft.Hookshot` for the following commands. A number of the commands below are for configuring keyboard shortcuts, and you'll need to know the key code and modifier flags integer values. You can use the free [key codes app](https://apps.apple.com/us/app/key-codes/id414568915) to help with this.
 
 ## Contents
 

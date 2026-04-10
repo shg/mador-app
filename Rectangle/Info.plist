@@ -23,6 +23,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>mador</string>
 				<string>rectangle</string>
 			</array>
 		</dict>

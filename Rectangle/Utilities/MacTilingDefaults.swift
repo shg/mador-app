@@ -63,7 +63,7 @@ enum MacTilingDefaults: String {
         topTilingByEdgeDrag.disable()
         
         if !Defaults.internalTilingNotified.enabled {
-            // First time running Rectangle & only has drag to top enabled in macOS
+            // First time running Mador & only has drag to top enabled in macOS
             let result = AlertUtil.twoButtonAlert(
                 question: "Top screen edge tiling in macOS is now disabled".localized,
                 text: "To adjust macOS tiling, go to System Settings → Desktop & Dock → Windows".localized,
@@ -82,9 +82,9 @@ enum MacTilingDefaults: String {
     private static func resolveStandardTilingConflict() {
         let result = AlertUtil.threeButtonAlert(
             question: "Conflict with macOS tiling".localized,
-            text: "Drag to screen edge tiling is enabled in both Rectangle and macOS.".localized,
+            text: "Drag to screen edge tiling is enabled in both Mador and macOS.".localized,
             buttonOneText: "Disable in macOS".localized,
-            buttonTwoText: "Disable in Rectangle".localized,
+            buttonTwoText: "Disable in Mador".localized,
             buttonThreeText: "Dismiss".localized)
         switch result {
         case .alertFirstButtonReturn:
@@ -102,7 +102,7 @@ enum MacTilingDefaults: String {
             Notification.Name.windowSnapping.post(object: false)
 
             let result = AlertUtil.twoButtonAlert(
-                question: "Tiling in Rectangle has been disabled".localized,
+                question: "Tiling in Mador has been disabled".localized,
                 text: "To adjust macOS tiling, go to System Settings → Desktop & Dock → Windows".localized,
                 cancelText: "Open System Settings".localized)
             if result == .alertSecondButtonReturn {
