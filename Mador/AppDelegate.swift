@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Ryan Hanson on 6/11/19.
 //  Copyright © 2019 Ryan Hanson. All rights reserved.
@@ -14,10 +14,10 @@ import os.log
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    static let launcherAppId = "com.knollsoft.RectangleLauncher"
+    static let launcherAppId = "com.knollsoft.MadorLauncher"
 
     private let accessibilityAuthorization = AccessibilityAuthorization()
-    private let statusItem = RectangleStatusItem.instance
+    private let statusItem = MadorStatusItem.instance
     static let windowHistory = WindowHistory()
     var updaterController: SPUStandardUpdaterController!
     var hasPendingUpdate = false {
@@ -52,6 +52,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        Defaults.migrateLegacyDefaultsIfNeeded()
         Defaults.loadFromSupportDir()
         migrateShowEighthsInMenu()
 

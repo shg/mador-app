@@ -1,6 +1,6 @@
 //
 //  LaunchOnLogin.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Ryan Hanson on 2/20/23.
 //  Copyright © 2023 Ryan Hanson. All rights reserved.

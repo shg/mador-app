@@ -1,6 +1,6 @@
 //
 //  Config.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Ryan Hanson on 12/15/20.
 //  Copyright © 2020 Ryan Hanson. All rights reserved.
@@ -35,7 +35,7 @@ extension Defaults {
             codableDefaults[exportableDefault.key] = exportableDefault.toCodable()
         }
                 
-        let config = Config(bundleId: "com.knollsoft.Rectangle",
+        let config = Config(bundleId: "com.knollsoft.Mador",
                             version: version,
                             shortcuts: shortcuts,
                             defaults: codableDefaults)

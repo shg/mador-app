@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  RectangleLauncher
+//  MadorLauncher
 //
 //  Created by Ryan Hanson on 6/14/19.
 //  Copyright © 2019 Ryan Hanson. All rights reserved.
@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             terminate()
             return
         }
-        let mainAppIdentifier = "com.knollsoft.Rectangle"
+        let mainAppIdentifier = "com.knollsoft.Mador"
         let running = NSWorkspace.shared.runningApplications
         let isRunning = !running.filter({$0.bundleIdentifier == mainAppIdentifier}).isEmpty
         

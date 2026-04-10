@@ -1,6 +1,6 @@
 //
 //  AccessibilityAuthorization.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Ryan Hanson on 6/11/19.
 //  Copyright © 2019 Ryan Hanson. All rights reserved.

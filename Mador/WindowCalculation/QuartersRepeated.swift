@@ -1,6 +1,6 @@
 //
 //  QuartersRepeated.swift
-//  Rectangle
+//  Mador
 //
 //  Copyright © 2026 Ryan Hanson. All rights reserved.
 //

@@ -1,6 +1,6 @@
 //
 //  Defaults.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Ryan Hanson on 6/14/19.
 //  Copyright © 2019 Ryan Hanson. All rights reserved.
@@ -9,6 +9,24 @@
 import Cocoa
 
 class Defaults {
+    static let legacyBundleIdentifier = "com.knollsoft.Rectangle"
+
+    static func migrateLegacyDefaultsIfNeeded() {
+        guard let currentBundleIdentifier = Bundle.main.bundleIdentifier,
+              currentBundleIdentifier != legacyBundleIdentifier else { return }
+
+        let standardDefaults = UserDefaults.standard
+        if let currentDomain = standardDefaults.persistentDomain(forName: currentBundleIdentifier),
+           !currentDomain.isEmpty {
+            return
+        }
+
+        guard let legacyDomain = standardDefaults.persistentDomain(forName: legacyBundleIdentifier),
+              !legacyDomain.isEmpty else { return }
+
+        standardDefaults.setPersistentDomain(legacyDomain, forName: currentBundleIdentifier)
+    }
+
     static let launchOnLogin = BoolDefault(key: "launchOnLogin")
     static let disabledApps = StringDefault(key: "disabledApps")
     static let hideMenuBarIcon = BoolDefault(key: "hideMenubarIcon")

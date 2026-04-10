@@ -1,6 +1,6 @@
 //
 //  TopCenterRightEighthCalculation.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Johannes Trussell Rasch on 2022-02-18.
 //  Copyright © 2022 Ryan Hanson. All rights reserved.

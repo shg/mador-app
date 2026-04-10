@@ -560,7 +560,7 @@
       }
     },
     "1Xt-HY-uBw.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"RectangleLauncher\"; ObjectID = \"1Xt-HY-uBw\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"MadorLauncher\"; ObjectID = \"1Xt-HY-uBw\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -572,175 +572,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         }
       }
@@ -2048,7 +2048,7 @@
       }
     },
     "4sb-4s-VLi.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Quit RectangleLauncher\"; ObjectID = \"4sb-4s-VLi\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Quit MadorLauncher\"; ObjectID = \"4sb-4s-VLi\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -2060,181 +2060,181 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ukončit RectangleLauncher"
+            "value" : "Ukončit MadorLauncher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Schließen"
+            "value" : "MadorLauncher Schließen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keluar RectangleLauncher"
+            "value" : "Keluar MadorLauncher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Išeiti iš RectangleLauncher"
+            "value" : "Išeiti iš MadorLauncher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avslutt RectangleLauncher"
+            "value" : "Avslutt MadorLauncher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avslutt RectangleLauncher"
+            "value" : "Avslutt MadorLauncher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fechar RectangleLauncher"
+            "value" : "Fechar MadorLauncher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sair do RectangleLauncher"
+            "value" : "Sair do MadorLauncher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ukončiť RectangleLauncher"
+            "value" : "Ukončiť MadorLauncher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit RectangleLauncher"
+            "value" : "Quit MadorLauncher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Thoát RectangleLauncher"
+            "value" : "Thoát MadorLauncher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "退出RectangleLauncher"
+            "value" : "退出MadorLauncher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "結束RectangleLauncher"
+            "value" : "結束MadorLauncher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "結束RectangleLauncher"
+            "value" : "結束MadorLauncher"
           }
         }
       }
     },
     "5kV-Vb-QxS.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"About RectangleLauncher\"; ObjectID = \"5kV-Vb-QxS\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"About MadorLauncher\"; ObjectID = \"5kV-Vb-QxS\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -2246,175 +2246,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O aplikaci RectangleLauncher"
+            "value" : "O aplikaci MadorLauncher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Über RectangleLauncher"
+            "value" : "Über MadorLauncher"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tentang RectangleLauncher"
+            "value" : "Tentang MadorLauncher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apie RectangleLauncher"
+            "value" : "Apie MadorLauncher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Om RectangleLauncher"
+            "value" : "Om MadorLauncher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Om RectangleLauncher"
+            "value" : "Om MadorLauncher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sobre o RectangleLauncher"
+            "value" : "Sobre o MadorLauncher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sobre o RectangleLauncher"
+            "value" : "Sobre o MadorLauncher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O aplikácii RectangleLauncher"
+            "value" : "O aplikácii MadorLauncher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About RectangleLauncher"
+            "value" : "About MadorLauncher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Giới thiệu RectangleLauncher"
+            "value" : "Giới thiệu MadorLauncher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "关于RectangleLauncher"
+            "value" : "关于MadorLauncher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關於RectangleLauncher"
+            "value" : "關於MadorLauncher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關於RectangleLauncher"
+            "value" : "關於MadorLauncher"
           }
         }
       }
@@ -8372,7 +8372,7 @@
       }
     },
     "FKE-Sm-Kum.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"RectangleLauncher Help\"; ObjectID = \"FKE-Sm-Kum\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"MadorLauncher Help\"; ObjectID = \"FKE-Sm-Kum\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -8384,109 +8384,109 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher nápověda"
+            "value" : "MadorLauncher nápověda"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Hilfe"
+            "value" : "MadorLauncher Hilfe"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bantuan RectangleLauncher"
+            "value" : "Bantuan MadorLauncher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher pagalba"
+            "value" : "MadorLauncher pagalba"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher-hjelp"
+            "value" : "MadorLauncher-hjelp"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher-hjelp"
+            "value" : "MadorLauncher-hjelp"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajuda do RectangleLauncher"
+            "value" : "Ajuda do MadorLauncher"
           }
         },
         "pt-PT" : {
@@ -8498,61 +8498,61 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher nápoveda"
+            "value" : "MadorLauncher nápoveda"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Help"
+            "value" : "MadorLauncher Help"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trợ giúp của RectangleLauncher"
+            "value" : "Trợ giúp của MadorLauncher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher帮助"
+            "value" : "MadorLauncher帮助"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher輔助說明"
+            "value" : "MadorLauncher輔助說明"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher輔助說明"
+            "value" : "MadorLauncher輔助說明"
           }
         }
       }
@@ -15254,7 +15254,7 @@
       }
     },
     "Olw-nP-bQN.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Hide RectangleLauncher\"; ObjectID = \"Olw-nP-bQN\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Hide MadorLauncher\"; ObjectID = \"Olw-nP-bQN\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -15266,175 +15266,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skrýt RectangleLauncher"
+            "value" : "Skrýt MadorLauncher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher Verstecken"
+            "value" : "MadorLauncher Verstecken"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sembunyikan RectangleLauncher"
+            "value" : "Sembunyikan MadorLauncher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Slėpti RectangleLauncher"
+            "value" : "Slėpti MadorLauncher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skjul RectangleLauncher"
+            "value" : "Skjul MadorLauncher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gøym RectangleLauncher"
+            "value" : "Gøym MadorLauncher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ocultar RectangleLauncher"
+            "value" : "Ocultar MadorLauncher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esconder RectangleLauncher"
+            "value" : "Esconder MadorLauncher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skryť RectangleLauncher"
+            "value" : "Skryť MadorLauncher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide RectangleLauncher"
+            "value" : "Hide MadorLauncher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ẩn RectangleLauncher"
+            "value" : "Ẩn MadorLauncher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隐藏RectangleLauncher"
+            "value" : "隐藏MadorLauncher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隱藏RectangleLauncher"
+            "value" : "隱藏MadorLauncher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隱藏RectangleLauncher"
+            "value" : "隱藏MadorLauncher"
           }
         }
       }
@@ -19532,7 +19532,7 @@
       }
     },
     "uQy-DD-JDr.title" : {
-      "comment" : "Class = \"NSMenu\"; title = \"RectangleLauncher\"; ObjectID = \"uQy-DD-JDr\";",
+      "comment" : "Class = \"NSMenu\"; title = \"MadorLauncher\"; ObjectID = \"uQy-DD-JDr\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar" : {
@@ -19544,175 +19544,175 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "ca-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "es-419" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "nn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "sv-SE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         },
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RectangleLauncher"
+            "value" : "MadorLauncher"
           }
         }
       }

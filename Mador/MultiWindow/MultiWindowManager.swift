@@ -1,6 +1,6 @@
 //
 //  MultiWindowManager.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Mikhail (Dirondin) Polubisok on 2/20/22.
 //  Copyright © 2021 Ryan Hanson. All rights reserved.

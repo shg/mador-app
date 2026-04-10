@@ -1,6 +1,6 @@
 //
 //  MinimumWindowDimensionAware.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Isaac Young on 23/04/24.
 //  Copyright © 2024 Ryan Hanson. All rights reserved.

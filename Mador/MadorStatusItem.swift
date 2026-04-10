@@ -1,6 +1,6 @@
 //
-//  RectangleStatusItem.swift
-//  Rectangle
+//  MadorStatusItem.swift
+//  Mador
 //
 //  Created by Ryan Hanson on 6/11/19.
 //  Copyright © 2019 Ryan Hanson. All rights reserved.
@@ -8,8 +8,8 @@
 
 import Cocoa
 
-class RectangleStatusItem {
-    static let instance = RectangleStatusItem()
+class MadorStatusItem {
+    static let instance = MadorStatusItem()
     
     private var nsStatusItem: NSStatusItem?
     private var added: Bool = false

@@ -1,6 +1,6 @@
 //
 //  CenterProminentlyCalculation.swift
-//  Rectangle
+//  Mador
 //
 //  Copyright © 2019 Ryan Hanson. All rights reserved.
 //

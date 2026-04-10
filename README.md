@@ -124,7 +124,7 @@ If windows aren't resizing or moving as you expect, here's some initial steps to
 #### Try resetting the macOS accessibility permissions for Mador:
 
 ```bash
-tccutil reset All com.knollsoft.Rectangle
+tccutil reset All com.knollsoft.Mador
 ```
 
 Or, this can be done with the following steps instead of the tccutil terminal command.
@@ -143,12 +143,14 @@ Or, this can be done with the following steps instead of the tccutil terminal co
 
 There are buttons for importing and exporting the config as a JSON file in the settings tab of the preferences window. 
 
-Upon launch, Mador will load a config file from `~/Library/Application Support/Mador/MadorConfig.json` if present. For compatibility, it will also load legacy files from the old `Rectangle` support directory and filename.
+Upon launch, Mador will load a config file from `~/Library/Application Support/Mador/MadorConfig.json` if present. For compatibility, it will also load legacy files from the old `Rectangle` support directory and filename, and it imports legacy preferences from `com.knollsoft.Rectangle` on first launch.
 
 ## Preferences Storage
 
-The configuration for Mador is stored using NSUserDefaults. During this transition it still uses the existing preferences domain:
-`~/Library/Preferences/com.knollsoft.Rectangle.plist`
+The configuration for Mador is stored using NSUserDefaults in:
+`~/Library/Preferences/com.knollsoft.Mador.plist`
+
+On first launch, Mador imports existing preferences from the legacy `com.knollsoft.Rectangle` domain automatically.
 Note that shortcuts in v0.41+ are stored in a different format and will not load in prior versions.
 
 That file can be backed up or transferred to other machines.
@@ -168,7 +170,7 @@ brew install rectangle
 Mador can be uninstalled by quitting the app and moving it to the trash. You can remove the Mador defaults from your machine with the following terminal command:
 
 ```bash
-defaults delete com.knollsoft.Rectangle
+defaults delete com.knollsoft.Mador
 ```
 
 > [!TIP]  

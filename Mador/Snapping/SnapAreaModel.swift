@@ -1,6 +1,6 @@
 //
 //  SnapAreaModel.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Ryan Hanson on 8/19/22.
 //  Copyright © 2022 Ryan Hanson. All rights reserved.

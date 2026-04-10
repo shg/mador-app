@@ -1,6 +1,6 @@
 //
 //  MiddleLeftTwelfthCalculation.swift
-//  Rectangle
+//  Mador
 //
 //  Copyright © 2024 Ryan Hanson. All rights reserved.
 //

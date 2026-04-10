@@ -1,6 +1,6 @@
 //
 //  ApplicationToggle.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Ryan Hanson on 6/18/19.
 //  Copyright © 2019 Ryan Hanson. All rights reserved.
@@ -11,8 +11,8 @@ import Cocoa
 class ApplicationToggle: NSObject {
     
     private var disabledApps = Set<String>()
-    public private(set) static var frontAppId: String? = "com.knollsoft.Rectangle"
-    public private(set) static var frontAppName: String? = "Rectangle"
+    public private(set) static var frontAppId: String? = "com.knollsoft.Mador"
+    public private(set) static var frontAppName: String? = "Mador"
     public private(set) static var shortcutsDisabled: Bool = false
 
     private let shortcutManager: ShortcutManager

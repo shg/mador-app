@@ -1,6 +1,6 @@
 //
 //  LeftTodoCalculation.swift
-//  Rectangle
+//  Mador
 //
 //  Copyright © 2023 Ryan Hanson. All rights reserved.
 //

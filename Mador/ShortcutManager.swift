@@ -1,6 +1,6 @@
 //
 //  ShortcutManager.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Ryan Hanson on 6/12/19.
 //  Copyright © 2019 Ryan Hanson. All rights reserved.

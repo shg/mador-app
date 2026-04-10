@@ -1,6 +1,6 @@
 //
 //  CGExtension.swift
-//  Rectangle
+//  Mador
 //
 //  Copyright © 2022 Ryan Hanson. All rights reserved.
 //

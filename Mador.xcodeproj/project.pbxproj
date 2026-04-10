@@ -64,7 +64,7 @@
 		9821403F22B3EBD900ABFB3F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9821403E22B3EBD900ABFB3F /* AppDelegate.swift */; };
 		9821404322B3EBDA00ABFB3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9821404222B3EBDA00ABFB3F /* Assets.xcassets */; };
 		9821404622B3EBDA00ABFB3F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9821404422B3EBDA00ABFB3F /* Main.storyboard */; };
-		9821405B22B3ECCA00ABFB3F /* RectangleLauncher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9821403C22B3EBD900ABFB3F /* RectangleLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9821405B22B3ECCA00ABFB3F /* MadorLauncher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9821403C22B3EBD900ABFB3F /* MadorLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9821405E22B3ED3600ABFB3F /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9821405D22B3ED3600ABFB3F /* ServiceManagement.framework */; };
 		9821406022B3EFB200ABFB3F /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9821405F22B3EFB200ABFB3F /* Defaults.swift */; };
 		9824700D22AF9B7D0037B409 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9824700C22AF9B7D0037B409 /* AppDelegate.swift */; };
@@ -197,7 +197,7 @@
 			containerPortal = 9824700122AF9B7D0037B409 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9824700822AF9B7D0037B409;
-			remoteInfo = Rectangle;
+			remoteInfo = Mador;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -208,7 +208,7 @@
 			dstPath = Contents/Library/LoginItems;
 			dstSubfolderSpec = 1;
 			files = (
-				9821405B22B3ECCA00ABFB3F /* RectangleLauncher.app in CopyFiles */,
+				9821405B22B3ECCA00ABFB3F /* MadorLauncher.app in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,7 +272,7 @@
 		9821403222B38A1B00ABFB3F /* UpperLeftCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpperLeftCalculation.swift; sourceTree = "<group>"; };
 		9821403422B38A2B00ABFB3F /* UpperRightCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpperRightCalculation.swift; sourceTree = "<group>"; };
 		9821403622B3D16700ABFB3F /* MaximizeHeightCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaximizeHeightCalculation.swift; sourceTree = "<group>"; };
-		9821403C22B3EBD900ABFB3F /* RectangleLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RectangleLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9821403C22B3EBD900ABFB3F /* MadorLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MadorLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9821403E22B3EBD900ABFB3F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9821404222B3EBDA00ABFB3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9821404522B3EBDA00ABFB3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -287,7 +287,7 @@
 		9824701322AF9B7E0037B409 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9824701522AF9B7E0037B409 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9824701622AF9B7E0037B409 /* Mador.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mador.entitlements; sourceTree = "<group>"; };
-		9824701B22AF9B7E0037B409 /* RectangleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RectangleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9824701B22AF9B7E0037B409 /* MadorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MadorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9824701F22AF9B7E0037B409 /* MadorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MadorTests.swift; sourceTree = "<group>"; };
 		9824702122AF9B7E0037B409 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9824702A22AFA22E0037B409 /* AccessibilityWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityWindowController.swift; sourceTree = "<group>"; };
@@ -459,7 +459,7 @@
 			path = MultiWindow;
 			sourceTree = "<group>";
 		};
-		9821403D22B3EBD900ABFB3F /* RectangleLauncher */ = {
+		9821403D22B3EBD900ABFB3F /* MadorLauncher */ = {
 			isa = PBXGroup;
 			children = (
 				9808018623D05C1F0077774A /* MadorLauncherRelease.entitlements */,
@@ -656,8 +656,8 @@
 			isa = PBXGroup;
 			children = (
 				9824700922AF9B7D0037B409 /* Mador.app */,
-				9824701B22AF9B7E0037B409 /* RectangleTests.xctest */,
-				9821403C22B3EBD900ABFB3F /* RectangleLauncher.app */,
+				9824701B22AF9B7E0037B409 /* MadorTests.xctest */,
+				9821403C22B3EBD900ABFB3F /* MadorLauncher.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -771,9 +771,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9821403B22B3EBD900ABFB3F /* RectangleLauncher */ = {
+		9821403B22B3EBD900ABFB3F /* MadorLauncher */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9821405422B3EBDA00ABFB3F /* Build configuration list for PBXNativeTarget "RectangleLauncher" */;
+			buildConfigurationList = 9821405422B3EBDA00ABFB3F /* Build configuration list for PBXNativeTarget "MadorLauncher" */;
 			buildPhases = (
 				9821403822B3EBD900ABFB3F /* Sources */,
 				9821403922B3EBD900ABFB3F /* Frameworks */,
@@ -783,14 +783,14 @@
 			);
 			dependencies = (
 			);
-			name = RectangleLauncher;
-			productName = RectangleLauncher;
-			productReference = 9821403C22B3EBD900ABFB3F /* RectangleLauncher.app */;
+			name = MadorLauncher;
+			productName = MadorLauncher;
+			productReference = 9821403C22B3EBD900ABFB3F /* MadorLauncher.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9824700822AF9B7D0037B409 /* Rectangle */ = {
+		9824700822AF9B7D0037B409 /* Mador */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9824702422AF9B7E0037B409 /* Build configuration list for PBXNativeTarget "Rectangle" */;
+			buildConfigurationList = 9824702422AF9B7E0037B409 /* Build configuration list for PBXNativeTarget "Mador" */;
 			buildPhases = (
 				9824700522AF9B7D0037B409 /* Sources */,
 				9824700622AF9B7D0037B409 /* Frameworks */,
@@ -801,18 +801,18 @@
 			);
 			dependencies = (
 			);
-			name = Rectangle;
+			name = Mador;
 			packageProductDependencies = (
 				9877B63929C8AC0E00F02D74 /* MASShortcut */,
 				9877B63C29C8AC3600F02D74 /* Sparkle */,
 			);
-			productName = Rectangle;
+			productName = Mador;
 			productReference = 9824700922AF9B7D0037B409 /* Mador.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9824701A22AF9B7E0037B409 /* RectangleTests */ = {
+		9824701A22AF9B7E0037B409 /* MadorTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9824702722AF9B7E0037B409 /* Build configuration list for PBXNativeTarget "RectangleTests" */;
+			buildConfigurationList = 9824702722AF9B7E0037B409 /* Build configuration list for PBXNativeTarget "MadorTests" */;
 			buildPhases = (
 				9824701722AF9B7E0037B409 /* Sources */,
 				9824701822AF9B7E0037B409 /* Frameworks */,
@@ -823,9 +823,9 @@
 			dependencies = (
 				9824701D22AF9B7E0037B409 /* PBXTargetDependency */,
 			);
-			name = RectangleTests;
-			productName = RectangleTests;
-			productReference = 9824701B22AF9B7E0037B409 /* RectangleTests.xctest */;
+			name = MadorTests;
+			productName = MadorTests;
+			productReference = 9824701B22AF9B7E0037B409 /* MadorTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -868,7 +868,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9824700422AF9B7D0037B409 /* Build configuration list for PBXProject "Rectangle" */;
+			buildConfigurationList = 9824700422AF9B7D0037B409 /* Build configuration list for PBXProject "Mador" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -915,9 +915,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9824700822AF9B7D0037B409 /* Rectangle */,
-				9824701A22AF9B7E0037B409 /* RectangleTests */,
-				9821403B22B3EBD900ABFB3F /* RectangleLauncher */,
+				9824700822AF9B7D0037B409 /* Mador */,
+				9824701A22AF9B7E0037B409 /* MadorTests */,
+				9821403B22B3EBD900ABFB3F /* MadorLauncher */,
 			);
 		};
 /* End PBXProject section */
@@ -1150,7 +1150,7 @@
 /* Begin PBXTargetDependency section */
 		9824701D22AF9B7E0037B409 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9824700822AF9B7D0037B409 /* Rectangle */;
+			target = 9824700822AF9B7D0037B409 /* Mador */;
 			targetProxy = 9824701C22AF9B7E0037B409 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1196,7 +1196,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.knollsoft.RectangleLauncher;
+				PRODUCT_BUNDLE_IDENTIFIER = com.knollsoft.MadorLauncher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1224,7 +1224,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.knollsoft.RectangleLauncher;
+				PRODUCT_BUNDLE_IDENTIFIER = com.knollsoft.MadorLauncher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1382,7 +1382,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.95;
-				PRODUCT_BUNDLE_IDENTIFIER = com.knollsoft.Rectangle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.knollsoft.Mador;
 				PRODUCT_NAME = Mador;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1414,7 +1414,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.95;
-				PRODUCT_BUNDLE_IDENTIFIER = com.knollsoft.Rectangle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.knollsoft.Mador;
 				PRODUCT_NAME = Mador;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1440,7 +1440,7 @@
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.ryanhanson.RectangleTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.knollsoft.MadorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -1465,7 +1465,7 @@
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.ryanhanson.RectangleTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.knollsoft.MadorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -1476,7 +1476,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9821405422B3EBDA00ABFB3F /* Build configuration list for PBXNativeTarget "RectangleLauncher" */ = {
+		9821405422B3EBDA00ABFB3F /* Build configuration list for PBXNativeTarget "MadorLauncher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9821405522B3EBDA00ABFB3F /* Debug */,
@@ -1485,7 +1485,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9824700422AF9B7D0037B409 /* Build configuration list for PBXProject "Rectangle" */ = {
+		9824700422AF9B7D0037B409 /* Build configuration list for PBXProject "Mador" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9824702222AF9B7E0037B409 /* Debug */,
@@ -1494,7 +1494,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9824702422AF9B7E0037B409 /* Build configuration list for PBXNativeTarget "Rectangle" */ = {
+		9824702422AF9B7E0037B409 /* Build configuration list for PBXNativeTarget "Mador" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9824702522AF9B7E0037B409 /* Debug */,
@@ -1503,7 +1503,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9824702722AF9B7E0037B409 /* Build configuration list for PBXNativeTarget "RectangleTests" */ = {
+		9824702722AF9B7E0037B409 /* Build configuration list for PBXNativeTarget "MadorTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9824702822AF9B7E0037B409 /* Debug */,

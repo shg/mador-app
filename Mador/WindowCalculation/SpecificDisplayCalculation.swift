@@ -1,6 +1,6 @@
 //
 //  SpecificDisplayCalculation.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Lucas on 4/2/26.
 //  Copyright © 2026 Ryan Hanson. All rights reserved.

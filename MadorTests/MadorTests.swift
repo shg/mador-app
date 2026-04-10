@@ -1,15 +1,15 @@
 //
-//  RectangleTests.swift
-//  RectangleTests
+//  MadorTests.swift
+//  MadorTests
 //
 //  Created by Ryan Hanson on 6/11/19.
 //  Copyright © 2019 Ryan Hanson. All rights reserved.
 //
 
 import XCTest
-@testable import Rectangle
+@testable import Mador
 
-class RectangleTests: XCTestCase {
+class MadorTests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.

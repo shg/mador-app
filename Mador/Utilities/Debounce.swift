@@ -1,6 +1,6 @@
 //
 //  Debounce.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Ryan Hanson on 10/7/21.
 //  Copyright © 2021 Ryan Hanson. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  TopVerticalThirdCalculation.swift
-//  Rectangle
+//  Mador
 //
 //  Created on 12/22/25.
 //

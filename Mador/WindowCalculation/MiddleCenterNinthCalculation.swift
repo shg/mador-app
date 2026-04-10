@@ -1,6 +1,6 @@
 //
 //  MiddleCenterNinthCalculation.swift
-//  Rectangle
+//  Mador
 //
 //  Created by Daniel Schultz on 1/2/22.
 //  Copyright © 2022 Ryan Hanson. All rights reserved.
