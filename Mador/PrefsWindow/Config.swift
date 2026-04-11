@@ -24,7 +24,7 @@ extension Defaults {
             codableDefaults[exportableDefault.key] = exportableDefault.toCodable()
         }
                 
-        let config = Config(bundleId: "com.knollsoft.Mador",
+        let config = Config(bundleId: "org.kakera.Mador",
                             version: version,
                             shortcuts: shortcuts,
                             defaults: codableDefaults)

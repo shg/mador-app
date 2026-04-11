@@ -9,7 +9,7 @@ This file is therefore limited to a few operational commands that still match th
 If macOS Accessibility permission gets stuck:
 
 ```bash
-tccutil reset All com.knollsoft.Mador
+tccutil reset All org.kakera.Mador
 ```
 
 ## Remove Stored Preferences
@@ -17,7 +17,7 @@ tccutil reset All com.knollsoft.Mador
 To clear Mador's stored defaults:
 
 ```bash
-defaults delete com.knollsoft.Mador
+defaults delete org.kakera.Mador
 ```
 
 ## URL Execution

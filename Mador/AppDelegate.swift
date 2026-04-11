@@ -14,7 +14,7 @@ import os.log
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    static let launcherAppId = "com.knollsoft.MadorLauncher"
+    static let launcherAppId = "org.kakera.MadorLauncher"
 
     private let accessibilityAuthorization = AccessibilityAuthorization()
     private let statusItem = MadorStatusItem.instance

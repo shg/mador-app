@@ -67,14 +67,14 @@ If window movement or resizing does not work as expected:
 To reset Accessibility permissions for Mador:
 
 ```bash
-tccutil reset All com.knollsoft.Mador
+tccutil reset All org.kakera.Mador
 ```
 
 ## Configuration Storage
 
 Preferences are stored in:
 
-`~/Library/Preferences/com.knollsoft.Mador.plist`
+`~/Library/Preferences/org.kakera.Mador.plist`
 
 On launch, Mador also checks for a JSON config file at:
 
@@ -87,5 +87,5 @@ Legacy Rectangle support/config locations are still read for migration compatibi
 Quit Mador and move the app to the Trash. To remove stored preferences:
 
 ```bash
-defaults delete com.knollsoft.Mador
+defaults delete org.kakera.Mador
 ```
