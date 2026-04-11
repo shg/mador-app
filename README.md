@@ -1,213 +1,91 @@
 # Mador
 
-[![Build](https://github.com/rxhanson/Rectangle/actions/workflows/build.yml/badge.svg)](https://github.com/rxhanson/Rectangle/actions/workflows/build.yml)
+Mador is a macOS window management app. The current worktree is intentionally reduced to the smallest useful placement surface while the project moves toward user-defined layouts.
 
-Mador is a window management app based on Spectacle, written in Swift.
+At this stage, Mador exposes only two predefined window placements:
 
-<img width="962" height="886" alt="image" src="https://github.com/user-attachments/assets/e8d88e5f-7d4f-43bc-a82e-146c42f92d68" />
+- `Left Half`
+- `Right Half`
 
-## System Requirements
+Other historical predefined actions from Rectangle/Mador are not part of the intended app surface for this branch.
 
-Mador supports macOS v10.15+. The last version that is supported for macOS 10.13 and 10.14 is https://github.com/rxhanson/Rectangle/releases/tag/v0.73.
+## Requirements
 
-## Installation
+- macOS 10.15+
+- Accessibility permission for Mador
 
-You can download the latest dmg from <https://rectangleapp.com> or the [Releases page](https://github.com/rxhanson/Rectangle/releases).
+## Build
 
-Or install with brew cask:
+The app uses Swift Package Manager for dependencies.
 
 ```bash
-brew install --cask rectangle
+xcodebuild -project Mador.xcodeproj -scheme Mador -configuration Debug build
 ```
 
-## How to use it
+## Use
 
-The [keyboard shortcuts](https://support.apple.com/guide/mac-help/what-are-those-symbols-shown-in-menus-cpmh0011/mac) are self explanatory, but the snap areas can use some explanation if you've never used them on Windows or other window management apps.
+1. Launch Mador and grant Accessibility access when prompted.
+2. Open Preferences.
+3. Assign shortcuts for `Left Half` and `Right Half`.
+4. Trigger the action from the shortcut or the menu bar menu.
 
-Drag a window to the edge of the screen. When the mouse cursor reaches the edge of the screen, you'll see a footprint that Mador will attempt to resize and move the window to when the click is released.
+## URL Actions
 
-| Snap Area                                              | Resulting Action                       |
-|--------------------------------------------------------|----------------------------------------|
-| Left or right edge                                     | Left or right half                     |
-| Top                                                    | Maximize                               |
-| Corners                                                | Quarter in respective corner           |
-| Left or right edge, just above or below a corner       | Top or bottom half                     |
-| Bottom left, center, or right third                    | Respective third                       |
-| Bottom left or right third, then drag to bottom center | First or last two thirds, respectively |
+Mador supports executing the current predefined actions by URL:
 
-### Ignore an app
+- `mador://execute-action?name=left-half`
+- `mador://execute-action?name=right-half`
 
-Ignoring an app means that when the app is frontmost, keyboard shortcuts are un-registered from macOS. When the app is no longer frontmost, keyboard shortcuts are re-registered with macOS. This is useful for apps that have the same shortcuts like Mador and you do not want to change them.
+Example:
 
-1. Focus the app that you want to ignore (make a window from that app frontmost).
-1. Open the Mador menu and select "Ignore app"
-
-To un-ignore an app that you have selected to ignore, simply bring that app frontmost again, open the Mador menu, and deselect "Ignore".
-
-## Execute an action by URL
-
-Open the URL `mador://execute-action?name=[name]`. Do not activate Mador if possible.
-
-Available values for `[name]`: `left-half`, `right-half`, `center-half`, `top-half`, `bottom-half`, `top-left`, `top-right`, `bottom-left`, `bottom-right`, `first-third`, `center-third`, `last-third`, `first-two-thirds`, `last-two-thirds`, `maximize`, `almost-maximize`, `maximize-height`, `smaller`, `larger`, `center`, `center-prominently`, `restore`, `next-display`, `previous-display`, `move-left`, `move-right`, `move-up`, `move-down`, `first-fourth`, `second-fourth`, `third-fourth`, `last-fourth`, `first-three-fourths`, `last-three-fourths`, `top-left-sixth`, `top-center-sixth`, `top-right-sixth`, `bottom-left-sixth`, `bottom-center-sixth`, `bottom-right-sixth`, `specified`, `reverse-all`, `top-left-ninth`, `top-center-ninth`, `top-right-ninth`, `middle-left-ninth`, `middle-center-ninth`, `middle-right-ninth`, `bottom-left-ninth`, `bottom-center-ninth`, `bottom-right-ninth`, `top-left-third`, `top-right-third`, `bottom-left-third`, `bottom-right-third`, `top-left-eighth`, `top-center-left-eighth`, `top-center-right-eighth`, `top-right-eighth`, `bottom-left-eighth`, `bottom-center-left-eighth`, `bottom-center-right-eighth`, `bottom-right-eighth`, `tile-all`, `cascade-all`, `cascade-active-app`
-
-Example, from a shell: `open -g "mador://execute-action?name=left-half"`
-
-URLs can also be used to ignore/unignore apps. 
-
+```bash
+open -g "mador://execute-action?name=left-half"
 ```
+
+The ignore-app tasks are also available:
+
+```text
 mador://execute-task?name=ignore-app
 mador://execute-task?name=unignore-app
 ```
-A bundle identifier can also be specified, for example:
-```
+
+You can also pass a bundle identifier:
+
+```text
 mador://execute-task?name=ignore-app&app-bundle-id=com.apple.Safari
 ```
 
-## Terminal Commands for Hidden Preferences
+## Troubleshooting
 
-See [TerminalCommands.md](TerminalCommands.md)
+If window movement or resizing does not work as expected:
 
-## Differences with Spectacle
+1. Confirm Accessibility is enabled for Mador in System Settings.
+2. Check that no other window manager is intercepting the same shortcuts.
+3. Try the menu item instead of the shortcut to separate shortcut issues from window-management issues.
+4. Use the logging window from the menu bar item while holding `Option`.
 
-* Mador uses [MASShortcut](https://github.com/rxhanson/MASShortcut) for keyboard shortcut recording. Spectacle used its own shortcut recorder.
-* Mador has additional window actions: move windows to each edge without resizing, maximize only the height of a window, almost maximizing a window.
-* Next/prev screen thirds is replaced with explicitly first third, first two thirds, center third, last two thirds, and last third. Screen orientation is taken into account, as in first third will be left third on landscape and top third on portrait.
-  * You can however emulate Spectacle's third cycling using first and last third actions. So, if you repeatedly execute first third, it will cycle through thirds (first, center, last) and vice-versa with the last third.
-* There's an option to have windows traverse across displays on subsequent left or right executions.
-* Windows will snap when dragged to edges/corners of the screen. This can be disabled.
-
-## Common Known Issues
-
-### Mador doesn't have the ability to move to other desktops/spaces
-
-Apple never released a public API for doing this. Mador Pro has next/prev Space actions, but there are no plans to add those into Mador at this time.
-
-### Window resizing is off slightly for iTerm2
-
-By default iTerm2 will only resize in increments of character widths. There might be a setting inside iTerm2 to disable this, but you can change it with the following command.
-
-```bash
-defaults write com.googlecode.iterm2 DisableWindowSizeSnap -integer 1
-```
-
-### Mador appears to cause Notification Center to freeze
-
-This appears to affect only a small amount of users. To prevent this from happening, uncheck the box for "Snap windows by dragging".
-See issue [317](https://github.com/rxhanson/Rectangle/issues/317).
-
-### Troubleshooting
-
-If windows aren't resizing or moving as you expect, here's some initial steps to get to the bottom of it. Most issues of this type have been caused by other apps.
-
-**Quick fixes (try these first):**
-
-1. **Lock and unlock your Mac** – This simple step resolves many issues, especially after system updates.
-1. Make sure macOS is up to date.
-1. Restart your Mac (this often fixes things right after a macOS update).
-
-**Diagnose the issue:**
-
-4. **Enable debug logging** (see instructions in the following section) – This helps identify whether Mador is working correctly.
-1. The logs are straightforward. If your calculated rect and your resulting rect are identical, chances are that there is another application causing issues.
-
-**Check for conflicts:**
-
-6. Make sure there are no other window manager applications running.
-1. Make sure that the app whose windows are not behaving properly does not have any conflicting keyboard shortcuts.
-1. Try using the menu items to execute a window action or changing the keyboard shortcut to something different so we can tell if it's a keyboard shortcut issue or not.
-
-**Advanced troubleshooting:**
-
-9. If you suspect there may be another application causing issues, try creating and logging in as a new macOS user.
-1. Save your logs to attach to an issue if you need to create one.
-
-#### Try resetting the macOS accessibility permissions for Mador:
+To reset Accessibility permissions for Mador:
 
 ```bash
 tccutil reset All com.knollsoft.Mador
 ```
 
-Or, this can be done with the following steps instead of the tccutil terminal command.
-1. Close Mador if it's running
-2. In System Settings -> Privacy & Security -> Accessibility, first disable Mador, then remove it with the minus button. (it's important to do both of those steps in that order)
-3. Restart your mac.
-4. Launch Mador and enable settings for it as prompted.
+## Configuration Storage
 
-## View Debug Logging
+Preferences are stored in:
 
-1. Hold down the alt (option) key with the Mador menu open.
-1. Select the "View Logging..." menu item, which is in place of the "About" menu item.
-1. Logging will appear in the window as you perform Mador commands.
-
-## Import & export JSON config
-
-There are buttons for importing and exporting the config as a JSON file in the settings tab of the preferences window. 
-
-Upon launch, Mador will load a config file from `~/Library/Application Support/Mador/MadorConfig.json` if present. For compatibility, it will also load legacy files from the old `Rectangle` support directory and filename, and it imports legacy preferences from `com.knollsoft.Rectangle` on first launch.
-
-## Preferences Storage
-
-The configuration for Mador is stored using NSUserDefaults in:
 `~/Library/Preferences/com.knollsoft.Mador.plist`
 
-On first launch, Mador imports existing preferences from the legacy `com.knollsoft.Rectangle` domain automatically.
-Note that shortcuts in v0.41+ are stored in a different format and will not load in prior versions.
+On launch, Mador also checks for a JSON config file at:
 
-That file can be backed up or transferred to other machines.
+`~/Library/Application Support/Mador/MadorConfig.json`
 
-If you are using Mador v0.44+, you can also use the import/export button in the Preferences pane to share to your preferences and keyboard shortcuts across machines using a JSON file.
+Legacy Rectangle support/config locations are still read for migration compatibility.
 
-> [!NOTE]  
-> If you are having issues with configuration options persisting after an application restart and you've installed using Homebrew, you will need to uninstall and reinstall with the `--zap` flag.
+## Uninstall
 
-```
-brew uninstall --zap rectangle
-brew install rectangle
-```
-
-## Uninstallation
-
-Mador can be uninstalled by quitting the app and moving it to the trash. You can remove the Mador defaults from your machine with the following terminal command:
+Quit Mador and move the app to the Trash. To remove stored preferences:
 
 ```bash
 defaults delete com.knollsoft.Mador
 ```
-
-> [!TIP]  
-> If you are uninstalling after installing with Homebrew, you should include the `--zap` flag to ensure it removes the plist entries too. 
-
-```
-brew uninstall --zap rectangle
-```
-
----
-
-## Contributing
-
-Logic from Mador is used in the [Multitouch](https://multitouch.app) app. The [Mador Pro](https://rectangleapp.com/pro) app is entirely built on top of Mador. If you contribute significant code or localizations that get merged into Mador, send me an email for a free license of Multitouch or Mador Pro. Contributors to Sparkle, MASShortcut, or Spectacle can also receive free Multitouch or Mador Pro licenses.
-
-### Contributing additional sizes and positions
-
-Mador's UI is intentionally simple. If you want to add a size and position that's not in the Shortcuts tab, then you can now add them into the "Extra Shortcuts" section accessed via the ellipsis button at the bottom of the General tab.
-
-### Localization
-
-If you would like to contribute to localization, all of the translations are held in the Main.strings.
-
-Pull requests for new localizations or improvements on existing localizations are welcome.
-
-### Running the app in Xcode (for developers)
-
-Mador uses [Swift Package Manager](https://www.swift.org/package-manager/) to install Sparkle and MASShortcut.
-
-The original repository for MASShortcut was archived, so Mador uses my [fork](https://github.com/rxhanson/MASShortcut). If you want to make any changes that involve MASShortcut, please make a pull request on my fork. 
-
-Due to the addition of the Liquid Glass icon with a fallback for older versions of macOS, there will be a build failure on macOS versions < 26. You can delete the "Asset Catalog Other Flags" to build locally on versions < 26 (but don't check that change in if you create a pull request).
-
-## Credits
-
-As mentioned above, Mador uses a forked version of [MASShortcut](https://github.com/rxhanson/MASShortcut), which still works great, and it uses [Sparkle](https://sparkle-project.org) for updates. 
-
-The Big Sur variant of the Mador app icon was created by Giovanni Maria Cusaro (@gmcusaro). The Liquid Glass variant of the app icon was created by [Alexander Käßner](https://www.alexkaessner.de) (@alexkaessner).
-
-And of course, there's been a lot of community contributions over the years :)

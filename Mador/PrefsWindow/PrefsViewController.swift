@@ -161,3 +161,111 @@ class PassthroughShortcutValidator: MASShortcutValidator {
     }
     
 }
+
+final class BasicPreferencesWindowController: NSWindowController {
+    init() {
+        let viewController = BasicPreferencesViewController()
+        let window = NSWindow(contentViewController: viewController)
+        window.title = "Mador"
+        window.setContentSize(NSSize(width: 480, height: 240))
+        window.styleMask = [.titled, .closable, .miniaturizable]
+        window.center()
+        super.init(window: window)
+        shouldCascadeWindows = true
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final class BasicPreferencesViewController: NSViewController {
+    private let leftShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 180, height: 19))
+    private let rightShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 180, height: 19))
+
+    override func loadView() {
+        view = NSView(frame: NSRect(x: 0, y: 0, width: 480, height: 240))
+        buildInterface()
+        configureShortcuts()
+    }
+
+    private func buildInterface() {
+        let mainStack = NSStackView()
+        mainStack.orientation = .vertical
+        mainStack.alignment = .leading
+        mainStack.spacing = 14
+        mainStack.translatesAutoresizingMaskIntoConstraints = false
+
+        let titleLabel = NSTextField(labelWithString: "Keyboard Shortcuts")
+        titleLabel.font = NSFont.boldSystemFont(ofSize: 15)
+
+        let descriptionLabel = NSTextField(wrappingLabelWithString: "This build only keeps two predefined window placements: Left Half and Right Half.")
+        descriptionLabel.textColor = .secondaryLabelColor
+        descriptionLabel.maximumNumberOfLines = 0
+
+        let leftRow = makeShortcutRow(title: "Left Half", image: WindowAction.leftHalf.image, shortcutView: leftShortcutView)
+        let rightRow = makeShortcutRow(title: "Right Half", image: WindowAction.rightHalf.image, shortcutView: rightShortcutView)
+
+        let restoreButton = NSButton(title: "Reset Shortcuts to Defaults", target: self, action: #selector(resetShortcuts))
+        restoreButton.bezelStyle = .rounded
+
+        mainStack.addArrangedSubview(titleLabel)
+        mainStack.addArrangedSubview(descriptionLabel)
+        mainStack.addArrangedSubview(leftRow)
+        mainStack.addArrangedSubview(rightRow)
+        mainStack.addArrangedSubview(restoreButton)
+
+        view.addSubview(mainStack)
+
+        NSLayoutConstraint.activate([
+            mainStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
+            mainStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            mainStack.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
+        ])
+    }
+
+    private func configureShortcuts() {
+        leftShortcutView.setAssociatedUserDefaultsKey(WindowAction.leftHalf.name, withTransformerName: MASDictionaryTransformerName)
+        rightShortcutView.setAssociatedUserDefaultsKey(WindowAction.rightHalf.name, withTransformerName: MASDictionaryTransformerName)
+
+        if Defaults.allowAnyShortcut.enabled {
+            let validator = PassthroughShortcutValidator()
+            leftShortcutView.shortcutValidator = validator
+            rightShortcutView.shortcutValidator = validator
+        }
+
+        Notification.Name.allowAnyShortcut.onPost { [weak self] notification in
+            guard let enabled = notification.object as? Bool else { return }
+            let validator: MASShortcutValidator = enabled ? PassthroughShortcutValidator() : MASShortcutValidator()
+            self?.leftShortcutView.shortcutValidator = validator
+            self?.rightShortcutView.shortcutValidator = validator
+        }
+    }
+
+    private func makeShortcutRow(title: String, image: NSImage, shortcutView: MASShortcutView) -> NSStackView {
+        let imageView = NSImageView(frame: NSRect(x: 0, y: 0, width: 30, height: 20))
+        imageView.image = image
+        imageView.image?.size = NSSize(width: 30, height: 20)
+
+        let titleLabel = NSTextField(labelWithString: title)
+        titleLabel.font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
+
+        let titleStack = NSStackView(views: [titleLabel, imageView])
+        titleStack.orientation = .horizontal
+        titleStack.alignment = .centerY
+        titleStack.spacing = 10
+        titleStack.setHuggingPriority(.defaultHigh, for: .horizontal)
+
+        let row = NSStackView(views: [titleStack, shortcutView])
+        row.orientation = .horizontal
+        row.alignment = .centerY
+        row.spacing = 16
+        return row
+    }
+
+    @objc private func resetShortcuts() {
+        WindowAction.active.forEach { UserDefaults.standard.removeObject(forKey: $0.name) }
+        Notification.Name.changeDefaults.post()
+    }
+}

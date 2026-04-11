@@ -30,8 +30,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var windowManager: WindowManager!
     private var applicationToggle: ApplicationToggle!
     private var windowCalculationFactory: WindowCalculationFactory!
-    private var titleBarManager: TitleBarManager!
-    
     private var prefsWindowController: NSWindowController?
     
     private var prevActiveAppObservation: NSKeyValueObservation?
@@ -90,11 +88,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.statusItem.refreshVisibility()
             self.applicationToggle.reloadFromDefaults()
             self.shortcutManager.reloadFromDefaults()
-            self.initializeTodo(false)
-        })
-        
-        Notification.Name.todoMenuToggled.onPost(using: { _ in
-            self.initializeTodo(false)
         })
         
         prevActiveAppObservation = NSWorkspace.shared.observe(\.frontmostApplication, options: .old) { workspace, change in
@@ -135,8 +128,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.windowManager = WindowManager()
         self.shortcutManager = ShortcutManager(windowManager: windowManager)
         self.applicationToggle = ApplicationToggle(shortcutManager: shortcutManager)
-        self.titleBarManager = TitleBarManager()
-        self.initializeTodo()
     }
 
     func checkForConflictingApps() {
@@ -159,22 +150,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func showWelcomeWindow() {
-        let welcomeWindowController = NSStoryboard(name: "Main", bundle: nil)
-            .instantiateController(withIdentifier: "WelcomeWindowController") as? NSWindowController
-        guard let welcomeWindow = welcomeWindowController?.window else { return }
-        welcomeWindow.delegate = self
-        
-        NSApp.activate(ignoringOtherApps: true)
-        
-        let response = NSApp.runModal(for: welcomeWindow)
-        
-        let usingRecommended = response == .alertFirstButtonReturn || response == .abort
-        
-        Defaults.alternateDefaultShortcuts.enabled = usingRecommended
-        
-        Defaults.subsequentExecutionMode.value = usingRecommended ? .acrossMonitor : .resize
-        
-        welcomeWindowController?.close()
+        Defaults.alternateDefaultShortcuts.enabled = true
+        Defaults.subsequentExecutionMode.value = .acrossMonitor
     }
     
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
@@ -188,10 +165,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBAction func openPreferences(_ sender: Any) {
         if prefsWindowController == nil {
-            prefsWindowController = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "PrefsWindowController") as? NSWindowController
+            prefsWindowController = BasicPreferencesWindowController()
         }
         NSApp.activate(ignoringOtherApps: true)
         prefsWindowController?.showWindow(self)
+        prefsWindowController?.window?.makeKeyAndOrderFront(self)
     }
     
     @IBAction func showAbout(_ sender: Any) {
@@ -255,7 +233,6 @@ extension AppDelegate: NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
         if menu != mainStatusMenu {
             updateWindowActionMenuItems(menu: menu)
-            updateTodoModeMenuItems(menu: menu)
             return
         }
         
@@ -269,8 +246,6 @@ extension AppDelegate: NSMenuDelegate {
         }
         
         updateWindowActionMenuItems(menu: menu)
-        updateTodoModeMenuItems(menu: menu)
-
         viewLoggingMenuItem.keyEquivalentModifierMask = .option
         quitMenuItem.keyEquivalent = "q"
         quitMenuItem.keyEquivalentModifierMask = .command
@@ -378,12 +353,7 @@ extension AppDelegate: NSMenuDelegate {
             }
         }
 
-        mainStatusMenu.insertItem(NSMenuItem.separator(), at: menuIndex)
-
-        menuIndex += 1
-        addTodoModeMenuItems(startingIndex: menuIndex)
-        // Track total dynamic items: window actions + separators + todo items (4 items + 1 separator)
-        dynamicMenuItemCount = menuIndex + 5
+        dynamicMenuItemCount = menuIndex
     }
 
     @objc func rebuildMenu() {
