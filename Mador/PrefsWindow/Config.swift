@@ -7,16 +7,11 @@
 //
 
 import Foundation
-import MASShortcut
 
 extension Defaults {
     static func encoded() -> String? {
         guard let version = Bundle.main.infoDictionary?["CFBundleVersion"] as? String else { return nil }
         
-        var shortcuts = [String: Shortcut]()
-        if let masShortcut = MASShortcutBinder.shared()?.value(forKey: ShortcutManager.prefixShortcutDefaultsKey) as? MASShortcut {
-            shortcuts[ShortcutManager.prefixShortcutDefaultsKey] = Shortcut(masShortcut: masShortcut)
-        }
         var codableDefaults = [String: CodableDefault]()
         for exportableDefault in Defaults.array {
             codableDefaults[exportableDefault.key] = exportableDefault.toCodable()
@@ -24,7 +19,7 @@ extension Defaults {
                 
         let config = Config(bundleId: "org.kakera.Mador",
                             version: version,
-                            shortcuts: shortcuts,
+                            shortcuts: [:],
                             defaults: codableDefaults)
         
         let encoder = JSONEncoder()
@@ -47,8 +42,6 @@ extension Defaults {
     }
     
     static func load(fileUrl: URL) {
-        guard let dictTransformer = ValueTransformer(forName: NSValueTransformerName(rawValue: MASDictionaryTransformerName)) else { return }
-        
         guard let jsonString = try? String(contentsOf: fileUrl, encoding: .utf8),
               let config = convert(jsonString: jsonString) else { return }
 
@@ -58,10 +51,6 @@ extension Defaults {
             }
         }
         
-        if let shortcut = config.shortcuts[ShortcutManager.prefixShortcutDefaultsKey]?.toMASSHortcut() {
-            let dictValue = dictTransformer.reverseTransformedValue(shortcut)
-            UserDefaults.standard.setValue(dictValue, forKey: ShortcutManager.prefixShortcutDefaultsKey)
-        }
         Notification.Name.configImported.post()
     }
     

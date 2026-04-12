@@ -181,14 +181,9 @@ final class BasicPreferencesWindowController: NSWindowController {
 }
 
 final class BasicPreferencesViewController: NSViewController {
-    private let prefixShortcutView = MASShortcutView(frame: NSRect(x: 0, y: 0, width: 180, height: 19))
-    private let leftKeyButton = KeyCaptureButton(defaults: Defaults.layoutChooserLeftKey)
-    private let rightKeyButton = KeyCaptureButton(defaults: Defaults.layoutChooserRightKey)
-
     override func loadView() {
-        view = NSView(frame: NSRect(x: 0, y: 0, width: 480, height: 240))
+        view = NSView(frame: NSRect(x: 0, y: 0, width: 480, height: 220))
         buildInterface()
-        configureControls()
     }
 
     private func buildInterface() {
@@ -201,22 +196,27 @@ final class BasicPreferencesViewController: NSViewController {
         let titleLabel = NSTextField(labelWithString: "Keyboard Shortcuts")
         titleLabel.font = NSFont.boldSystemFont(ofSize: 15)
 
-        let descriptionLabel = NSTextField(wrappingLabelWithString: "Press the prefix shortcut to open the chooser window. Then press the key assigned to Left Half or Right Half.")
+        let descriptionLabel = NSTextField(wrappingLabelWithString: "Press Option+Q to open the chooser window. Use the Manage Layouts button in that window to add layouts and assign chooser keys.")
         descriptionLabel.textColor = .secondaryLabelColor
         descriptionLabel.maximumNumberOfLines = 0
 
-        let prefixRow = makePrefixRow()
-        let leftRow = makeKeyRow(title: "Left Half", image: WindowAction.leftHalf.image, button: leftKeyButton)
-        let rightRow = makeKeyRow(title: "Right Half", image: WindowAction.rightHalf.image, button: rightKeyButton)
+        let shortcutLabel = NSTextField(labelWithString: "Chooser Shortcut")
+        shortcutLabel.font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
 
-        let restoreButton = NSButton(title: "Reset Controls to Defaults", target: self, action: #selector(resetShortcuts))
+        let shortcutValue = NSTextField(labelWithString: "Option+Q")
+        shortcutValue.font = NSFont.monospacedSystemFont(ofSize: 14, weight: .medium)
+
+        let shortcutRow = NSStackView(views: [shortcutLabel, shortcutValue])
+        shortcutRow.orientation = .horizontal
+        shortcutRow.alignment = .centerY
+        shortcutRow.spacing = 16
+
+        let restoreButton = NSButton(title: "Reset Layouts to Defaults", target: self, action: #selector(resetShortcuts))
         restoreButton.bezelStyle = .rounded
 
         mainStack.addArrangedSubview(titleLabel)
         mainStack.addArrangedSubview(descriptionLabel)
-        mainStack.addArrangedSubview(prefixRow)
-        mainStack.addArrangedSubview(leftRow)
-        mainStack.addArrangedSubview(rightRow)
+        mainStack.addArrangedSubview(shortcutRow)
         mainStack.addArrangedSubview(restoreButton)
 
         view.addSubview(mainStack)
@@ -228,128 +228,8 @@ final class BasicPreferencesViewController: NSViewController {
         ])
     }
 
-    private func configureControls() {
-        prefixShortcutView.setAssociatedUserDefaultsKey(ShortcutManager.prefixShortcutDefaultsKey, withTransformerName: MASDictionaryTransformerName)
-
-        if Defaults.allowAnyShortcut.enabled {
-            let validator = PassthroughShortcutValidator()
-            prefixShortcutView.shortcutValidator = validator
-        }
-
-        Notification.Name.allowAnyShortcut.onPost { [weak self] notification in
-            guard let enabled = notification.object as? Bool else { return }
-            let validator: MASShortcutValidator = enabled ? PassthroughShortcutValidator() : MASShortcutValidator()
-            self?.prefixShortcutView.shortcutValidator = validator
-        }
-    }
-
-    private func makePrefixRow() -> NSStackView {
-        let titleLabel = NSTextField(labelWithString: "Chooser Shortcut")
-        titleLabel.font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
-        titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-
-        let row = NSStackView(views: [titleLabel, prefixShortcutView])
-        row.orientation = .horizontal
-        row.alignment = .centerY
-        row.spacing = 16
-        return row
-    }
-
-    private func makeKeyRow(title: String, image: NSImage, button: NSButton) -> NSStackView {
-        let imageView = NSImageView(frame: NSRect(x: 0, y: 0, width: 30, height: 20))
-        imageView.image = image
-        imageView.image?.size = NSSize(width: 30, height: 20)
-
-        let titleLabel = NSTextField(labelWithString: title)
-        titleLabel.font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
-
-        let titleStack = NSStackView(views: [titleLabel, imageView])
-        titleStack.orientation = .horizontal
-        titleStack.alignment = .centerY
-        titleStack.spacing = 10
-        titleStack.setHuggingPriority(.defaultHigh, for: .horizontal)
-
-        let row = NSStackView(views: [titleStack, button])
-        row.orientation = .horizontal
-        row.alignment = .centerY
-        row.spacing = 16
-        return row
-    }
-
     @objc private func resetShortcuts() {
-        UserDefaults.standard.removeObject(forKey: ShortcutManager.prefixShortcutDefaultsKey)
-        Defaults.layoutChooserLeftKey.value = "["
-        Defaults.layoutChooserRightKey.value = "]"
-        leftKeyButton.refreshTitle()
-        rightKeyButton.refreshTitle()
+        Defaults.customLayouts.value = CustomLayout.defaultLayouts
         Notification.Name.changeDefaults.post()
-    }
-}
-
-private final class KeyCaptureButton: NSButton {
-    private let defaults: StringDefault
-    private var isCapturing = false
-    private var previousTitle = ""
-
-    init(defaults: StringDefault) {
-        self.defaults = defaults
-        super.init(frame: NSRect(x: 0, y: 0, width: 80, height: 28))
-        bezelStyle = .rounded
-        target = self
-        action = #selector(beginCapture)
-        refreshTitle()
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override var acceptsFirstResponder: Bool { true }
-
-    func refreshTitle() {
-        title = defaults.value ?? ""
-    }
-
-    @objc private func beginCapture() {
-        guard let window else { return }
-        previousTitle = title
-        isCapturing = true
-        title = "Type Key"
-        window.makeFirstResponder(self)
-    }
-
-    override func keyDown(with event: NSEvent) {
-        guard isCapturing else {
-            super.keyDown(with: event)
-            return
-        }
-
-        if event.keyCode == 53 {
-            cancelCapture()
-            return
-        }
-
-        guard let input = event.characters, input.count == 1 else {
-            NSSound.beep()
-            return
-        }
-
-        defaults.value = input
-        isCapturing = false
-        title = input
-        Notification.Name.changeDefaults.post()
-    }
-
-    override func resignFirstResponder() -> Bool {
-        if isCapturing {
-            cancelCapture()
-        }
-        return super.resignFirstResponder()
-    }
-
-    private func cancelCapture() {
-        isCapturing = false
-        title = previousTitle
     }
 }

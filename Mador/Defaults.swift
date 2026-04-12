@@ -93,8 +93,7 @@ class Defaults {
     static let systemWideMouseDownApps = JSONDefault<Set<String>>(key:"systemWideMouseDownApps", defaultValue: Set<String>(["org.languagetool.desktop", "com.microsoft.teams2"]))
     static let internalTilingNotified = BoolDefault(key: "internalTilingNotified")
     static let screensOrderedByX = OptionalBoolDefault(key: "screensOrderedByX")
-    static let layoutChooserLeftKey = StringDefault(key: "layoutChooserLeftKey", defaultValue: "[")
-    static let layoutChooserRightKey = StringDefault(key: "layoutChooserRightKey", defaultValue: "]")
+    static let customLayouts = LayoutsDefault(key: "customLayouts")
     static var array: [Default] = [
         launchOnLogin,
         disabledApps,
@@ -153,10 +152,78 @@ class Defaults {
         doubleClickTitleBarIgnoredApps,
         systemWideMouseDown,
         systemWideMouseDownApps,
-        layoutChooserLeftKey,
-        layoutChooserRightKey,
+        customLayouts,
         screensOrderedByX,
         showAdditionalSizesInMenu
+    ]
+}
+
+enum LayoutHorizontalAnchor: String, Codable, CaseIterable {
+    case left, right
+
+    var title: String { rawValue.capitalized }
+}
+
+enum LayoutVerticalAnchor: String, Codable, CaseIterable {
+    case top, bottom
+
+    var title: String { rawValue.capitalized }
+}
+
+struct CustomLayout: Codable, Equatable, Identifiable {
+    let id: UUID
+    var name: String
+    var triggerKey: String
+    var xAnchor: LayoutHorizontalAnchor
+    var xPercent: Double
+    var yAnchor: LayoutVerticalAnchor
+    var yPercent: Double
+    var widthPercent: Double
+    var heightPercent: Double
+
+    init(
+        id: UUID = UUID(),
+        name: String,
+        triggerKey: String,
+        xAnchor: LayoutHorizontalAnchor,
+        xPercent: Double,
+        yAnchor: LayoutVerticalAnchor,
+        yPercent: Double,
+        widthPercent: Double,
+        heightPercent: Double
+    ) {
+        self.id = id
+        self.name = name
+        self.triggerKey = triggerKey
+        self.xAnchor = xAnchor
+        self.xPercent = xPercent
+        self.yAnchor = yAnchor
+        self.yPercent = yPercent
+        self.widthPercent = widthPercent
+        self.heightPercent = heightPercent
+    }
+
+    static let defaultLayouts = [
+        CustomLayout(
+            name: "Left Half",
+            triggerKey: "[",
+            xAnchor: .left,
+            xPercent: 0,
+            yAnchor: .top,
+            yPercent: 0,
+            widthPercent: 50,
+            heightPercent: 100
+        ),
+        CustomLayout(
+            name: "Right Half",
+            triggerKey: "]",
+            xAnchor: .right,
+            xPercent: 0,
+            yAnchor: .top,
+            yPercent: 0,
+            widthPercent: 50,
+            heightPercent: 100
+        )
     ]
 }
 
@@ -412,6 +479,40 @@ class JSONDefault<T: Codable>: StringDefault {
                 value = jsonString
             }
         }
+    }
+}
+
+final class LayoutsDefault: Default {
+    private let jsonDefault: JSONDefault<[CustomLayout]>
+
+    var key: String { jsonDefault.key }
+
+    var value: [CustomLayout] {
+        get {
+            let layouts = jsonDefault.typedValue ?? []
+            return layouts.isEmpty ? CustomLayout.defaultLayouts : layouts
+        }
+        set {
+            jsonDefault.typedValue = newValue
+        }
+    }
+
+    init(key: String) {
+        jsonDefault = JSONDefault<[CustomLayout]>(key: key)
+        if jsonDefault.typedValue == nil || jsonDefault.typedValue?.isEmpty == true {
+            jsonDefault.typedValue = CustomLayout.defaultLayouts
+        }
+    }
+
+    func load(from codable: CodableDefault) {
+        jsonDefault.load(from: codable)
+        if jsonDefault.typedValue == nil || jsonDefault.typedValue?.isEmpty == true {
+            jsonDefault.typedValue = CustomLayout.defaultLayouts
+        }
+    }
+
+    func toCodable() -> CodableDefault {
+        jsonDefault.toCodable()
     }
 }
 
