@@ -11,7 +11,7 @@ Other historical predefined actions from Rectangle/Mador are not part of the int
 
 ## Requirements
 
-- macOS 10.15+
+- macOS 11.0+
 - Accessibility permission for Mador
 
 ## Build
