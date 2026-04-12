@@ -61,7 +61,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let alreadyTrusted = accessibilityAuthorization.checkAccessibility {
             self.showWelcomeWindow()
             self.checkForConflictingApps()
-            self.openPreferences(self)
             self.statusItem.statusMenu = self.mainStatusMenu
             self.accessibilityTrusted()
         }
@@ -157,10 +156,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         if Defaults.relaunchOpensMenu.enabled {
             statusItem.openMenu()
-        } else {
-            openPreferences(sender)
         }
-        return true
+        return false
     }
     
     @IBAction func openPreferences(_ sender: Any) {
