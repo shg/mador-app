@@ -379,6 +379,18 @@ private final class LayoutChooserViewController: NSViewController {
 
         let manageButton = NSButton(title: "Manage Layouts", target: self, action: #selector(openLayoutManager))
         manageButton.bezelStyle = .rounded
+        manageButton.isBordered = false
+        manageButton.contentTintColor = .white
+        manageButton.attributedTitle = NSAttributedString(
+            string: "Manage Layouts",
+            attributes: [.foregroundColor: NSColor.white]
+        )
+        manageButton.wantsLayer = true
+        manageButton.layer?.cornerRadius = 6
+        manageButton.layer?.cornerCurve = .continuous
+        manageButton.layer?.borderWidth = 1
+        manageButton.layer?.borderColor = NSColor(white: 0.72, alpha: 0.9).cgColor
+        manageButton.layer?.backgroundColor = NSColor(white: 1.0, alpha: 0.08).cgColor
 
         let stack = NSStackView(views: [titleLabel, descriptionLabel, rowsContainer, manageButton])
         stack.orientation = .vertical
