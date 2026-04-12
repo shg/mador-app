@@ -249,36 +249,7 @@ extension AppDelegate: NSMenuDelegate {
     }
     
     private func updateWindowActionMenuItems(menu: NSMenu) {
-        let frontmostWindow = AccessibilityElement.getFrontWindowElement()
-        let screenCount = NSScreen.screens.count
-        let isPortrait = NSScreen.main?.frame.isLandscape == false
-
-        for menuItem in menu.items {
-            guard let windowAction = menuItem.representedObject as? WindowAction else { continue }
-
-            menuItem.image = windowAction.image.copy() as? NSImage
-            menuItem.image?.size = NSSize(width: 18, height: 12)
-            
-            if isPortrait && windowAction.classification == .thirds {
-                menuItem.image = menuItem.image?.rotated(by: 270)
-                menuItem.image?.isTemplate = true
-            }
-
-            if !ApplicationToggle.shortcutsDisabled {
-                if let fullKeyEquivalent = shortcutManager.getKeyEquivalent(action: windowAction),
-                    let keyEquivalent = fullKeyEquivalent.0?.lowercased() {
-                    menuItem.keyEquivalent = keyEquivalent
-                    menuItem.keyEquivalentModifierMask = fullKeyEquivalent.1
-                }
-            }
-            if frontmostWindow == nil {
-                menuItem.isEnabled = false
-            }
-            if screenCount == 1
-                && (windowAction == .nextDisplay || windowAction == .previousDisplay) {
-                menuItem.isEnabled = false
-            }
-        }
+        return
     }
     
     func menuDidClose(_ menu: NSMenu) {
@@ -297,60 +268,7 @@ extension AppDelegate: NSMenuDelegate {
     }
     
     func addWindowActionMenuItems() {
-        let additionalSizeCategories: Set<WindowActionCategory> = [.eighths, .ninths, .twelfths, .sixteenths]
-        let submenuOnlyWhenAdditional: Set<WindowActionCategory> = [.thirds, .size]
-        let showAdditional = Defaults.showAdditionalSizesInMenu.userEnabled
-        var menuIndex = 0
-        var categoryMenus: [CategoryMenu] = []
-        for action in WindowAction.active {
-            guard let displayName = action.displayName else { continue }
-            let newMenuItem = NSMenuItem(title: displayName, action: #selector(executeMenuWindowAction), keyEquivalent: "")
-            newMenuItem.representedObject = action
-
-            if !Defaults.showAllActionsInMenu.userEnabled, let category = action.category {
-                // When additional sizes are off, keep Thirds and Size as flat items
-                if submenuOnlyWhenAdditional.contains(category) && !showAdditional {
-                    // Fall through to flat item handling below
-                } else {
-                    if menuIndex != 0 && action.firstInGroup {
-                        let menu = NSMenu(title: category.displayName)
-                        menu.autoenablesItems = false
-                        categoryMenus.append(CategoryMenu(menu: menu, category: category))
-                    }
-                    categoryMenus.last?.menu.addItem(newMenuItem)
-                    continue
-                }
-            }
-
-            // Flat item - suppress extra separator for almostMaximize when Size is not a submenu
-            let showSeparator = action.firstInGroup && !(action == .almostMaximize && !showAdditional)
-            if menuIndex != 0 && showSeparator {
-                mainStatusMenu.insertItem(NSMenuItem.separator(), at: menuIndex)
-                menuIndex += 1
-            }
-            mainStatusMenu.insertItem(newMenuItem, at: menuIndex)
-            menuIndex += 1
-        }
-
-        if !categoryMenus.isEmpty {
-            mainStatusMenu.insertItem(NSMenuItem.separator(), at: menuIndex)
-            menuIndex += 1
-
-            let sortedCategoryMenus = categoryMenus.sorted { $0.category.menuOrder < $1.category.menuOrder }
-            for categoryMenu in sortedCategoryMenus {
-                categoryMenu.menu.delegate = self
-                let menuMenuItem = NSMenuItem(title: categoryMenu.category.displayName, action: nil, keyEquivalent: "")
-                if additionalSizeCategories.contains(categoryMenu.category) {
-                    menuMenuItem.isHidden = !Defaults.showAdditionalSizesInMenu.userEnabled
-                    additionalSizeMenuItems.append(menuMenuItem)
-                }
-                mainStatusMenu.insertItem(menuMenuItem, at: menuIndex)
-                mainStatusMenu.setSubmenu(categoryMenu.menu, for: menuMenuItem)
-                menuIndex += 1
-            }
-        }
-
-        dynamicMenuItemCount = menuIndex
+        dynamicMenuItemCount = 0
     }
 
     @objc func rebuildMenu() {
