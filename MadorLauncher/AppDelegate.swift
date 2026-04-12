@@ -36,7 +36,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             components.append("MacOS")
             components.append("Mador")
             let newPath = NSString.path(withComponents: components)
-            NSWorkspace.shared.launchApplication(newPath)
+            let configuration = NSWorkspace.OpenConfiguration()
+            NSWorkspace.shared.openApplication(at: URL(fileURLWithPath: newPath),
+                                               configuration: configuration) { _, _ in }
         }
     }
     
