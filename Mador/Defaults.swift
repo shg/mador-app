@@ -10,6 +10,7 @@ import Cocoa
 
 class Defaults {
     static let legacyBundleIdentifier = "com.knollsoft.Rectangle"
+    static let layoutChooserPrefixShortcutKey = "layoutChooserPrefixShortcut"
 
     static func migrateLegacyDefaultsIfNeeded() {
         guard let currentBundleIdentifier = Bundle.main.bundleIdentifier,
@@ -92,6 +93,8 @@ class Defaults {
     static let systemWideMouseDownApps = JSONDefault<Set<String>>(key:"systemWideMouseDownApps", defaultValue: Set<String>(["org.languagetool.desktop", "com.microsoft.teams2"]))
     static let internalTilingNotified = BoolDefault(key: "internalTilingNotified")
     static let screensOrderedByX = OptionalBoolDefault(key: "screensOrderedByX")
+    static let layoutChooserLeftKey = StringDefault(key: "layoutChooserLeftKey", defaultValue: "[")
+    static let layoutChooserRightKey = StringDefault(key: "layoutChooserRightKey", defaultValue: "]")
     static var array: [Default] = [
         launchOnLogin,
         disabledApps,
@@ -150,6 +153,8 @@ class Defaults {
         doubleClickTitleBarIgnoredApps,
         systemWideMouseDown,
         systemWideMouseDownApps,
+        layoutChooserLeftKey,
+        layoutChooserRightKey,
         screensOrderedByX,
         showAdditionalSizesInMenu
     ]
@@ -270,6 +275,15 @@ class StringDefault: Default {
     init(key: String) {
         self.key = key
         value = UserDefaults.standard.string(forKey: key)
+        initialized = true
+    }
+
+    init(key: String, defaultValue: String) {
+        self.key = key
+        value = UserDefaults.standard.string(forKey: key)
+        if value == nil {
+            value = defaultValue
+        }
         initialized = true
     }
     

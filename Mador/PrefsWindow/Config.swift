@@ -14,10 +14,8 @@ extension Defaults {
         guard let version = Bundle.main.infoDictionary?["CFBundleVersion"] as? String else { return nil }
         
         var shortcuts = [String: Shortcut]()
-        for action in WindowAction.active {
-            if let masShortcut =  MASShortcutBinder.shared()?.value(forKey: action.name) as? MASShortcut {
-                shortcuts[action.name] = Shortcut(masShortcut: masShortcut)
-            }
+        if let masShortcut = MASShortcutBinder.shared()?.value(forKey: ShortcutManager.prefixShortcutDefaultsKey) as? MASShortcut {
+            shortcuts[ShortcutManager.prefixShortcutDefaultsKey] = Shortcut(masShortcut: masShortcut)
         }
         var codableDefaults = [String: CodableDefault]()
         for exportableDefault in Defaults.array {
@@ -60,11 +58,9 @@ extension Defaults {
             }
         }
         
-        for action in WindowAction.active {
-            if let shortcut = config.shortcuts[action.name]?.toMASSHortcut() {
-                let dictValue = dictTransformer.reverseTransformedValue(shortcut)
-                UserDefaults.standard.setValue(dictValue, forKey: action.name)
-            }
+        if let shortcut = config.shortcuts[ShortcutManager.prefixShortcutDefaultsKey]?.toMASSHortcut() {
+            let dictValue = dictTransformer.reverseTransformedValue(shortcut)
+            UserDefaults.standard.setValue(dictValue, forKey: ShortcutManager.prefixShortcutDefaultsKey)
         }
         Notification.Name.configImported.post()
     }
