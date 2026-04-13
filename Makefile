@@ -32,13 +32,11 @@ rebuild:
 	$(MAKE) build
 
 app-path:
-	@TARGET_BUILD_DIR=`$(XCODEBUILD) -showBuildSettings | awk -F ' = ' '/TARGET_BUILD_DIR/ { print $$2; exit }'`; \
-	WRAPPER_NAME=`$(XCODEBUILD) -showBuildSettings | awk -F ' = ' '/WRAPPER_NAME/ { print $$2; exit }'`; \
+	@eval "$$($(XCODEBUILD) -showBuildSettings | awk -F ' = ' '/TARGET_BUILD_DIR|WRAPPER_NAME/ { print $$1 "=\"" $$2 "\"" }')"; \
 	echo "$$TARGET_BUILD_DIR/$$WRAPPER_NAME"
 
 reveal:
-	@TARGET_BUILD_DIR=`$(XCODEBUILD) -showBuildSettings | awk -F ' = ' '/TARGET_BUILD_DIR/ { print $$2; exit }'`; \
-	WRAPPER_NAME=`$(XCODEBUILD) -showBuildSettings | awk -F ' = ' '/WRAPPER_NAME/ { print $$2; exit }'`; \
+	@eval "$$($(XCODEBUILD) -showBuildSettings | awk -F ' = ' '/TARGET_BUILD_DIR|WRAPPER_NAME/ { print $$1 "=\"" $$2 "\"" }')"; \
 	open -R "$$TARGET_BUILD_DIR/$$WRAPPER_NAME"
 
 reset-accessibility:
