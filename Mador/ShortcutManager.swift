@@ -77,6 +77,10 @@ class ShortcutManager {
     }
 
     public func openChooserFromStatusItem() {
+        if chooserWindowController?.window?.isVisible == true {
+            chooserWindowController?.close()
+            return
+        }
         showLayoutChooser(captureTarget: true)
     }
 
