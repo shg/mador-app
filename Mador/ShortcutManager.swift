@@ -557,23 +557,19 @@ final class LayoutManagerViewController: NSViewController {
         case size = "Size"
     }
 
-    private let tableView = NSTableView()
-    private let scrollView = NSScrollView()
     private var selectedLayoutId: UUID?
 
     @IBOutlet private weak var addButton: NSButton!
     @IBOutlet private weak var removeButton: NSButton!
-    @IBOutlet private weak var tableContainerView: NSView!
-    @IBOutlet private weak var detailContainerView: NSView!
-
-    private let nameField = NSTextField()
-    private let keyField = NSTextField()
-    private let xAnchorButton = NSPopUpButton()
-    private let xPercentField = NSTextField()
-    private let yAnchorButton = NSPopUpButton()
-    private let yPercentField = NSTextField()
-    private let widthPercentField = NSTextField()
-    private let heightPercentField = NSTextField()
+    @IBOutlet private weak var tableView: NSTableView!
+    @IBOutlet private weak var nameField: NSTextField!
+    @IBOutlet private weak var keyField: NSTextField!
+    @IBOutlet private weak var xAnchorButton: NSPopUpButton!
+    @IBOutlet private weak var xPercentField: NSTextField!
+    @IBOutlet private weak var yAnchorButton: NSPopUpButton!
+    @IBOutlet private weak var yPercentField: NSTextField!
+    @IBOutlet private weak var widthPercentField: NSTextField!
+    @IBOutlet private weak var heightPercentField: NSTextField!
 
     init() {
         super.init(nibName: NSNib.Name("LayoutManagerViewController"), bundle: .main)
@@ -586,6 +582,7 @@ final class LayoutManagerViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.appearance = NSAppearance(named: .aqua)
         configureInterface()
         refreshLayouts()
     }
@@ -609,19 +606,9 @@ final class LayoutManagerViewController: NSViewController {
         removeButton.action = #selector(removeSelectedLayout)
         removeButton.bezelStyle = .rounded
 
-        configureTableArea()
-        configureDetailArea()
-    }
+        applyEditorSizing()
+        applyEditorAppearance()
 
-    private func configureTableArea() {
-        scrollView.drawsBackground = false
-        scrollView.hasVerticalScroller = true
-        scrollView.autoresizingMask = [.width, .height]
-        scrollView.frame = tableContainerView.bounds
-        scrollView.documentView = tableView
-        scrollView.borderType = .bezelBorder
-
-        tableView.headerView = NSTableHeaderView()
         tableView.usesAlternatingRowBackgroundColors = true
         tableView.rowHeight = 28
         tableView.delegate = self
@@ -631,23 +618,67 @@ final class LayoutManagerViewController: NSViewController {
         tableView.columnAutoresizingStyle = .uniformColumnAutoresizingStyle
 
         for column in Column.allCases {
-            let tableColumn = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(column.rawValue))
-            tableColumn.title = column.rawValue
-            tableView.addTableColumn(tableColumn)
+            if tableView.tableColumn(withIdentifier: NSUserInterfaceItemIdentifier(column.rawValue)) == nil {
+                let tableColumn = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(column.rawValue))
+                tableColumn.title = column.rawValue
+                tableView.addTableColumn(tableColumn)
+            }
         }
 
-        tableContainerView.addSubview(scrollView)
+        [nameField, keyField, xPercentField, yPercentField, widthPercentField, heightPercentField].forEach {
+            $0.target = self
+            $0.action = #selector(editorChanged(_:))
+        }
+
+        if xAnchorButton.itemArray.isEmpty {
+            LayoutHorizontalAnchor.allCases.forEach { xAnchorButton.addItem(withTitle: $0.title) }
+        }
+        if yAnchorButton.itemArray.isEmpty {
+            LayoutVerticalAnchor.allCases.forEach { yAnchorButton.addItem(withTitle: $0.title) }
+        }
+        xAnchorButton.target = self
+        xAnchorButton.action = #selector(editorChanged(_:))
+        yAnchorButton.target = self
+        yAnchorButton.action = #selector(editorChanged(_:))
     }
 
-    private func configureDetailArea() {
-        let detailView = buildDetailEditor()
-        detailContainerView.addSubview(detailView)
-        NSLayoutConstraint.activate([
-            detailView.leadingAnchor.constraint(equalTo: detailContainerView.leadingAnchor),
-            detailView.trailingAnchor.constraint(equalTo: detailContainerView.trailingAnchor),
-            detailView.topAnchor.constraint(equalTo: detailContainerView.topAnchor),
-            detailView.bottomAnchor.constraint(equalTo: detailContainerView.bottomAnchor)
-        ])
+    private func applyEditorSizing() {
+        let widths: [(NSView, CGFloat)] = [
+            (nameField, 220),
+            (keyField, 60),
+            (xAnchorButton, 96),
+            (xPercentField, 72),
+            (yAnchorButton, 96),
+            (yPercentField, 72),
+            (widthPercentField, 72),
+            (heightPercentField, 72)
+        ]
+
+        for (view, width) in widths {
+            if let constraint = view.constraints.first(where: {
+                $0.firstAttribute == .width && $0.relation == .equal && $0.firstItem as? NSView === view
+            }) {
+                constraint.constant = width
+            } else {
+                view.widthAnchor.constraint(equalToConstant: width).isActive = true
+            }
+        }
+    }
+
+    private func applyEditorAppearance() {
+        let editableFields = [nameField, keyField, xPercentField, yPercentField, widthPercentField, heightPercentField].compactMap { $0 }
+        editableFields.forEach {
+            $0.isBezeled = true
+            $0.isBordered = true
+            $0.drawsBackground = true
+            $0.backgroundColor = .textBackgroundColor
+            $0.textColor = .textColor
+            $0.focusRingType = .default
+        }
+
+        [xAnchorButton, yAnchorButton].compactMap { $0 }.forEach {
+            $0.appearance = NSAppearance(named: .aqua)
+        }
     }
 
     private func updateLayout(_ updatedLayout: CustomLayout) {
@@ -704,46 +735,6 @@ final class LayoutManagerViewController: NSViewController {
 
         updateLayout(layout)
         populateEditor()
-    }
-
-    private func buildDetailEditor() -> NSView {
-        let detailTitle = NSTextField(labelWithString: "Selected Layout")
-        detailTitle.font = NSFont.boldSystemFont(ofSize: 14)
-
-        [nameField, keyField, xPercentField, yPercentField, widthPercentField, heightPercentField].forEach {
-            $0.target = self
-            $0.action = #selector(editorChanged(_:))
-        }
-
-        LayoutHorizontalAnchor.allCases.forEach { xAnchorButton.addItem(withTitle: $0.title) }
-        LayoutVerticalAnchor.allCases.forEach { yAnchorButton.addItem(withTitle: $0.title) }
-        xAnchorButton.target = self
-        xAnchorButton.action = #selector(editorChanged(_:))
-        yAnchorButton.target = self
-        yAnchorButton.action = #selector(editorChanged(_:))
-
-        nameField.widthAnchor.constraint(equalToConstant: 240).isActive = true
-        keyField.widthAnchor.constraint(equalToConstant: 52).isActive = true
-        xPercentField.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        yPercentField.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        widthPercentField.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        heightPercentField.widthAnchor.constraint(equalToConstant: 80).isActive = true
-
-        let grid = NSGridView(views: [
-            [NSTextField(labelWithString: "Name"), nameField, NSTextField(labelWithString: "Key"), keyField],
-            [NSTextField(labelWithString: "X Anchor"), xAnchorButton, NSTextField(labelWithString: "X %"), xPercentField],
-            [NSTextField(labelWithString: "Y Anchor"), yAnchorButton, NSTextField(labelWithString: "Y %"), yPercentField],
-            [NSTextField(labelWithString: "Width %"), widthPercentField, NSTextField(labelWithString: "Height %"), heightPercentField]
-        ])
-        grid.rowSpacing = 8
-        grid.columnSpacing = 10
-
-        let stack = NSStackView(views: [detailTitle, grid])
-        stack.orientation = .vertical
-        stack.alignment = .leading
-        stack.spacing = 10
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
     }
 
     private func syncSelection() {
