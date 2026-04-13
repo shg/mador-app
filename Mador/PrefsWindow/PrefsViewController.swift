@@ -211,13 +211,9 @@ final class BasicPreferencesViewController: NSViewController {
         shortcutRow.alignment = .centerY
         shortcutRow.spacing = 16
 
-        let restoreButton = NSButton(title: "Reset Layouts to Defaults", target: self, action: #selector(resetShortcuts))
-        restoreButton.bezelStyle = .rounded
-
         mainStack.addArrangedSubview(titleLabel)
         mainStack.addArrangedSubview(descriptionLabel)
         mainStack.addArrangedSubview(shortcutRow)
-        mainStack.addArrangedSubview(restoreButton)
 
         view.addSubview(mainStack)
 
@@ -226,10 +222,5 @@ final class BasicPreferencesViewController: NSViewController {
             mainStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             mainStack.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
         ])
-    }
-
-    @objc private func resetShortcuts() {
-        Defaults.customLayouts.value = CustomLayout.defaultLayouts
-        Notification.Name.changeDefaults.post()
     }
 }

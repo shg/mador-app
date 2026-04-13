@@ -584,10 +584,7 @@ private final class LayoutManagerViewController: NSViewController {
         let addButton = NSButton(title: "Add Layout", target: self, action: #selector(addLayout))
         addButton.bezelStyle = .rounded
 
-        let resetButton = NSButton(title: "Reset to Defaults", target: self, action: #selector(resetLayouts))
-        resetButton.bezelStyle = .rounded
-
-        let buttonsRow = NSStackView(views: [addButton, resetButton])
+        let buttonsRow = NSStackView(views: [addButton])
         buttonsRow.orientation = .horizontal
         buttonsRow.alignment = .centerY
         buttonsRow.spacing = 10
@@ -665,18 +662,11 @@ private final class LayoutManagerViewController: NSViewController {
         refreshLayouts()
     }
 
-    @objc private func resetLayouts() {
-        Defaults.customLayouts.value = CustomLayout.defaultLayouts
-        selectedLayoutId = Defaults.customLayouts.value.first?.id
-        Notification.Name.changeDefaults.post()
-        refreshLayouts()
-    }
-
     @objc private func removeSelectedLayout() {
         guard let layout = selectedLayout else { return }
         var layouts = Defaults.customLayouts.value
         layouts.removeAll(where: { $0.id == layout.id })
-        Defaults.customLayouts.value = layouts.isEmpty ? CustomLayout.defaultLayouts : layouts
+        Defaults.customLayouts.value = layouts
         selectedLayoutId = Defaults.customLayouts.value.first?.id
         Notification.Name.changeDefaults.post()
         refreshLayouts()
