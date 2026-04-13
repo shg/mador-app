@@ -264,46 +264,32 @@ private final class LayoutChooserWindowController: NSWindowController, NSWindowD
     init(onAction: @escaping (CustomLayout) -> Void, onManageLayouts: @escaping () -> Void, onClose: @escaping () -> Void) {
         chooserViewController = LayoutChooserViewController(onAction: onAction, onManageLayouts: onManageLayouts)
         self.onClose = onClose
+        let chooserSize = NSSize(width: 280, height: 210)
 
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 360, height: 280),
-            styleMask: [.titled, .closable],
+        let window = NSPanel(
+            contentRect: NSRect(origin: .zero, size: chooserSize),
+            styleMask: [.titled, .closable, .utilityWindow, .hudWindow],
             backing: .buffered,
             defer: false
         )
         window.title = "Choose Layout"
         window.styleMask.insert(.fullSizeContentView)
+        window.contentViewController = chooserViewController
+        window.appearance = NSAppearance(named: .vibrantDark)
         window.level = .floating
-        window.isOpaque = false
-        window.backgroundColor = .clear
+        window.isFloatingPanel = true
         window.hasShadow = true
+        window.animationBehavior = .utilityWindow
         window.titlebarAppearsTransparent = true
         window.titleVisibility = .hidden
         window.isMovableByWindowBackground = true
+        window.setContentSize(chooserSize)
+        window.contentMinSize = chooserSize
+        window.contentMaxSize = chooserSize
+        window.aspectRatio = chooserSize
         window.center()
         window.isReleasedWhenClosed = false
         window.collectionBehavior = [.moveToActiveSpace]
-
-        let visualEffect = NSVisualEffectView(frame: NSRect(x: 0, y: 0, width: 360, height: 280))
-        visualEffect.translatesAutoresizingMaskIntoConstraints = false
-        visualEffect.blendingMode = .behindWindow
-        visualEffect.state = .active
-        visualEffect.material = .hudWindow
-        visualEffect.wantsLayer = true
-        visualEffect.layer?.cornerRadius = 14
-        visualEffect.layer?.cornerCurve = .continuous
-        visualEffect.layer?.masksToBounds = true
-        window.contentView = visualEffect
-
-        let contentView = chooserViewController.view
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        visualEffect.addSubview(contentView)
-        NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: visualEffect.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: visualEffect.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: visualEffect.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: visualEffect.bottomAnchor)
-        ])
 
         super.init(window: window)
         window.delegate = self
@@ -373,12 +359,13 @@ private final class LayoutChooserViewController: NSViewController {
         view.layer?.backgroundColor = NSColor.clear.cgColor
 
         let titleLabel = NSTextField(labelWithString: "Choose a Layout")
-        titleLabel.font = NSFont.boldSystemFont(ofSize: 16)
+        titleLabel.font = NSFont.boldSystemFont(ofSize: 14)
         titleLabel.textColor = .white
 
         let descriptionLabel = NSTextField(wrappingLabelWithString: "Press the assigned chooser key to place the captured window, or press Esc to cancel.")
+        descriptionLabel.font = NSFont.systemFont(ofSize: 11)
         descriptionLabel.textColor = NSColor.white.withAlphaComponent(0.78)
-        descriptionLabel.maximumNumberOfLines = 0
+        descriptionLabel.maximumNumberOfLines = 2
 
         rowsStack.orientation = .vertical
         rowsStack.alignment = .leading
@@ -403,12 +390,12 @@ private final class LayoutChooserViewController: NSViewController {
             rowsStack.widthAnchor.constraint(equalTo: rowsContainer.contentView.widthAnchor)
         ])
 
-        let manageButton = NSButton(title: "Manage Layouts", target: self, action: #selector(openLayoutManager))
+        let manageButton = NSButton(title: "Manage Layouts...", target: self, action: #selector(openLayoutManager))
         manageButton.bezelStyle = .rounded
         manageButton.isBordered = false
         manageButton.contentTintColor = .white
         manageButton.attributedTitle = NSAttributedString(
-            string: "Manage Layouts",
+            string: "Manage Layouts...",
             attributes: [.foregroundColor: NSColor.white]
         )
         manageButton.wantsLayer = true
@@ -417,23 +404,30 @@ private final class LayoutChooserViewController: NSViewController {
         manageButton.layer?.borderWidth = 1
         manageButton.layer?.borderColor = NSColor(white: 0.72, alpha: 0.9).cgColor
         manageButton.layer?.backgroundColor = NSColor(white: 1.0, alpha: 0.08).cgColor
+        manageButton.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+        manageButton.translatesAutoresizingMaskIntoConstraints = false
+        manageButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 156).isActive = true
+        manageButton.heightAnchor.constraint(equalToConstant: 28).isActive = true
 
-        let stack = NSStackView(views: [titleLabel, descriptionLabel, rowsContainer, manageButton])
+        let stack = NSStackView(views: [titleLabel, descriptionLabel, rowsContainer])
         stack.orientation = .vertical
         stack.alignment = .leading
-        stack.spacing = 14
+        stack.spacing = 10
         stack.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(stack)
+        view.addSubview(manageButton)
 
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
-            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            stack.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20),
-            stack.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -20)
+            stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
+            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            stack.bottomAnchor.constraint(lessThanOrEqualTo: manageButton.topAnchor, constant: -10),
+            manageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            manageButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16)
         ])
 
-        rowsContainer.heightAnchor.constraint(equalToConstant: 140).isActive = true
+        rowsContainer.heightAnchor.constraint(equalToConstant: 92).isActive = true
     }
 
     private func rebuildRows(layouts: [CustomLayout]) {
