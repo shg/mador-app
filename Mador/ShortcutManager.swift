@@ -535,7 +535,7 @@ private final class LayoutManagerWindowController: NSWindowController, NSWindowD
     }
 }
 
-private final class LayoutManagerViewController: NSViewController {
+final class LayoutManagerViewController: NSViewController {
     private enum Column: String, CaseIterable {
         case triggerKey = "Key"
         case name = "Name"
@@ -547,6 +547,11 @@ private final class LayoutManagerViewController: NSViewController {
     private let scrollView = NSScrollView()
     private var selectedLayoutId: UUID?
 
+    @IBOutlet private weak var addButton: NSButton!
+    @IBOutlet private weak var removeButton: NSButton!
+    @IBOutlet private weak var tableContainerView: NSView!
+    @IBOutlet private weak var detailContainerView: NSView!
+
     private let nameField = NSTextField()
     private let keyField = NSTextField()
     private let xAnchorButton = NSPopUpButton()
@@ -555,11 +560,19 @@ private final class LayoutManagerViewController: NSViewController {
     private let yPercentField = NSTextField()
     private let widthPercentField = NSTextField()
     private let heightPercentField = NSTextField()
-    private let removeButton = NSButton(title: "Remove Selected Layout", target: nil, action: nil)
 
-    override func loadView() {
-        view = NSView(frame: NSRect(x: 0, y: 0, width: 760, height: 520))
-        buildInterface()
+    init() {
+        super.init(nibName: NSNib.Name("LayoutManagerViewController"), bundle: .main)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureInterface()
         refreshLayouts()
     }
 
@@ -573,25 +586,24 @@ private final class LayoutManagerViewController: NSViewController {
         populateEditor()
     }
 
-    private func buildInterface() {
-        let titleLabel = NSTextField(labelWithString: "Manage Layouts")
-        titleLabel.font = NSFont.boldSystemFont(ofSize: 18)
-
-        let descriptionLabel = NSTextField(wrappingLabelWithString: "Set each layout's chooser key and screen-relative frame. Percentages are based on the active screen's visible frame.")
-        descriptionLabel.maximumNumberOfLines = 0
-        descriptionLabel.textColor = .secondaryLabelColor
-
-        let addButton = NSButton(title: "Add Layout", target: self, action: #selector(addLayout))
+    private func configureInterface() {
+        addButton.target = self
+        addButton.action = #selector(addLayout)
         addButton.bezelStyle = .rounded
 
-        let buttonsRow = NSStackView(views: [addButton])
-        buttonsRow.orientation = .horizontal
-        buttonsRow.alignment = .centerY
-        buttonsRow.spacing = 10
+        removeButton.target = self
+        removeButton.action = #selector(removeSelectedLayout)
+        removeButton.bezelStyle = .rounded
 
+        configureTableArea()
+        configureDetailArea()
+    }
+
+    private func configureTableArea() {
         scrollView.drawsBackground = false
         scrollView.hasVerticalScroller = true
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.autoresizingMask = [.width, .height]
+        scrollView.frame = tableContainerView.bounds
         scrollView.documentView = tableView
         scrollView.borderType = .bezelBorder
 
@@ -610,28 +622,18 @@ private final class LayoutManagerViewController: NSViewController {
             tableView.addTableColumn(tableColumn)
         }
 
-        removeButton.target = self
-        removeButton.action = #selector(removeSelectedLayout)
-        removeButton.bezelStyle = .rounded
+        tableContainerView.addSubview(scrollView)
+    }
 
+    private func configureDetailArea() {
         let detailView = buildDetailEditor()
-
-        let stack = NSStackView(views: [titleLabel, descriptionLabel, buttonsRow, scrollView, detailView, removeButton])
-        stack.orientation = .vertical
-        stack.alignment = .leading
-        stack.spacing = 14
-        stack.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(stack)
-
+        detailContainerView.addSubview(detailView)
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
-            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
+            detailView.leadingAnchor.constraint(equalTo: detailContainerView.leadingAnchor),
+            detailView.trailingAnchor.constraint(equalTo: detailContainerView.trailingAnchor),
+            detailView.topAnchor.constraint(equalTo: detailContainerView.topAnchor),
+            detailView.bottomAnchor.constraint(equalTo: detailContainerView.bottomAnchor)
         ])
-
-        scrollView.heightAnchor.constraint(equalToConstant: 220).isActive = true
     }
 
     private func updateLayout(_ updatedLayout: CustomLayout) {
@@ -726,6 +728,7 @@ private final class LayoutManagerViewController: NSViewController {
         stack.orientation = .vertical
         stack.alignment = .leading
         stack.spacing = 10
+        stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }
 

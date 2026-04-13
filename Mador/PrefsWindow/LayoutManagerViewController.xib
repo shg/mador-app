@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24506"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="LayoutManagerViewController" customModule="Mador" customModuleProvider="target">
+            <connections>
+                <outlet property="addButton" destination="add-button" id="add-button-outlet"/>
+                <outlet property="detailContainerView" destination="detail-container" id="detail-container-outlet"/>
+                <outlet property="removeButton" destination="remove-button" id="remove-button-outlet"/>
+                <outlet property="tableContainerView" destination="table-container" id="table-container-outlet"/>
+                <outlet property="view" destination="root-view" id="root-view-outlet"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="root-view">
+            <rect key="frame" x="0.0" y="0.0" width="760" height="520"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="title-label">
+                    <rect key="frame" x="18" y="479" width="724" height="21"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Manage Layouts" id="title-label-cell">
+                        <font key="font" metaFont="systemBold" size="18"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="description-label">
+                    <rect key="frame" x="18" y="455" width="724" height="16"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Set each layout's chooser key and screen-relative frame. Percentages are based on the active screen's visible frame." id="description-label-cell">
+                        <font key="font" metaFont="message"/>
+                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="add-button">
+                    <rect key="frame" x="13" y="416" width="103" height="32"/>
+                    <buttonCell key="cell" type="push" title="Add Layout" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="add-button-cell">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="table-container">
+                    <rect key="frame" x="20" y="191" width="720" height="220"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="220" id="table-height"/>
+                    </constraints>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="detail-container">
+                    <rect key="frame" x="20" y="52" width="720" height="127"/>
+                </customView>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="remove-button">
+                    <rect key="frame" x="13" y="13" width="184" height="32"/>
+                    <buttonCell key="cell" type="push" title="Remove Selected Layout" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="remove-button-cell">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="add-button" firstAttribute="leading" secondItem="root-view" secondAttribute="leading" constant="20" id="add-leading"/>
+                <constraint firstItem="add-button" firstAttribute="top" secondItem="description-label" secondAttribute="bottom" constant="12" id="add-top"/>
+                <constraint firstItem="description-label" firstAttribute="leading" secondItem="root-view" secondAttribute="leading" constant="20" id="description-leading"/>
+                <constraint firstItem="description-label" firstAttribute="top" secondItem="title-label" secondAttribute="bottom" constant="8" id="description-top"/>
+                <constraint firstAttribute="trailing" secondItem="description-label" secondAttribute="trailing" constant="20" id="description-trailing"/>
+                <constraint firstItem="detail-container" firstAttribute="leading" secondItem="root-view" secondAttribute="leading" constant="20" id="detail-leading"/>
+                <constraint firstItem="detail-container" firstAttribute="top" secondItem="table-container" secondAttribute="bottom" constant="12" id="detail-top"/>
+                <constraint firstAttribute="trailing" secondItem="detail-container" secondAttribute="trailing" constant="20" id="detail-trailing"/>
+                <constraint firstAttribute="bottom" secondItem="remove-button" secondAttribute="bottom" constant="20" id="remove-bottom"/>
+                <constraint firstItem="remove-button" firstAttribute="leading" secondItem="root-view" secondAttribute="leading" constant="20" id="remove-leading"/>
+                <constraint firstItem="remove-button" firstAttribute="top" secondItem="detail-container" secondAttribute="bottom" constant="12" id="remove-top"/>
+                <constraint firstItem="table-container" firstAttribute="leading" secondItem="root-view" secondAttribute="leading" constant="20" id="table-leading"/>
+                <constraint firstItem="table-container" firstAttribute="top" secondItem="add-button" secondAttribute="bottom" constant="12" id="table-top"/>
+                <constraint firstAttribute="trailing" secondItem="table-container" secondAttribute="trailing" constant="20" id="table-trailing"/>
+                <constraint firstItem="title-label" firstAttribute="leading" secondItem="root-view" secondAttribute="leading" constant="20" id="title-leading"/>
+                <constraint firstItem="title-label" firstAttribute="top" secondItem="root-view" secondAttribute="top" constant="20" id="title-top"/>
+                <constraint firstAttribute="trailing" secondItem="title-label" secondAttribute="trailing" constant="20" id="title-trailing"/>
+            </constraints>
+            <point key="canvasLocation" x="272" y="184"/>
+        </customView>
+    </objects>
+</document>
