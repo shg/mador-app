@@ -272,7 +272,7 @@ private final class LayoutChooserWindowController: NSWindowController, NSWindowD
         visualEffect.translatesAutoresizingMaskIntoConstraints = false
         visualEffect.blendingMode = .behindWindow
         visualEffect.state = .active
-        visualEffect.material = .dark
+        visualEffect.material = .hudWindow
         visualEffect.wantsLayer = true
         visualEffect.layer?.cornerRadius = 14
         visualEffect.layer?.cornerCurve = .continuous
