@@ -79,6 +79,12 @@ class ShortcutManager {
         showLayoutChooser(captureTarget: true)
     }
 
+    public func openLayoutManagerFromMenu() {
+        pendingExecutionTarget = nil
+        isTransitioningFromChooserToLayoutManager = false
+        openLayoutManager()
+    }
+
     private func showLayoutChooser(captureTarget: Bool) {
         if captureTarget {
         guard let windowElement = AccessibilityElement.getFrontWindowElement(),

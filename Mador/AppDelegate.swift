@@ -74,6 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.refreshVisibility()
         
         mainStatusMenu.autoenablesItems = false
+        insertManageLayoutsMenuItem()
         addWindowActionMenuItems()
 
         NotificationCenter.default.addObserver(self, selector: #selector(rebuildMenu), name: .showAdditionalSizesInMenuChanged, object: nil)
@@ -171,6 +172,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         prefsWindowController?.showWindow(self)
         prefsWindowController?.window?.makeKeyAndOrderFront(self)
     }
+
+    @IBAction func openLayoutManager(_ sender: Any) {
+        shortcutManager?.openLayoutManagerFromMenu()
+    }
     
     @IBAction func showAbout(_ sender: Any) {
         NSApp.activate(ignoringOtherApps: true)
@@ -224,6 +229,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
+    }
+
+    private func insertManageLayoutsMenuItem() {
+        let settingsItemIndex = mainStatusMenu.indexOfItem(withTitle: "Settings…")
+        guard mainStatusMenu.item(withTag: 9001) == nil,
+              settingsItemIndex != -1 else {
+            return
+        }
+
+        let menuItem = NSMenuItem(title: "Manage Layouts…", action: #selector(openLayoutManager(_:)), keyEquivalent: "")
+        menuItem.tag = 9001
+        menuItem.target = self
+        mainStatusMenu.insertItem(menuItem, at: settingsItemIndex + 1)
     }
     
 }
