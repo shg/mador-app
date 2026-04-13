@@ -55,7 +55,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         checkVersion()
         mainStatusMenu.delegate = self
-        statusItem.refreshVisibility()
         checkLaunchOnLogin()
         
         let alreadyTrusted = accessibilityAuthorization.checkAccessibility {
@@ -72,6 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.statusMenu = alreadyTrusted
             ? mainStatusMenu
             : unauthorizedMenu
+        statusItem.refreshVisibility()
         
         mainStatusMenu.autoenablesItems = false
         addWindowActionMenuItems()
@@ -127,6 +127,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.windowManager = WindowManager()
         self.shortcutManager = ShortcutManager(windowManager: windowManager)
         self.applicationToggle = ApplicationToggle(shortcutManager: shortcutManager)
+        self.statusItem.primaryAction = { [weak self] in
+            self?.shortcutManager?.openChooserFromStatusItem()
+        }
     }
 
     func checkForConflictingApps() {
