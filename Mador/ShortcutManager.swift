@@ -526,7 +526,7 @@ private final class LayoutManagerWindowController: NSWindowController, NSWindowD
         self.onClose = onClose
 
         let window = NSWindow(contentViewController: layoutManagerViewController)
-        window.title = "Manage Layouts"
+        window.title = "Layout Manager"
         window.setContentSize(NSSize(width: 760, height: 520))
         window.styleMask = [.titled, .closable, .miniaturizable, .resizable]
         window.center()
