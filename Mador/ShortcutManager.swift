@@ -18,6 +18,7 @@ class ShortcutManager {
     private var chooserWindowController: LayoutChooserWindowController?
     private var layoutManagerWindowController: LayoutManagerWindowController?
     private var pendingExecutionTarget: PendingExecutionTarget?
+    private var lastKnownExecutionTarget: PendingExecutionTarget?
     private var isTransitioningFromChooserToLayoutManager = false
     
     init(windowManager: WindowManager) {
@@ -87,18 +88,13 @@ class ShortcutManager {
 
     private func showLayoutChooser(captureTarget: Bool) {
         if captureTarget {
-        guard let windowElement = AccessibilityElement.getFrontWindowElement(),
-              let windowId = windowElement.getWindowId(),
-              let frontmostApplication = NSWorkspace.shared.frontmostApplication else {
-            NSSound.beep()
-            return
-        }
+            guard let executionTarget = captureCurrentExecutionTarget() else {
+                NSSound.beep()
+                return
+            }
 
-        pendingExecutionTarget = PendingExecutionTarget(
-            windowElement: windowElement,
-            windowId: windowId,
-            application: frontmostApplication
-        )
+            pendingExecutionTarget = executionTarget
+            lastKnownExecutionTarget = executionTarget
         }
 
         if chooserWindowController == nil {
@@ -159,13 +155,18 @@ class ShortcutManager {
         AppDelegate.windowHistory.restoreRects[pendingExecutionTarget.windowId] = currentFrame
         AppDelegate.windowHistory.lastRectangleActions.removeValue(forKey: pendingExecutionTarget.windowId)
         pendingExecutionTarget.windowElement.setFrame(targetFrame)
+        lastKnownExecutionTarget = pendingExecutionTarget
     }
 
     private func restorePendingExecutionTarget() {
         guard let pendingExecutionTarget else { return }
 
+        lastKnownExecutionTarget = pendingExecutionTarget
         pendingExecutionTarget.application.activate(options: .activateIgnoringOtherApps)
-        pendingExecutionTarget.windowElement.bringToFront(force: true)
+        DispatchQueue.main.async {
+            pendingExecutionTarget.application.activate(options: .activateIgnoringOtherApps)
+            pendingExecutionTarget.windowElement.bringToFront(force: true)
+        }
     }
 
     private func handleChooserClose() {
@@ -175,6 +176,21 @@ class ShortcutManager {
 
         restorePendingExecutionTarget()
         pendingExecutionTarget = nil
+    }
+
+    private func captureCurrentExecutionTarget() -> PendingExecutionTarget? {
+        if let frontmostApplication = NSWorkspace.shared.frontmostApplication,
+           frontmostApplication.bundleIdentifier != Bundle.main.bundleIdentifier,
+           let windowElement = AccessibilityElement.getFrontWindowElement(),
+           let windowId = windowElement.getWindowId() {
+            return PendingExecutionTarget(
+                windowElement: windowElement,
+                windowId: windowId,
+                application: frontmostApplication
+            )
+        }
+
+        return lastKnownExecutionTarget
     }
     
     @objc func windowActionTriggered(notification: NSNotification) {
