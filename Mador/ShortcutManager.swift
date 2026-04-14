@@ -446,7 +446,7 @@ private final class LayoutChooserViewController: NSViewController {
     }
 
     private func makeRow(layout: CustomLayout) -> NSStackView {
-        let keyText = displayString(for: layout.triggerKeyCode)
+        let keyText = displayString(for: layout.triggerKeyCode, modifiersRawValue: layout.triggerModifiers)
         let keyLabel = NSTextField(labelWithString: keyText.isEmpty ? " " : keyText)
         keyLabel.font = NSFont.monospacedSystemFont(ofSize: 14, weight: .medium)
         keyLabel.alignment = .center
@@ -461,7 +461,7 @@ private final class LayoutChooserViewController: NSViewController {
         keyContainer.contentViewMargins = NSSize(width: 12, height: 6)
         keyContainer.contentView = keyLabel
         keyContainer.translatesAutoresizingMaskIntoConstraints = false
-        keyContainer.widthAnchor.constraint(equalToConstant: 48).isActive = true
+        keyContainer.widthAnchor.constraint(greaterThanOrEqualToConstant: 48).isActive = true
 
         let titleLabel = NSTextField(labelWithString: layout.name)
         titleLabel.font = NSFont.systemFont(ofSize: 13, weight: .medium)
@@ -501,7 +501,10 @@ private final class LayoutChooserKeyHandlingView: NSView {
             return
         }
 
-        if let matchedLayout = layouts.first(where: { $0.triggerKeyCode == event.keyCode }) {
+        let modifiers = chooserRelevantModifierFlags(from: event.modifierFlags).rawValue
+        if let matchedLayout = layouts.first(where: {
+            $0.triggerKeyCode == event.keyCode && $0.triggerModifiers == modifiers
+        }) {
             onAction?(matchedLayout)
             return
         }
@@ -617,7 +620,7 @@ final class LayoutManagerViewController: NSViewController {
             $0.target = self
             $0.action = #selector(editorChanged(_:))
         }
-        keyField.onKeyCapture = { [weak self] _ in
+        keyField.onKeyCapture = { [weak self] _, _ in
             self?.editorChanged(nil)
         }
 
@@ -636,7 +639,7 @@ final class LayoutManagerViewController: NSViewController {
     private func applyEditorSizing() {
         let widths: [(NSView, CGFloat)] = [
             (nameField, 220),
-            (keyField, 60),
+            (keyField, 110),
             (xAnchorButton, 96),
             (xPercentField, 72),
             (yAnchorButton, 96),
@@ -686,6 +689,7 @@ final class LayoutManagerViewController: NSViewController {
         let layout = CustomLayout(
             name: "New Layout",
             triggerKeyCode: nil,
+            triggerModifiers: 0,
             xAnchor: .left,
             xPercent: 0,
             yAnchor: .top,
@@ -717,6 +721,7 @@ final class LayoutManagerViewController: NSViewController {
             ? "Layout"
             : nameField.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
         layout.triggerKeyCode = keyField.capturedKeyCode
+        layout.triggerModifiers = keyField.capturedModifierFlagsRawValue
         layout.xAnchor = LayoutHorizontalAnchor.allCases[xAnchorButton.indexOfSelectedItem]
         layout.xPercent = normalizedPercent(xPercentField.doubleValue)
         layout.yAnchor = LayoutVerticalAnchor.allCases[yAnchorButton.indexOfSelectedItem]
@@ -743,23 +748,26 @@ final class LayoutManagerViewController: NSViewController {
 
     private func populateEditor() {
         guard let layout = selectedLayout else {
-            [nameField, keyField, xPercentField, yPercentField, widthPercentField, heightPercentField].forEach {
+            [nameField, xPercentField, yPercentField, widthPercentField, heightPercentField].forEach {
                 $0.stringValue = ""
                 $0.isEnabled = false
             }
+            keyField.setShortcut(keyCode: nil, modifiersRawValue: 0)
+            keyField.isEnabled = false
             [xAnchorButton, yAnchorButton].forEach { $0.isEnabled = false }
             removeButton.isEnabled = false
             return
         }
 
-        [nameField, keyField, xPercentField, yPercentField, widthPercentField, heightPercentField].forEach {
+        [nameField, xPercentField, yPercentField, widthPercentField, heightPercentField].forEach {
             $0.isEnabled = true
         }
+        keyField.isEnabled = true
         [xAnchorButton, yAnchorButton].forEach { $0.isEnabled = true }
         removeButton.isEnabled = true
 
         nameField.stringValue = layout.name
-        keyField.setKeyCode(layout.triggerKeyCode)
+        keyField.setShortcut(keyCode: layout.triggerKeyCode, modifiersRawValue: layout.triggerModifiers)
         xAnchorButton.selectItem(withTitle: layout.xAnchor.title)
         xPercentField.stringValue = percentString(layout.xPercent)
         yAnchorButton.selectItem(withTitle: layout.yAnchor.title)
@@ -799,7 +807,7 @@ extension LayoutManagerViewController: NSTableViewDataSource, NSTableViewDelegat
 
         switch column {
         case .triggerKey:
-            text = displayString(for: layout.triggerKeyCode)
+            text = displayString(for: layout.triggerKeyCode, modifiersRawValue: layout.triggerModifiers)
         case .name:
             text = layout.name
         case .position:
@@ -864,8 +872,9 @@ private extension CustomLayout {
 }
 
 final class KeyCaptureField: NSTextField {
-    var onKeyCapture: ((UInt16?) -> Void)?
+    var onKeyCapture: ((UInt16?, UInt) -> Void)?
     private(set) var capturedKeyCode: UInt16?
+    private(set) var capturedModifierFlagsRawValue: UInt = 0
 
     override var acceptsFirstResponder: Bool { isEnabled }
 
@@ -890,33 +899,45 @@ final class KeyCaptureField: NSTextField {
     }
 
     override func keyDown(with event: NSEvent) {
+        let modifiers = chooserRelevantModifierFlags(from: event.modifierFlags)
+
         switch event.keyCode {
-        case 53:
+        case 53 where modifiers.isEmpty:
             window?.makeFirstResponder(nil)
-        case 51, 117:
+        case 51 where modifiers.isEmpty, 117 where modifiers.isEmpty:
             capturedKeyCode = nil
+            capturedModifierFlagsRawValue = 0
             updateDisplay()
-            onKeyCapture?(nil)
+            onKeyCapture?(nil, 0)
         default:
             capturedKeyCode = event.keyCode
+            capturedModifierFlagsRawValue = modifiers.rawValue
             updateDisplay()
-            onKeyCapture?(capturedKeyCode)
+            onKeyCapture?(capturedKeyCode, capturedModifierFlagsRawValue)
         }
     }
 
-    func setKeyCode(_ keyCode: UInt16?) {
+    func setShortcut(keyCode: UInt16?, modifiersRawValue: UInt) {
         capturedKeyCode = keyCode
+        capturedModifierFlagsRawValue = keyCode == nil ? 0 : modifiersRawValue
         updateDisplay()
     }
 
     private func updateDisplay() {
-        stringValue = displayString(for: capturedKeyCode)
+        stringValue = displayString(for: capturedKeyCode, modifiersRawValue: capturedModifierFlagsRawValue)
     }
 }
 
-private func displayString(for keyCode: UInt16?) -> String {
+private func displayString(for keyCode: UInt16?, modifiersRawValue: UInt) -> String {
     guard let keyCode else { return "" }
 
+    let modifiers = NSEvent.ModifierFlags(rawValue: modifiersRawValue)
+    let modifierPrefix = modifierDisplayString(for: modifiers)
+
+    return modifierPrefix + keyDisplayString(for: keyCode)
+}
+
+private func keyDisplayString(for keyCode: UInt16) -> String {
     switch keyCode {
     case 0: return "A"
     case 1: return "S"
@@ -998,4 +1019,28 @@ private func displayString(for keyCode: UInt16?) -> String {
     case 126: return "↑"
     default: return "Key \(keyCode)"
     }
+}
+
+private func modifierDisplayString(for flags: NSEvent.ModifierFlags) -> String {
+    let relevantFlags = chooserRelevantModifierFlags(from: flags)
+    var components: [String] = []
+
+    if relevantFlags.contains(.control) {
+        components.append("⌃")
+    }
+    if relevantFlags.contains(.option) {
+        components.append("⌥")
+    }
+    if relevantFlags.contains(.shift) {
+        components.append("⇧")
+    }
+    if relevantFlags.contains(.command) {
+        components.append("⌘")
+    }
+
+    return components.joined()
+}
+
+private func chooserRelevantModifierFlags(from flags: NSEvent.ModifierFlags) -> NSEvent.ModifierFlags {
+    flags.intersection([.command, .option, .control, .shift])
 }
