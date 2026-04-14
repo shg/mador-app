@@ -842,8 +842,12 @@ extension LayoutManagerViewController: NSTableViewDataSource, NSTableViewDelegat
         layouts.insert(movedLayout, at: destinationRow)
 
         Defaults.customLayouts.value = layouts
+        selectedLayoutId = movedLayout.id
         Notification.Name.changeDefaults.post()
         refreshLayouts()
+        tableView.selectRowIndexes(IndexSet(integer: destinationRow), byExtendingSelection: false)
+        tableView.scrollRowToVisible(destinationRow)
+        populateEditor()
         return true
     }
 
