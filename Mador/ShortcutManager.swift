@@ -617,14 +617,6 @@ final class LayoutManagerViewController: NSViewController {
         tableView.allowsMultipleSelection = false
         tableView.columnAutoresizingStyle = .uniformColumnAutoresizingStyle
 
-        for column in Column.allCases {
-            if tableView.tableColumn(withIdentifier: NSUserInterfaceItemIdentifier(column.rawValue)) == nil {
-                let tableColumn = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(column.rawValue))
-                tableColumn.title = column.rawValue
-                tableView.addTableColumn(tableColumn)
-            }
-        }
-
         [nameField, keyField, xPercentField, yPercentField, widthPercentField, heightPercentField].forEach {
             $0.target = self
             $0.action = #selector(editorChanged(_:))
