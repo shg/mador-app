@@ -706,6 +706,13 @@ final class LayoutManagerViewController: NSViewController {
         selectedLayoutId = layout.id
         Notification.Name.changeDefaults.post()
         refreshLayouts()
+
+        guard let row = Defaults.customLayouts.value.firstIndex(where: { $0.id == layout.id }) else { return }
+        tableView.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
+        tableView.scrollRowToVisible(row)
+        populateEditor()
+        view.window?.makeFirstResponder(nameField)
+        nameField.currentEditor()?.selectedRange = NSRange(location: 0, length: nameField.stringValue.count)
     }
 
     @objc private func removeSelectedLayout() {
@@ -744,6 +751,7 @@ final class LayoutManagerViewController: NSViewController {
             return
         }
         tableView.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
+        tableView.scrollRowToVisible(row)
     }
 
     private var selectedLayout: CustomLayout? {
