@@ -549,6 +549,8 @@ private final class LayoutManagerWindowController: NSWindowController, NSWindowD
 }
 
 final class LayoutManagerViewController: NSViewController {
+    private static let layoutRowPasteboardType = NSPasteboard.PasteboardType("org.kakera.Mador.layout-row")
+
     private enum Column: String, CaseIterable {
         case triggerKey = "Key"
         case name = "Name"
@@ -615,6 +617,8 @@ final class LayoutManagerViewController: NSViewController {
         tableView.allowsEmptySelection = false
         tableView.allowsMultipleSelection = false
         tableView.columnAutoresizingStyle = .uniformColumnAutoresizingStyle
+        tableView.registerForDraggedTypes([Self.layoutRowPasteboardType])
+        tableView.setDraggingSourceOperationMask(.move, forLocal: true)
 
         [nameField, xPercentField, yPercentField, widthPercentField, heightPercentField].forEach {
             $0.target = self
@@ -790,11 +794,49 @@ extension LayoutManagerViewController: NSTableViewDataSource, NSTableViewDelegat
         Defaults.customLayouts.value.count
     }
 
+    func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> (any NSPasteboardWriting)? {
+        guard row >= 0, row < Defaults.customLayouts.value.count else { return nil }
+
+        let item = NSPasteboardItem()
+        item.setString(String(row), forType: Self.layoutRowPasteboardType)
+        return item
+    }
+
     func tableViewSelectionDidChange(_ notification: Notification) {
         let row = tableView.selectedRow
         guard row >= 0, row < Defaults.customLayouts.value.count else { return }
         selectedLayoutId = Defaults.customLayouts.value[row].id
         populateEditor()
+    }
+
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int,
+                   proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
+        guard dropOperation == .above,
+              info.draggingSource as? NSTableView === tableView else { return [] }
+
+        return .move
+    }
+
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int,
+                   dropOperation: NSTableView.DropOperation) -> Bool {
+        guard dropOperation == .above,
+              let sourceRowString = info.draggingPasteboard.string(forType: Self.layoutRowPasteboardType),
+              let sourceRow = Int(sourceRowString)
+        else {
+            return false
+        }
+
+        var layouts = Defaults.customLayouts.value
+        guard sourceRow >= 0, sourceRow < layouts.count else { return false }
+
+        let movedLayout = layouts.remove(at: sourceRow)
+        let destinationRow = min(max(row - (sourceRow < row ? 1 : 0), 0), layouts.count)
+        layouts.insert(movedLayout, at: destinationRow)
+
+        Defaults.customLayouts.value = layouts
+        Notification.Name.changeDefaults.post()
+        refreshLayouts()
+        return true
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
