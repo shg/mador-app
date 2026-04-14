@@ -173,7 +173,7 @@ enum LayoutVerticalAnchor: String, Codable, CaseIterable {
 struct CustomLayout: Codable, Equatable, Identifiable {
     let id: UUID
     var name: String
-    var triggerKey: String
+    var triggerKeyCode: UInt16?
     var xAnchor: LayoutHorizontalAnchor
     var xPercent: Double
     var yAnchor: LayoutVerticalAnchor
@@ -184,7 +184,7 @@ struct CustomLayout: Codable, Equatable, Identifiable {
     init(
         id: UUID = UUID(),
         name: String,
-        triggerKey: String,
+        triggerKeyCode: UInt16?,
         xAnchor: LayoutHorizontalAnchor,
         xPercent: Double,
         yAnchor: LayoutVerticalAnchor,
@@ -194,7 +194,7 @@ struct CustomLayout: Codable, Equatable, Identifiable {
     ) {
         self.id = id
         self.name = name
-        self.triggerKey = triggerKey
+        self.triggerKeyCode = triggerKeyCode
         self.xAnchor = xAnchor
         self.xPercent = xPercent
         self.yAnchor = yAnchor
@@ -203,10 +203,53 @@ struct CustomLayout: Codable, Equatable, Identifiable {
         self.heightPercent = heightPercent
     }
 
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case triggerKeyCode
+        case triggerKey
+        case xAnchor
+        case xPercent
+        case yAnchor
+        case yPercent
+        case widthPercent
+        case heightPercent
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        triggerKeyCode = try container.decodeIfPresent(UInt16.self, forKey: .triggerKeyCode)
+        if triggerKeyCode == nil,
+           let legacyTriggerKey = try container.decodeIfPresent(String.self, forKey: .triggerKey) {
+            triggerKeyCode = legacyTriggerKeyCode(for: legacyTriggerKey)
+        }
+        xAnchor = try container.decode(LayoutHorizontalAnchor.self, forKey: .xAnchor)
+        xPercent = try container.decode(Double.self, forKey: .xPercent)
+        yAnchor = try container.decode(LayoutVerticalAnchor.self, forKey: .yAnchor)
+        yPercent = try container.decode(Double.self, forKey: .yPercent)
+        widthPercent = try container.decode(Double.self, forKey: .widthPercent)
+        heightPercent = try container.decode(Double.self, forKey: .heightPercent)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encodeIfPresent(triggerKeyCode, forKey: .triggerKeyCode)
+        try container.encode(xAnchor, forKey: .xAnchor)
+        try container.encode(xPercent, forKey: .xPercent)
+        try container.encode(yAnchor, forKey: .yAnchor)
+        try container.encode(yPercent, forKey: .yPercent)
+        try container.encode(widthPercent, forKey: .widthPercent)
+        try container.encode(heightPercent, forKey: .heightPercent)
+    }
+
     static let defaultLayouts = [
         CustomLayout(
             name: "Left Half",
-            triggerKey: "[",
+            triggerKeyCode: 33,
             xAnchor: .left,
             xPercent: 0,
             yAnchor: .top,
@@ -216,7 +259,7 @@ struct CustomLayout: Codable, Equatable, Identifiable {
         ),
         CustomLayout(
             name: "Right Half",
-            triggerKey: "]",
+            triggerKeyCode: 30,
             xAnchor: .right,
             xPercent: 0,
             yAnchor: .top,
@@ -225,6 +268,17 @@ struct CustomLayout: Codable, Equatable, Identifiable {
             heightPercent: 100
         )
     ]
+}
+
+private func legacyTriggerKeyCode(for value: String) -> UInt16? {
+    switch value.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+    case "[":
+        return 33
+    case "]":
+        return 30
+    default:
+        return nil
+    }
 }
 
 struct CodableDefault: Codable {
