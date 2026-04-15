@@ -526,8 +526,11 @@ private final class LayoutManagerWindowController: NSWindowController, NSWindowD
 
         let window = NSWindow(contentViewController: layoutManagerViewController)
         window.title = "Layout Manager"
-        window.setContentSize(NSSize(width: 760, height: 520))
+        let defaultSize = NSSize(width: 760, height: 520)
+        window.setContentSize(defaultSize)
         window.styleMask = [.titled, .closable, .miniaturizable, .resizable]
+        window.contentMinSize = defaultSize
+        window.contentMaxSize = NSSize(width: defaultSize.width, height: 2000)
         window.center()
 
         super.init(window: window)
