@@ -179,7 +179,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBAction func showAbout(_ sender: Any) {
         NSApp.activate(ignoringOtherApps: true)
-        NSApp.orderFrontStandardAboutPanel(sender)
+        let marketingVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+        let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
+        let versionString: String
+        if marketingVersion.isEmpty || marketingVersion == buildVersion {
+            versionString = marketingVersion.isEmpty ? buildVersion : marketingVersion
+        } else {
+            versionString = "\(marketingVersion) (\(buildVersion))"
+        }
+
+        let credits = NSMutableAttributedString(string: """
+        Copyright © 2026 Shigeaki Nishina
+
+        Mador includes code derived from Rectangle 0.95.
+        Rectangle.app Copyright © 2019-2026 Ryan Hanson.
+
+        Rectangle is based in part on Spectacle.
+        Spectacle Copyright © 2017 Eric Czarny.
+        """)
+        credits.addAttributes([
+            .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize),
+            .foregroundColor: NSColor.secondaryLabelColor
+        ], range: NSRange(location: 0, length: credits.length))
+
+        NSApp.orderFrontStandardAboutPanel(options: [
+            .applicationVersion: versionString,
+            .credits: credits
+        ])
     }
     
     @IBAction func viewLogging(_ sender: Any) {
