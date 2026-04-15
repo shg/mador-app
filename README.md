@@ -2,6 +2,12 @@
 
 Mador is a macOS window management app. The current worktree is intentionally reduced to the smallest useful placement surface while the project moves toward user-defined layouts.
 
+## Provenance
+
+Mador uses code derived from Rectangle 0.95.
+
+Rectangle is distributed under the MIT License and is itself based in part on Spectacle. The repository `LICENSE` file retains the upstream copyright and attribution notices that must remain with substantial portions of the software.
+
 At this stage, Mador exposes only two predefined window placements:
 
 - `Left Half`
@@ -21,6 +27,19 @@ The app uses Swift Package Manager for dependencies.
 ```bash
 xcodebuild -project Mador.xcodeproj -scheme Mador -configuration Debug build
 ```
+
+## License
+
+Mador is distributed under the MIT License. See [LICENSE](LICENSE).
+
+This repository also uses third-party components, including:
+
+- [Rectangle](https://github.com/rxhanson/Rectangle)
+- [Spectacle](https://github.com/eczarny/spectacle)
+- [Sparkle](https://github.com/sparkle-project/Sparkle)
+- [MASShortcut](https://github.com/rxhanson/MASShortcut)
+
+When redistributing the app or substantial portions of the source, keep the applicable copyright and license notices for Mador, Rectangle, Spectacle, Sparkle, and MASShortcut.
 
 ## Use
 
