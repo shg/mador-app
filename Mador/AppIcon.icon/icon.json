@@ -1,52 +1,24 @@
 {
-  "color-space-for-untagged-svg-colors" : "display-p3",
   "fill" : {
-    "linear-gradient" : [
-      "display-p3:0.36863,0.43529,0.50980,1.00000",
-      "srgb:0.24706,0.27451,0.33333,1.00000"
-    ]
+    "automatic-gradient" : "srgb:0.37647,0.43529,0.49412,1.00000"
   },
   "groups" : [
     {
-      "blur-material" : null,
       "layers" : [
         {
-          "glass" : true,
-          "image-name" : "Dots.svg",
-          "name" : "Dots"
+          "image-name" : "Image.png",
+          "name" : "Image",
+          "position" : {
+            "scale" : 1.55,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
         }
       ],
       "shadow" : {
-        "kind" : "none",
-        "opacity" : 0.5
-      },
-      "specular" : true,
-      "translucency" : {
-        "enabled" : true,
-        "value" : 0.2
-      }
-    },
-    {
-      "layers" : [
-        {
-          "fill-specializations" : [
-            {
-              "appearance" : "tinted",
-              "value" : {
-                "linear-gradient" : [
-                  "gray:0.90000,1.00000",
-                  "extended-gray:0.75000,1.00000"
-                ]
-              }
-            }
-          ],
-          "glass" : true,
-          "image-name" : "Overlay.svg",
-          "name" : "Overlay"
-        }
-      ],
-      "shadow" : {
-        "kind" : "layer-color",
+        "kind" : "neutral",
         "opacity" : 0.5
       },
       "translucency" : {
@@ -56,8 +28,9 @@
     }
   ],
   "supported-platforms" : {
-    "squares" : [
-      "macOS"
-    ]
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
   }
 }
