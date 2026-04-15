@@ -13,6 +13,7 @@ import MASShortcut
 class ShortcutManager {
     static let prefixShortcutDefaultsKey = Defaults.layoutChooserPrefixShortcutKey
     private static let prefixShortcut = Shortcut(NSEvent.ModifierFlags.option.rawValue, 12)
+    private static let repeatedCustomLayoutInterval: TimeInterval = 5
     
     let windowManager: WindowManager
     private var chooserWindowController: LayoutChooserWindowController?
@@ -20,6 +21,7 @@ class ShortcutManager {
     private var pendingExecutionTarget: PendingExecutionTarget?
     private var lastKnownExecutionTarget: PendingExecutionTarget?
     private var isTransitioningFromChooserToLayoutManager = false
+    private var lastCustomLayoutExecutions: [CGWindowID: CustomLayoutExecution] = [:]
     
     init(windowManager: WindowManager) {
         self.windowManager = windowManager
@@ -147,19 +149,43 @@ class ShortcutManager {
             return
         }
 
-        guard let screen = ScreenDetection().detectScreens(using: pendingExecutionTarget.windowElement)?.currentScreen else {
+        guard let usableScreens = ScreenDetection().detectScreens(using: pendingExecutionTarget.windowElement) else {
             NSSound.beep()
             return
         }
 
-        let visibleFrame = screen.visibleFrame
+        let destinationScreen = repeatedCustomLayoutDestinationScreen(
+            for: layout,
+            target: pendingExecutionTarget,
+            usableScreens: usableScreens
+        ) ?? usableScreens.currentScreen
+        let visibleFrame = destinationScreen.visibleFrame
         let currentFrame = pendingExecutionTarget.windowElement.frame
         let targetFrame = layout.frame(in: visibleFrame).screenFlipped
 
         AppDelegate.windowHistory.restoreRects[pendingExecutionTarget.windowId] = currentFrame
         AppDelegate.windowHistory.lastRectangleActions.removeValue(forKey: pendingExecutionTarget.windowId)
         pendingExecutionTarget.windowElement.setFrame(targetFrame)
+        lastCustomLayoutExecutions[pendingExecutionTarget.windowId] = CustomLayoutExecution(
+            layoutId: layout.id,
+            timestamp: Date()
+        )
         lastKnownExecutionTarget = pendingExecutionTarget
+    }
+
+    private func repeatedCustomLayoutDestinationScreen(
+        for layout: CustomLayout,
+        target: PendingExecutionTarget,
+        usableScreens: UsableScreens
+    ) -> NSScreen? {
+        guard let previousExecution = lastCustomLayoutExecutions[target.windowId],
+              previousExecution.layoutId == layout.id,
+              Date().timeIntervalSince(previousExecution.timestamp) <= Self.repeatedCustomLayoutInterval
+        else {
+            return nil
+        }
+
+        return usableScreens.adjacentScreens?.next
     }
 
     private func restorePendingExecutionTarget() {
@@ -223,6 +249,13 @@ class ShortcutManager {
                 }
             }
         }
+
+        if let windowId = parameters.windowId {
+            lastCustomLayoutExecutions.removeValue(forKey: windowId)
+        } else if let windowElement = parameters.windowElement ?? AccessibilityElement.getFrontWindowElement(),
+                  let windowId = windowElement.getWindowId() {
+            lastCustomLayoutExecutions.removeValue(forKey: windowId)
+        }
         
         windowManager.execute(parameters)
     }
@@ -259,6 +292,11 @@ private struct PendingExecutionTarget {
     let windowElement: AccessibilityElement
     let windowId: CGWindowID
     let application: NSRunningApplication
+}
+
+private struct CustomLayoutExecution {
+    let layoutId: UUID
+    let timestamp: Date
 }
 
 private final class LayoutChooserWindowController: NSWindowController, NSWindowDelegate {
