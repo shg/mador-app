@@ -92,6 +92,16 @@ class ShortcutManager {
         openLayoutManager()
     }
 
+    private func makeChooserWindowController() -> LayoutChooserWindowController {
+        LayoutChooserWindowController(onAction: { layout in
+            self.execute(layout: layout)
+        }, onManageLayouts: { [weak self] in
+            self?.openLayoutManager()
+        }, onClose: { [weak self] in
+            self?.handleChooserClose()
+        })
+    }
+
     private func showLayoutChooser(captureTarget: Bool) {
         if captureTarget {
             guard let executionTarget = captureCurrentExecutionTarget() else {
@@ -104,20 +114,12 @@ class ShortcutManager {
         }
 
         if chooserWindowController == nil {
-            chooserWindowController = LayoutChooserWindowController(onAction: { layout in
-                self.execute(layout: layout)
-            }, onManageLayouts: { [weak self] in
-                self?.openLayoutManager()
-            }, onClose: { [weak self] in
-                self?.handleChooserClose()
-            })
+            chooserWindowController = makeChooserWindowController()
         }
 
         NSApp.activate(ignoringOtherApps: true)
-        chooserWindowController?.showWindow(self)
         chooserWindowController?.refreshBindings()
-        chooserWindowController?.window?.center()
-        chooserWindowController?.window?.makeKeyAndOrderFront(self)
+        chooserWindowController?.showWindow(self)
     }
 
     private func openLayoutManager() {
@@ -200,8 +202,6 @@ class ShortcutManager {
     }
 
     private func handleChooserClose() {
-        chooserWindowController = nil
-
         guard !isTransitioningFromChooserToLayoutManager else { return }
 
         restorePendingExecutionTarget()
