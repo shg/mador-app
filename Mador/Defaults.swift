@@ -175,6 +175,7 @@ struct CustomLayout: Codable, Equatable, Identifiable {
     var name: String
     var triggerKeyCode: UInt16?
     var triggerModifiers: UInt
+    var skipSmallScreen: Bool
     var xAnchor: LayoutHorizontalAnchor
     var xPercent: Double
     var yAnchor: LayoutVerticalAnchor
@@ -187,6 +188,7 @@ struct CustomLayout: Codable, Equatable, Identifiable {
         name: String,
         triggerKeyCode: UInt16?,
         triggerModifiers: UInt = 0,
+        skipSmallScreen: Bool = false,
         xAnchor: LayoutHorizontalAnchor,
         xPercent: Double,
         yAnchor: LayoutVerticalAnchor,
@@ -198,6 +200,7 @@ struct CustomLayout: Codable, Equatable, Identifiable {
         self.name = name
         self.triggerKeyCode = triggerKeyCode
         self.triggerModifiers = triggerModifiers
+        self.skipSmallScreen = skipSmallScreen
         self.xAnchor = xAnchor
         self.xPercent = xPercent
         self.yAnchor = yAnchor
@@ -212,6 +215,7 @@ struct CustomLayout: Codable, Equatable, Identifiable {
         case triggerKeyCode
         case triggerModifiers
         case triggerKey
+        case skipSmallScreen
         case xAnchor
         case xPercent
         case yAnchor
@@ -226,6 +230,7 @@ struct CustomLayout: Codable, Equatable, Identifiable {
         name = try container.decode(String.self, forKey: .name)
         triggerKeyCode = try container.decodeIfPresent(UInt16.self, forKey: .triggerKeyCode)
         triggerModifiers = try container.decodeIfPresent(UInt.self, forKey: .triggerModifiers) ?? 0
+        skipSmallScreen = try container.decodeIfPresent(Bool.self, forKey: .skipSmallScreen) ?? false
         if triggerKeyCode == nil,
            let legacyTriggerKey = try container.decodeIfPresent(String.self, forKey: .triggerKey) {
             triggerKeyCode = legacyTriggerKeyCode(for: legacyTriggerKey)
@@ -244,6 +249,7 @@ struct CustomLayout: Codable, Equatable, Identifiable {
         try container.encode(name, forKey: .name)
         try container.encodeIfPresent(triggerKeyCode, forKey: .triggerKeyCode)
         try container.encode(triggerModifiers, forKey: .triggerModifiers)
+        try container.encode(skipSmallScreen, forKey: .skipSmallScreen)
         try container.encode(xAnchor, forKey: .xAnchor)
         try container.encode(xPercent, forKey: .xPercent)
         try container.encode(yAnchor, forKey: .yAnchor)
@@ -257,6 +263,7 @@ struct CustomLayout: Codable, Equatable, Identifiable {
             name: "Left Half",
             triggerKeyCode: 33,
             triggerModifiers: 0,
+            skipSmallScreen: false,
             xAnchor: .left,
             xPercent: 0,
             yAnchor: .top,
@@ -268,6 +275,7 @@ struct CustomLayout: Codable, Equatable, Identifiable {
             name: "Right Half",
             triggerKeyCode: 30,
             triggerModifiers: 0,
+            skipSmallScreen: false,
             xAnchor: .right,
             xPercent: 0,
             yAnchor: .top,

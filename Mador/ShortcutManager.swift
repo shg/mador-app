@@ -14,6 +14,7 @@ class ShortcutManager {
     static let prefixShortcutDefaultsKey = Defaults.layoutChooserPrefixShortcutKey
     private static let prefixShortcut = Shortcut(NSEvent.ModifierFlags.option.rawValue, 12)
     private static let repeatedCustomLayoutInterval: TimeInterval = 5
+    private static let smallScreenWidthThreshold: CGFloat = 1200
     
     let windowManager: WindowManager
     private var chooserWindowController: LayoutChooserWindowController?
@@ -104,13 +105,12 @@ class ShortcutManager {
 
     private func showLayoutChooser(captureTarget: Bool) {
         if captureTarget {
-            guard let executionTarget = captureCurrentExecutionTarget() else {
-                NSSound.beep()
-                return
+            if let executionTarget = captureCurrentExecutionTarget() {
+                pendingExecutionTarget = executionTarget
+                lastKnownExecutionTarget = executionTarget
+            } else if pendingExecutionTarget == nil {
+                pendingExecutionTarget = lastKnownExecutionTarget
             }
-
-            pendingExecutionTarget = executionTarget
-            lastKnownExecutionTarget = executionTarget
         }
 
         if chooserWindowController == nil {
@@ -146,33 +146,33 @@ class ShortcutManager {
     }
 
     private func execute(layout: CustomLayout) {
-        guard let pendingExecutionTarget else {
+        guard let executionTarget = pendingExecutionTarget ?? lastKnownExecutionTarget else {
             NSSound.beep()
             return
         }
 
-        guard let usableScreens = ScreenDetection().detectScreens(using: pendingExecutionTarget.windowElement) else {
+        guard let usableScreens = ScreenDetection().detectScreens(using: executionTarget.windowElement) else {
             NSSound.beep()
             return
         }
 
         let destinationScreen = repeatedCustomLayoutDestinationScreen(
             for: layout,
-            target: pendingExecutionTarget,
+            target: executionTarget,
             usableScreens: usableScreens
         ) ?? usableScreens.currentScreen
         let visibleFrame = destinationScreen.visibleFrame
-        let currentFrame = pendingExecutionTarget.windowElement.frame
+        let currentFrame = executionTarget.windowElement.frame
         let targetFrame = layout.frame(in: visibleFrame).screenFlipped
 
-        AppDelegate.windowHistory.restoreRects[pendingExecutionTarget.windowId] = currentFrame
-        AppDelegate.windowHistory.lastRectangleActions.removeValue(forKey: pendingExecutionTarget.windowId)
-        pendingExecutionTarget.windowElement.setFrame(targetFrame)
-        lastCustomLayoutExecutions[pendingExecutionTarget.windowId] = CustomLayoutExecution(
+        AppDelegate.windowHistory.restoreRects[executionTarget.windowId] = currentFrame
+        AppDelegate.windowHistory.lastRectangleActions.removeValue(forKey: executionTarget.windowId)
+        executionTarget.windowElement.setFrame(targetFrame)
+        lastCustomLayoutExecutions[executionTarget.windowId] = CustomLayoutExecution(
             layoutId: layout.id,
             timestamp: Date()
         )
-        lastKnownExecutionTarget = pendingExecutionTarget
+        lastKnownExecutionTarget = executionTarget
     }
 
     private func repeatedCustomLayoutDestinationScreen(
@@ -187,7 +187,27 @@ class ShortcutManager {
             return nil
         }
 
-        return usableScreens.adjacentScreens?.next
+        guard layout.skipSmallScreen else {
+            return usableScreens.adjacentScreens?.next
+        }
+
+        return nextEligibleScreen(after: usableScreens.currentScreen, in: usableScreens.screensOrdered)
+    }
+
+    private func nextEligibleScreen(after currentScreen: NSScreen, in orderedScreens: [NSScreen]) -> NSScreen? {
+        guard orderedScreens.count > 1,
+              let currentIndex = orderedScreens.firstIndex(of: currentScreen) else {
+            return nil
+        }
+
+        for offset in 1..<orderedScreens.count {
+            let candidate = orderedScreens[(currentIndex + offset) % orderedScreens.count]
+            if candidate.frame.width >= Self.smallScreenWidthThreshold {
+                return candidate
+            }
+        }
+
+        return nil
     }
 
     private func restorePendingExecutionTarget() {
@@ -612,6 +632,7 @@ final class LayoutManagerViewController: NSViewController {
     @IBOutlet private weak var yPercentField: NSTextField!
     @IBOutlet private weak var widthPercentField: NSTextField!
     @IBOutlet private weak var heightPercentField: NSTextField!
+    @IBOutlet private weak var skipSmallScreenButton: NSButton!
 
     init() {
         super.init(nibName: NSNib.Name("LayoutManagerViewController"), bundle: .main)
@@ -665,6 +686,8 @@ final class LayoutManagerViewController: NSViewController {
             $0.target = self
             $0.action = #selector(editorChanged(_:))
         }
+        skipSmallScreenButton.target = self
+        skipSmallScreenButton.action = #selector(editorChanged(_:))
         keyField.onKeyCapture = { [weak self] _, _ in
             self?.editorChanged(nil)
         }
@@ -735,6 +758,7 @@ final class LayoutManagerViewController: NSViewController {
             name: "New Layout",
             triggerKeyCode: nil,
             triggerModifiers: 0,
+            skipSmallScreen: false,
             xAnchor: .left,
             xPercent: 0,
             yAnchor: .top,
@@ -774,6 +798,7 @@ final class LayoutManagerViewController: NSViewController {
             : nameField.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
         layout.triggerKeyCode = keyField.capturedKeyCode
         layout.triggerModifiers = keyField.capturedModifierFlagsRawValue
+        layout.skipSmallScreen = skipSmallScreenButton.state == .on
         layout.xAnchor = LayoutHorizontalAnchor.allCases[xAnchorButton.indexOfSelectedItem]
         layout.xPercent = normalizedPercent(xPercentField.doubleValue)
         layout.yAnchor = LayoutVerticalAnchor.allCases[yAnchorButton.indexOfSelectedItem]
@@ -807,6 +832,8 @@ final class LayoutManagerViewController: NSViewController {
             }
             keyField.setShortcut(keyCode: nil, modifiersRawValue: 0)
             keyField.isEnabled = false
+            skipSmallScreenButton.state = .off
+            skipSmallScreenButton.isEnabled = false
             [xAnchorButton, yAnchorButton].forEach { $0.isEnabled = false }
             removeButton.isEnabled = false
             return
@@ -816,11 +843,13 @@ final class LayoutManagerViewController: NSViewController {
             $0.isEnabled = true
         }
         keyField.isEnabled = true
+        skipSmallScreenButton.isEnabled = true
         [xAnchorButton, yAnchorButton].forEach { $0.isEnabled = true }
         removeButton.isEnabled = true
 
         nameField.stringValue = layout.name
         keyField.setShortcut(keyCode: layout.triggerKeyCode, modifiersRawValue: layout.triggerModifiers)
+        skipSmallScreenButton.state = layout.skipSmallScreen ? .on : .off
         xAnchorButton.selectItem(withTitle: layout.xAnchor.title)
         xPercentField.stringValue = percentString(layout.xPercent)
         yAnchorButton.selectItem(withTitle: layout.yAnchor.title)
