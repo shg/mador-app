@@ -622,6 +622,7 @@ final class LayoutManagerViewController: NSViewController {
     private var selectedLayoutId: UUID?
 
     @IBOutlet private weak var addButton: NSButton!
+    @IBOutlet private weak var duplicateButton: NSButton!
     @IBOutlet private weak var removeButton: NSButton!
     @IBOutlet private weak var tableView: NSTableView!
     @IBOutlet private weak var nameField: NSTextField!
@@ -664,6 +665,10 @@ final class LayoutManagerViewController: NSViewController {
         addButton.target = self
         addButton.action = #selector(addLayout)
         addButton.bezelStyle = .rounded
+
+        duplicateButton.target = self
+        duplicateButton.action = #selector(duplicateSelectedLayout)
+        duplicateButton.bezelStyle = .rounded
 
         removeButton.target = self
         removeButton.action = #selector(removeSelectedLayout)
@@ -795,6 +800,42 @@ final class LayoutManagerViewController: NSViewController {
         refreshLayouts()
     }
 
+    @objc private func duplicateSelectedLayout() {
+        guard let layout = selectedLayout else { return }
+
+        var layouts = Defaults.customLayouts.value
+        let duplicatedLayout = CustomLayout(
+            name: "\(layout.name) Copy",
+            triggerKeyCode: layout.triggerKeyCode,
+            triggerModifiers: layout.triggerModifiers,
+            skipSmallScreen: layout.skipSmallScreen,
+            xAnchor: layout.xAnchor,
+            xPercent: layout.xPercent,
+            yAnchor: layout.yAnchor,
+            yPercent: layout.yPercent,
+            widthPercent: layout.widthPercent,
+            heightPercent: layout.heightPercent
+        )
+
+        if let selectedIndex = layouts.firstIndex(where: { $0.id == layout.id }) {
+            layouts.insert(duplicatedLayout, at: selectedIndex + 1)
+        } else {
+            layouts.append(duplicatedLayout)
+        }
+
+        Defaults.customLayouts.value = layouts
+        selectedLayoutId = duplicatedLayout.id
+        Notification.Name.changeDefaults.post()
+        refreshLayouts()
+
+        guard let row = Defaults.customLayouts.value.firstIndex(where: { $0.id == duplicatedLayout.id }) else { return }
+        tableView.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
+        tableView.scrollRowToVisible(row)
+        populateEditor()
+        view.window?.makeFirstResponder(nameField)
+        nameField.currentEditor()?.selectedRange = NSRange(location: 0, length: nameField.stringValue.count)
+    }
+
     @objc private func editorChanged(_ sender: Any?) {
         guard var layout = selectedLayout else { return }
 
@@ -840,6 +881,7 @@ final class LayoutManagerViewController: NSViewController {
             skipSmallScreenButton.state = .off
             skipSmallScreenButton.isEnabled = false
             [xAnchorButton, yAnchorButton].forEach { $0.isEnabled = false }
+            duplicateButton.isEnabled = false
             removeButton.isEnabled = false
             return
         }
@@ -850,6 +892,7 @@ final class LayoutManagerViewController: NSViewController {
         keyField.isEnabled = true
         skipSmallScreenButton.isEnabled = true
         [xAnchorButton, yAnchorButton].forEach { $0.isEnabled = true }
+        duplicateButton.isEnabled = true
         removeButton.isEnabled = true
 
         nameField.stringValue = layout.name

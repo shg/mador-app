@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="LayoutManagerViewController" customModule="Mador" customModuleProvider="target">
             <connections>
                 <outlet property="addButton" destination="add-button" id="add-button-outlet"/>
+                <outlet property="duplicateButton" destination="duplicate-button" id="duplicate-button-outlet"/>
                 <outlet property="heightPercentField" destination="height-field" id="height-field-outlet"/>
                 <outlet property="keyField" destination="key-field" id="key-field-outlet"/>
                 <outlet property="nameField" destination="name-field" id="name-field-outlet"/>
@@ -51,6 +52,14 @@
                     <rect key="frame" x="13" y="417" width="103" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Add Layout" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="add-button-cell">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="duplicate-button">
+                    <rect key="frame" x="114" y="417" width="136" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Duplicate Layout" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="duplicate-button-cell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -289,8 +298,8 @@
                     </buttonCell>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="remove-button">
-                    <rect key="frame" x="114" y="417" width="184" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="248" y="417" width="184" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Remove Selected Layout" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="remove-button-cell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
