@@ -758,15 +758,20 @@ final class LayoutManagerViewController: NSViewController {
             name: "New Layout",
             triggerKeyCode: nil,
             triggerModifiers: 0,
-            skipSmallScreen: false,
+            skipSmallScreen: true,
             xAnchor: .left,
             xPercent: 0,
             yAnchor: .top,
             yPercent: 0,
-            widthPercent: 50,
-            heightPercent: 50
+            widthPercent: 100,
+            heightPercent: 100
         )
-        layouts.append(layout)
+        if let selectedLayoutId,
+           let selectedIndex = layouts.firstIndex(where: { $0.id == selectedLayoutId }) {
+            layouts.insert(layout, at: selectedIndex + 1)
+        } else {
+            layouts.append(layout)
+        }
         Defaults.customLayouts.value = layouts
         selectedLayoutId = layout.id
         Notification.Name.changeDefaults.post()
