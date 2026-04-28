@@ -50,10 +50,9 @@ This repository also uses third-party components, including:
 
 - [Rectangle](https://github.com/rxhanson/Rectangle)
 - [Spectacle](https://github.com/eczarny/spectacle)
-- [Sparkle](https://github.com/sparkle-project/Sparkle)
 - [MASShortcut](https://github.com/rxhanson/MASShortcut)
 
-When redistributing the app or substantial portions of the source, keep the applicable copyright and license notices for Mador, Rectangle, Spectacle, Sparkle, and MASShortcut.
+When redistributing the app or substantial portions of the source, keep the applicable copyright and license notices for Mador, Rectangle, Spectacle, and MASShortcut.
 
 ## Use
 

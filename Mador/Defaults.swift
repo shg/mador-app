@@ -60,8 +60,6 @@ class Defaults {
     static let installVersion = StringDefault(key: "installVersion")
     static let showAllActionsInMenu = OptionalBoolDefault(key: "showAllActionsInMenu")
     static let showAdditionalSizesInMenu = OptionalBoolDefault(key: "showAdditionalSizesInMenu")
-    static var SUHasLaunchedBefore: Bool { UserDefaults.standard.bool(forKey: "SUHasLaunchedBefore") }
-    static let SUEnableAutomaticChecks = BoolDefault(key: "SUEnableAutomaticChecks")
     static let todo = OptionalBoolDefault(key: "todo")
     static let todoMode = BoolDefault(key: "todoMode")
     static let todoApplication = StringDefault(key: "todoApplication")
@@ -124,7 +122,6 @@ class Defaults {
         screenEdgeGapTopNotch,
         showAllActionsInMenu,
         showAdditionalSizesInMenu,
-        SUEnableAutomaticChecks,
         todo,
         todoMode,
         todoApplication,

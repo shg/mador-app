@@ -18,7 +18,6 @@ extension Notification.Name {
     static let appWillBecomeActive = Notification.Name("appWillBecomeActive")
     static let menuBarIconHidden = Notification.Name("menuBarIconHidden")
     static let windowTitleBar = Notification.Name("windowTitleBar")
-    static let updateAvailability = Notification.Name("updateAvailability")
     static let showAdditionalSizesInMenuChanged = Notification.Name("showAdditionalSizesInMenuChanged")
 
     func post(
