@@ -119,15 +119,11 @@ class ShortcutManager {
 
         NSApp.activate(ignoringOtherApps: true)
         chooserWindowController?.position(on: chooserScreen())
-        chooserWindowController?.refreshBindings()
         chooserWindowController?.showWindow(self)
     }
 
     private func chooserScreen() -> NSScreen? {
-        let windowFrame = (pendingExecutionTarget ?? lastKnownExecutionTarget)?.windowElement.frame
-        guard let windowFrame else { return NSScreen.main }
-
-        return ScreenDetection().screenContaining(windowFrame, screens: NSScreen.screens)
+        (pendingExecutionTarget ?? lastKnownExecutionTarget)?.screen ?? NSScreen.main
     }
 
     private func openLayoutManager() {
@@ -155,11 +151,13 @@ class ShortcutManager {
 
     private func execute(layout: CustomLayout) {
         guard let executionTarget = pendingExecutionTarget ?? lastKnownExecutionTarget else {
+            debugChooserLog("execute failed: no execution target for layout=\(layout.name)")
             NSSound.beep()
             return
         }
 
         guard let usableScreens = ScreenDetection().detectScreens(using: executionTarget.windowElement) else {
+            debugChooserLog("execute failed: screen detection failed for layout=\(layout.name) windowId=\(executionTarget.windowId)")
             NSSound.beep()
             return
         }
@@ -244,11 +242,20 @@ class ShortcutManager {
             return PendingExecutionTarget(
                 windowElement: windowElement,
                 windowId: windowId,
-                application: frontmostApplication
+                application: frontmostApplication,
+                screen: Self.screen(for: windowId)
             )
         }
 
         return lastKnownExecutionTarget
+    }
+
+    private static func screen(for windowId: CGWindowID) -> NSScreen? {
+        guard let windowFrame = WindowUtil.getWindowList(ids: [windowId]).first?.frame else {
+            return NSScreen.main
+        }
+
+        return ScreenDetection().screenContaining(windowFrame, screens: NSScreen.screens)
     }
     
     @objc func windowActionTriggered(notification: NSNotification) {
@@ -320,6 +327,7 @@ private struct PendingExecutionTarget {
     let windowElement: AccessibilityElement
     let windowId: CGWindowID
     let application: NSRunningApplication
+    let screen: NSScreen?
 }
 
 private struct CustomLayoutExecution {
@@ -327,17 +335,45 @@ private struct CustomLayoutExecution {
     let timestamp: Date
 }
 
+private final class LayoutChooserPanel: NSPanel {
+    var keyEventHandler: ((NSEvent) -> Bool)?
+    var commandHandler: ((Selector) -> Bool)?
+
+    override var canBecomeKey: Bool { true }
+    override var canBecomeMain: Bool { true }
+
+    override func keyDown(with event: NSEvent) {
+        debugChooserLog("panel keyDown \(debugChooserEventDescription(event))")
+        if keyEventHandler?(event) == true { return }
+        super.keyDown(with: event)
+    }
+
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        debugChooserLog("panel performKeyEquivalent \(debugChooserEventDescription(event))")
+        if keyEventHandler?(event) == true { return true }
+        return super.performKeyEquivalent(with: event)
+    }
+
+    override func doCommand(by selector: Selector) {
+        debugChooserLog("panel doCommand \(NSStringFromSelector(selector))")
+        if commandHandler?(selector) == true { return }
+        super.doCommand(by: selector)
+    }
+}
+
 private final class LayoutChooserWindowController: NSWindowController, NSWindowDelegate {
     private let chooserViewController: LayoutChooserViewController
     private let onClose: () -> Void
     private var keyEventMonitor: Any?
+    private var keyEventTap: CFMachPort?
+    private var keyEventTapRunLoopSource: CFRunLoopSource?
 
     init(onAction: @escaping (CustomLayout) -> Void, onManageLayouts: @escaping () -> Void, onClose: @escaping () -> Void) {
         chooserViewController = LayoutChooserViewController(onAction: onAction, onManageLayouts: onManageLayouts)
         self.onClose = onClose
         let chooserSize = NSSize(width: 280, height: 210)
 
-        let window = NSPanel(
+        let window = LayoutChooserPanel(
             contentRect: NSRect(origin: .zero, size: chooserSize),
             styleMask: [.titled, .closable, .utilityWindow, .hudWindow],
             backing: .buffered,
@@ -346,6 +382,12 @@ private final class LayoutChooserWindowController: NSWindowController, NSWindowD
         window.title = "Choose Layout"
         window.styleMask.insert(.fullSizeContentView)
         window.contentViewController = chooserViewController
+        window.keyEventHandler = { [weak chooserViewController] event in
+            chooserViewController?.keyHandlingView.handleKeyEvent(event) == true
+        }
+        window.commandHandler = { [weak chooserViewController] selector in
+            chooserViewController?.keyHandlingView.handleCommand(selector) == true
+        }
         window.appearance = NSAppearance(named: .vibrantDark)
         window.level = .floating
         window.isFloatingPanel = true
@@ -390,6 +432,7 @@ private final class LayoutChooserWindowController: NSWindowController, NSWindowD
     override func showWindow(_ sender: Any?) {
         super.showWindow(sender)
         installKeyEventMonitor()
+        installKeyEventTap()
         refreshBindings()
         window?.makeKeyAndOrderFront(sender)
         window?.makeFirstResponder(chooserViewController.keyHandlingView)
@@ -397,19 +440,33 @@ private final class LayoutChooserWindowController: NSWindowController, NSWindowD
 
     func windowWillClose(_ notification: Notification) {
         removeKeyEventMonitor()
+        removeKeyEventTap()
         onClose()
     }
 
     deinit {
         removeKeyEventMonitor()
+        removeKeyEventTap()
     }
 
     private func installKeyEventMonitor() {
         removeKeyEventMonitor()
         keyEventMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
             guard let self,
-                  self.window?.isVisible == true,
-                  event.window === self.window || NSApp.keyWindow === self.window else {
+                  self.window?.isVisible == true else {
+                return event
+            }
+
+            debugChooserLog(
+                "local monitor \(debugChooserEventDescription(event)) eventWindowIsChooser=\(event.window === self.window) keyWindowIsChooser=\(NSApp.keyWindow === self.window)"
+            )
+
+            if self.chooserViewController.keyHandlingView.handleControlShortcutEvent(event) {
+                debugChooserLog("local monitor handled control shortcut")
+                return nil
+            }
+
+            guard event.window === self.window || NSApp.keyWindow === self.window else {
                 return event
             }
 
@@ -422,6 +479,78 @@ private final class LayoutChooserWindowController: NSWindowController, NSWindowD
             NSEvent.removeMonitor(keyEventMonitor)
             self.keyEventMonitor = nil
         }
+    }
+
+    private func installKeyEventTap() {
+        removeKeyEventTap()
+
+        let eventMask = CGEventMask(1 << CGEventType.keyDown.rawValue)
+        let userInfo = Unmanaged.passUnretained(self).toOpaque()
+        guard let eventTap = CGEvent.tapCreate(
+            tap: .cgSessionEventTap,
+            place: .headInsertEventTap,
+            options: .defaultTap,
+            eventsOfInterest: eventMask,
+            callback: Self.handleEventTap,
+            userInfo: userInfo
+        ) else {
+            debugChooserLog("event tap install failed")
+            return
+        }
+
+        guard let runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0) else {
+            debugChooserLog("event tap run loop source create failed")
+            CFMachPortInvalidate(eventTap)
+            return
+        }
+
+        keyEventTap = eventTap
+        keyEventTapRunLoopSource = runLoopSource
+        CFRunLoopAddSource(CFRunLoopGetMain(), runLoopSource, .commonModes)
+        CGEvent.tapEnable(tap: eventTap, enable: true)
+        debugChooserLog("event tap installed")
+    }
+
+    private func removeKeyEventTap() {
+        if let keyEventTapRunLoopSource {
+            CFRunLoopRemoveSource(CFRunLoopGetMain(), keyEventTapRunLoopSource, .commonModes)
+            self.keyEventTapRunLoopSource = nil
+        }
+        if let keyEventTap {
+            CFMachPortInvalidate(keyEventTap)
+            self.keyEventTap = nil
+        }
+    }
+
+    private static let handleEventTap: CGEventTapCallBack = { _, type, event, userInfo in
+        guard let userInfo else {
+            return Unmanaged.passUnretained(event)
+        }
+
+        let controller = Unmanaged<LayoutChooserWindowController>.fromOpaque(userInfo).takeUnretainedValue()
+
+        if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
+            if let keyEventTap = controller.keyEventTap {
+                CGEvent.tapEnable(tap: keyEventTap, enable: true)
+                debugChooserLog("event tap re-enabled after \(type.rawValue)")
+            }
+            return Unmanaged.passUnretained(event)
+        }
+
+        guard type == .keyDown,
+              controller.window?.isVisible == true,
+              let nsEvent = NSEvent(cgEvent: event)
+        else {
+            return Unmanaged.passUnretained(event)
+        }
+
+        debugChooserLog("event tap \(debugChooserEventDescription(nsEvent))")
+        if controller.chooserViewController.keyHandlingView.handleKeyEvent(nsEvent) {
+            debugChooserLog("event tap handled key")
+            return nil
+        }
+
+        return Unmanaged.passUnretained(event)
     }
 }
 
@@ -607,42 +736,66 @@ private final class LayoutChooserKeyHandlingView: NSView {
     }
 
     func handleKeyEvent(_ event: NSEvent) -> Bool {
+        debugChooserLog("key view handleKeyEvent \(debugChooserEventDescription(event))")
         if event.keyCode == 53 {
             onCancel?()
             return true
         }
 
-        return triggerLayout(keyCode: event.keyCode, modifiers: event.modifierFlags)
+        if triggerLayout(keyCode: event.keyCode, modifiers: event.modifierFlags) {
+            return true
+        }
+
+        return handleControlShortcutEvent(event)
+    }
+
+    func handleControlShortcutEvent(_ event: NSEvent) -> Bool {
+        let modifiers = chooserRelevantModifierFlags(from: event.modifierFlags)
+        debugChooserLog("key view handleControlShortcutEvent \(debugChooserEventDescription(event)) relevant=\(modifiers.rawValue)")
+        if modifiers.contains(.control),
+           [UInt16(0), UInt16(2), UInt16(14)].contains(event.keyCode),
+           triggerLayout(keyCode: event.keyCode, modifiers: .control) {
+            return true
+        }
+
+        guard let fallbackKeyCode = controlCharacterKeyCode(for: event) else { return false }
+        return triggerLayout(keyCode: fallbackKeyCode, modifiers: .control)
     }
 
     override func doCommand(by selector: Selector) {
-        switch selector {
-        case #selector(moveToBeginningOfParagraph(_:)),
-             #selector(moveToBeginningOfLine(_:)):
-            handleCommandFallback(keyCode: 0, modifiers: .control)
-        case #selector(moveToEndOfParagraph(_:)),
-             #selector(moveToEndOfLine(_:)):
-            handleCommandFallback(keyCode: 14, modifiers: .control)
-        case #selector(deleteForward(_:)):
-            handleCommandFallback(keyCode: 2, modifiers: .control)
-        default:
-            super.doCommand(by: selector)
-        }
+        if handleCommand(selector) { return }
+        super.doCommand(by: selector)
     }
 
     override func cancelOperation(_ sender: Any?) {
         onCancel?()
     }
 
-    private func handleCommandFallback(keyCode fallbackKeyCode: UInt16, modifiers fallbackModifiers: NSEvent.ModifierFlags) {
+    func handleCommand(_ selector: Selector) -> Bool {
+        let selectorName = NSStringFromSelector(selector)
+        debugChooserLog("key view handleCommand \(selectorName)")
+        if selectorName == "moveToBeginningOfParagraph:" || selectorName == "moveToBeginningOfLine:" {
+            return handleCommandFallback(keyCode: 0, modifiers: .control)
+        }
+        if selectorName == "moveToEndOfParagraph:" || selectorName == "moveToEndOfLine:" {
+            return handleCommandFallback(keyCode: 14, modifiers: .control)
+        }
+        if selectorName.contains("deleteForward") {
+            return handleCommandFallback(keyCode: 2, modifiers: .control)
+        }
+        return false
+    }
+
+    private func handleCommandFallback(keyCode fallbackKeyCode: UInt16, modifiers fallbackModifiers: NSEvent.ModifierFlags) -> Bool {
         if let event = NSApp.currentEvent,
            triggerLayout(keyCode: event.keyCode, modifiers: event.modifierFlags) {
-            return
+            return true
         }
 
-        if triggerLayout(keyCode: fallbackKeyCode, modifiers: fallbackModifiers) { return }
+        if triggerLayout(keyCode: fallbackKeyCode, modifiers: fallbackModifiers) { return true }
 
         NSSound.beep()
+        return true
     }
 
     private func triggerLayout(keyCode: UInt16, modifiers: NSEvent.ModifierFlags) -> Bool {
@@ -650,11 +803,44 @@ private final class LayoutChooserKeyHandlingView: NSView {
         guard let matchedLayout = layouts.first(where: {
             $0.triggerKeyCode == keyCode && $0.triggerModifiers == modifiersRawValue
         }) else {
+            if shouldDebugChooserKey(keyCode: keyCode, modifiersRawValue: modifiersRawValue) {
+                let bindings = layouts
+                    .compactMap { layout -> String? in
+                        guard let triggerKeyCode = layout.triggerKeyCode else { return nil }
+                        return "\(layout.name):\(triggerKeyCode)/\(layout.triggerModifiers)"
+                    }
+                    .joined(separator: ", ")
+                debugChooserLog("triggerLayout no match keyCode=\(keyCode) modifiers=\(modifiersRawValue) bindings=[\(bindings)]")
+            }
             return false
         }
 
+        debugChooserLog("triggerLayout matched layout=\(matchedLayout.name) keyCode=\(keyCode) modifiers=\(modifiersRawValue)")
         onAction?(matchedLayout)
         return true
+    }
+
+    private func controlCharacterKeyCode(for event: NSEvent) -> UInt16? {
+        let modifiers = chooserRelevantModifierFlags(from: event.modifierFlags)
+
+        if modifiers.contains(.control) {
+            switch event.charactersIgnoringModifiers?.lowercased() {
+            case "a": return 0
+            case "d": return 2
+            case "e": return 14
+            default: break
+            }
+        }
+
+        guard let character = event.characters?.unicodeScalars.first else { return nil }
+        switch character.value {
+        case 0x01: return 0
+        case 0x04: return 2
+        case 0x05: return 14
+        case 0x7F, 0xF728 where modifiers.contains(.control):
+            return 2
+        default: return nil
+        }
     }
 }
 
@@ -1333,4 +1519,35 @@ private func modifierDisplayString(for flags: NSEvent.ModifierFlags) -> String {
 
 private func chooserRelevantModifierFlags(from flags: NSEvent.ModifierFlags) -> NSEvent.ModifierFlags {
     flags.intersection([.command, .option, .control, .shift])
+}
+
+private func shouldDebugChooserKey(keyCode: UInt16, modifiersRawValue: UInt) -> Bool {
+    if [UInt16(0), UInt16(2), UInt16(14)].contains(keyCode) { return true }
+    return NSEvent.ModifierFlags(rawValue: modifiersRawValue).contains(.control)
+}
+
+private func debugChooserEventDescription(_ event: NSEvent) -> String {
+    guard shouldDebugChooserKey(
+        keyCode: event.keyCode,
+        modifiersRawValue: chooserRelevantModifierFlags(from: event.modifierFlags).rawValue
+    ) else {
+        return "keyCode=\(event.keyCode)"
+    }
+
+    let characters = debugUnicodeScalars(event.characters)
+    let ignoringModifiers = debugUnicodeScalars(event.charactersIgnoringModifiers)
+    return "keyCode=\(event.keyCode) flags=\(event.modifierFlags.rawValue) relevant=\(chooserRelevantModifierFlags(from: event.modifierFlags).rawValue) chars=\(characters) ignoring=\(ignoringModifiers)"
+}
+
+private func debugUnicodeScalars(_ string: String?) -> String {
+    guard let string else { return "nil" }
+    return string.unicodeScalars
+        .map { String(format: "U+%04X", $0.value) }
+        .joined(separator: ",")
+}
+
+private func debugChooserLog(_ message: String) {
+#if DEBUG
+    NSLog("Mador chooser: %@", message)
+#endif
 }
