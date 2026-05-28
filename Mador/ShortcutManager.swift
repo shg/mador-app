@@ -118,8 +118,16 @@ class ShortcutManager {
         }
 
         NSApp.activate(ignoringOtherApps: true)
+        chooserWindowController?.position(on: chooserScreen())
         chooserWindowController?.refreshBindings()
         chooserWindowController?.showWindow(self)
+    }
+
+    private func chooserScreen() -> NSScreen? {
+        let windowFrame = (pendingExecutionTarget ?? lastKnownExecutionTarget)?.windowElement.frame
+        guard let windowFrame else { return NSScreen.main }
+
+        return ScreenDetection().screenContaining(windowFrame, screens: NSScreen.screens)
     }
 
     private func openLayoutManager() {
@@ -322,6 +330,7 @@ private struct CustomLayoutExecution {
 private final class LayoutChooserWindowController: NSWindowController, NSWindowDelegate {
     private let chooserViewController: LayoutChooserViewController
     private let onClose: () -> Void
+    private var keyEventMonitor: Any?
 
     init(onAction: @escaping (CustomLayout) -> Void, onManageLayouts: @escaping () -> Void, onClose: @escaping () -> Void) {
         chooserViewController = LayoutChooserViewController(onAction: onAction, onManageLayouts: onManageLayouts)
@@ -349,7 +358,6 @@ private final class LayoutChooserWindowController: NSWindowController, NSWindowD
         window.contentMinSize = chooserSize
         window.contentMaxSize = chooserSize
         window.aspectRatio = chooserSize
-        window.center()
         window.isReleasedWhenClosed = false
         window.collectionBehavior = [.moveToActiveSpace]
 
@@ -366,14 +374,54 @@ private final class LayoutChooserWindowController: NSWindowController, NSWindowD
         chooserViewController.refreshBindings()
     }
 
+    func position(on screen: NSScreen?) {
+        guard let window, let screen else { return }
+
+        let visibleFrame = screen.visibleFrame
+        let frame = NSRect(
+            x: visibleFrame.midX - window.frame.width / 2,
+            y: visibleFrame.midY - window.frame.height / 2,
+            width: window.frame.width,
+            height: window.frame.height
+        )
+        window.setFrame(frame, display: false)
+    }
+
     override func showWindow(_ sender: Any?) {
         super.showWindow(sender)
+        installKeyEventMonitor()
         refreshBindings()
+        window?.makeKeyAndOrderFront(sender)
         window?.makeFirstResponder(chooserViewController.keyHandlingView)
     }
 
     func windowWillClose(_ notification: Notification) {
+        removeKeyEventMonitor()
         onClose()
+    }
+
+    deinit {
+        removeKeyEventMonitor()
+    }
+
+    private func installKeyEventMonitor() {
+        removeKeyEventMonitor()
+        keyEventMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            guard let self,
+                  self.window?.isVisible == true,
+                  event.window === self.window || NSApp.keyWindow === self.window else {
+                return event
+            }
+
+            return self.chooserViewController.keyHandlingView.handleKeyEvent(event) ? nil : event
+        }
+    }
+
+    private func removeKeyEventMonitor() {
+        if let keyEventMonitor {
+            NSEvent.removeMonitor(keyEventMonitor)
+            self.keyEventMonitor = nil
+        }
     }
 }
 
@@ -554,24 +602,59 @@ private final class LayoutChooserKeyHandlingView: NSView {
     override var acceptsFirstResponder: Bool { true }
 
     override func keyDown(with event: NSEvent) {
+        if handleKeyEvent(event) { return }
+        super.keyDown(with: event)
+    }
+
+    func handleKeyEvent(_ event: NSEvent) -> Bool {
         if event.keyCode == 53 {
             onCancel?()
-            return
+            return true
         }
 
-        let modifiers = chooserRelevantModifierFlags(from: event.modifierFlags).rawValue
-        if let matchedLayout = layouts.first(where: {
-            $0.triggerKeyCode == event.keyCode && $0.triggerModifiers == modifiers
-        }) {
-            onAction?(matchedLayout)
-            return
-        }
+        return triggerLayout(keyCode: event.keyCode, modifiers: event.modifierFlags)
+    }
 
-        NSSound.beep()
+    override func doCommand(by selector: Selector) {
+        switch selector {
+        case #selector(moveToBeginningOfParagraph(_:)),
+             #selector(moveToBeginningOfLine(_:)):
+            handleCommandFallback(keyCode: 0, modifiers: .control)
+        case #selector(moveToEndOfParagraph(_:)),
+             #selector(moveToEndOfLine(_:)):
+            handleCommandFallback(keyCode: 14, modifiers: .control)
+        case #selector(deleteForward(_:)):
+            handleCommandFallback(keyCode: 2, modifiers: .control)
+        default:
+            super.doCommand(by: selector)
+        }
     }
 
     override func cancelOperation(_ sender: Any?) {
         onCancel?()
+    }
+
+    private func handleCommandFallback(keyCode fallbackKeyCode: UInt16, modifiers fallbackModifiers: NSEvent.ModifierFlags) {
+        if let event = NSApp.currentEvent,
+           triggerLayout(keyCode: event.keyCode, modifiers: event.modifierFlags) {
+            return
+        }
+
+        if triggerLayout(keyCode: fallbackKeyCode, modifiers: fallbackModifiers) { return }
+
+        NSSound.beep()
+    }
+
+    private func triggerLayout(keyCode: UInt16, modifiers: NSEvent.ModifierFlags) -> Bool {
+        let modifiersRawValue = chooserRelevantModifierFlags(from: modifiers).rawValue
+        guard let matchedLayout = layouts.first(where: {
+            $0.triggerKeyCode == keyCode && $0.triggerModifiers == modifiersRawValue
+        }) else {
+            return false
+        }
+
+        onAction?(matchedLayout)
+        return true
     }
 }
 
@@ -733,7 +816,7 @@ final class LayoutManagerViewController: NSViewController {
     }
 
     private func applyEditorAppearance() {
-        let editableFields = [nameField, keyField, xPercentField, yPercentField, widthPercentField, heightPercentField].compactMap { $0 }
+        let editableFields = [nameField, xPercentField, yPercentField, widthPercentField, heightPercentField].compactMap { $0 }
         editableFields.forEach {
             $0.isBezeled = true
             $0.isBordered = true
@@ -742,6 +825,8 @@ final class LayoutManagerViewController: NSViewController {
             $0.textColor = .textColor
             $0.focusRingType = .default
         }
+
+        keyField.appearance = NSAppearance(named: .aqua)
 
         [xAnchorButton, yAnchorButton].compactMap { $0 }.forEach {
             $0.appearance = NSAppearance(named: .aqua)
@@ -1043,18 +1128,17 @@ private extension CustomLayout {
     }
 }
 
-final class KeyCaptureField: NSTextField {
+final class KeyCaptureField: NSControl {
     var onKeyCapture: ((UInt16?, UInt) -> Void)?
     private(set) var capturedKeyCode: UInt16?
     private(set) var capturedModifierFlagsRawValue: UInt = 0
+    private var displayText = ""
 
     override var acceptsFirstResponder: Bool { isEnabled }
+    override var intrinsicContentSize: NSSize { NSSize(width: 110, height: 24) }
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        isEditable = false
-        isSelectable = false
-        focusRingType = .default
         updateDisplay()
     }
 
@@ -1063,11 +1147,13 @@ final class KeyCaptureField: NSTextField {
     }
 
     override func becomeFirstResponder() -> Bool {
-        let didBecome = super.becomeFirstResponder()
-        if didBecome {
-            currentEditor()?.selectedRange = NSRange(location: 0, length: stringValue.count)
-        }
-        return didBecome
+        needsDisplay = true
+        return true
+    }
+
+    override func resignFirstResponder() -> Bool {
+        needsDisplay = true
+        return true
     }
 
     override func keyDown(with event: NSEvent) {
@@ -1096,7 +1182,39 @@ final class KeyCaptureField: NSTextField {
     }
 
     private func updateDisplay() {
-        stringValue = displayString(for: capturedKeyCode, modifiersRawValue: capturedModifierFlagsRawValue)
+        displayText = displayString(for: capturedKeyCode, modifiersRawValue: capturedModifierFlagsRawValue)
+        needsDisplay = true
+    }
+
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+
+        let bounds = self.bounds.insetBy(dx: 0.5, dy: 0.5)
+        let path = NSBezierPath(roundedRect: bounds, xRadius: 4, yRadius: 4)
+        NSColor.textBackgroundColor.setFill()
+        path.fill()
+
+        if window?.firstResponder === self {
+            NSColor.keyboardFocusIndicatorColor.setStroke()
+            path.lineWidth = 2
+        } else {
+            NSColor.separatorColor.setStroke()
+            path.lineWidth = 1
+        }
+        path.stroke()
+
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: NSFont.systemFontSize),
+            .foregroundColor: isEnabled ? NSColor.textColor : NSColor.disabledControlTextColor
+        ]
+        let attributedText = NSAttributedString(string: displayText, attributes: attributes)
+        let textRect = NSRect(
+            x: bounds.minX + 6,
+            y: bounds.midY - attributedText.size().height / 2,
+            width: bounds.width - 12,
+            height: attributedText.size().height
+        )
+        attributedText.draw(in: textRect)
     }
 }
 
